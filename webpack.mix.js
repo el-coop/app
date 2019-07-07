@@ -1,4 +1,6 @@
 const mix = require('laravel-mix');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const fs = require('fs');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +14,28 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
+	.sass('resources/sass/app.scss', 'public/css')
 	.version()
-	.browserSync('app.elcoop.test');
+	.browserSync('app.elcoop.test')
+	.webpackConfig({
+		plugins: [
+			new WorkboxPlugin.InjectManifest({
+				swSrc: 'resources/js/serviceWorker/serviceWorker.js',
+				swDest: 'js/serviceWorker.js'
+			})
+		],
+		output: {
+			publicPath: ''
+		}
+	}).then(
+	({compilation}) => {
+		const path = './public/';
+		const regex = /precache-manifest\..*\.js/;
+		fs.readdirSync(path)
+			.filter((filename) => {
+				return (! Object.keys(compilation.assets).includes(filename)) && regex.test(filename);
+			})
+			.map((filename) => {
+				fs.unlinkSync(path + filename)
+			});
+	});
