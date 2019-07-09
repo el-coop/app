@@ -5,6 +5,7 @@
 /public/js
 /public/mix-manifest.json
 /public/precache-manifest.*.js
+/public/*.js
 /storage/*.key
 /vendor
 /.idea
