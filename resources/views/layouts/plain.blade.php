@@ -10,7 +10,7 @@
 	<!-- Fonts -->
 	<link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 
-
+	@include('misc.pwaMeta')
 </head>
 <body>
 <div id="app">
