@@ -21,7 +21,7 @@ mix.js('resources/js/app.js', 'public/js')
 		plugins: [
 			new WorkboxPlugin.InjectManifest({
 				swSrc: 'resources/js/serviceWorker/serviceWorker.js',
-				swDest: 'js/serviceWorker.js'
+				swDest: 'serviceWorker.js'
 			})
 		],
 		output: {

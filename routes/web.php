@@ -18,3 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['spa'])->group(function(){
+	Route::get('test', function (){
+		return 'bla';
+	});
+});
+
+Route::get('/{any}', function(){
+	return view('spa');
+})->where('any', '.*');
