@@ -29,8 +29,24 @@ Vue.use(VueRouter);
  */
 import router from './router';
 
+Vue.prototype.$bus = new Vue();
+
 
 const app = new Vue({
 	el: '#app',
-	router
+	router,
+	data() {
+		return {
+			theme: 'light'
+		}
+	},
+	mounted() {
+		this.$bus.$on('theme-switch', (theme) => {
+			this.theme = theme;
+		})
+	},
+
+	beforeDestroy() {
+		this.$bus.$off('theme-switch');
+	}
 });

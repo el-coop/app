@@ -1,15 +1,15 @@
 <template>
 	<div>
-		accounting
+		Accounting
 	</div>
 </template>
 
 <script>
 	export default {
-		name: "accounting"
+		name: "accounting",
+		methods: {
+
+		}
 	}
 </script>
 
-<style scoped>
-
-</style>
