@@ -1,6 +1,6 @@
 @extends('layouts.plain')
 
 @section('body')
-	<router-view></router-view>
+	@include('misc.loader')
+	<router-view v-cloak></router-view>
 @endsection
-
