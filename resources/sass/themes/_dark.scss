@@ -1,48 +1,50 @@
 .theme-dark {
-	--primary-color: $primary;
+	--primary-color: #{$primary};
 
-	--info-color: $info;
-	--success-color: $success;
-	--warning-color: $warning;
-	--danger-color: $danger;
+	--info-color: #{$info};
+	--success-color: #{$success};
+	--warning-color: #{$warning};
+	--danger-color: #{$danger};
 
-	--primary-invert: $primary-invert;
-	--info-invert: $cyan-invert;
-	--success-invert: $success-invert;
-	--warning-invert: $warning-invert;
-	--danger-invert: $danger-invert;
+	--primary-invert: #{$primary-invert};
+	--info-invert: #{$cyan-invert};
+	--success-invert: #{$success-invert};
+	--warning-invert: #{$warning-invert};
+	--danger-invert: #{$danger-invert};
 
 	// General colors
-	--background-color: $background;
+	--background-color: #{$background};
 	--page-background-color: #17181e;
 
-	--border-color: $border;
-	--border-hover-color: $border-hover;
+	--border-color: #{$border};
+	--border-hover-color: #{$border-hover};
 
 	// Text colors
-	--text-color: $text;
-	--text-invert-color: $text-invert;
-	--text-light-color: $text-light;
-	--text-strong-color: $text-strong;
+	--text-color: #{$text};
+	--text-invert-color: #{$text-invert};
+	--text-light-color: #{$text-light};
+	--text-strong-color: #{$text-strong};
 
 	// Code colors
-	--code-color: $code;
-	--code-background-color: $code-background;
+	--code-color: #{$code};
+	--code-background-color: #{$code-background};
 
-	--pre-color: $pre;
-	--pre-background-color: $pre-background;
+	--pre-color: #{$pre};
+	--pre-background-color: #{$pre-background};
 
 	// Link colors
-	--link-color: $link;
-	--link-invert-color: $link-invert;
-	--link-visited-color: $link-visited;
+	--link-color: #{$link};
+	--link-invert-color: #{$link-invert};
+	--link-visited-color: #{$link-visited};
 
-	--link-hover-color: $link-hover;
-	--link-hover-border-color: $link-hover-border;
+	--link-hover-color: #{$link-hover};
+	--link-hover-border-color: #{$link-hover-border};
 
-	--link-focus-color: $link-focus;
-	--link-focus-border-color: $link-focus-border;
+	--link-focus-color: #{$link-focus};
+	--link-focus-border-color: #{$link-focus-border};
 
-	--link-active-color: $link-active;
-	--link-active-border-color: $link-active-border;
+	--link-active-color: #{$link-active};
+	--link-active-border-color: #{$link-active-border};
+
+	--loader-color: #{$purple};
 }

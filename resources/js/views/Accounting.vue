@@ -6,10 +6,6 @@
 
 <script>
 	export default {
-		name: "accounting",
-		methods: {
-
-		}
+		name: "Accounting",
 	}
 </script>
-
