@@ -14,7 +14,7 @@
 	@include('misc.pwaMeta')
 </head>
 <body>
-<div id="app">
+<div id="app" :class="`theme-${theme}`">
 	@yield('body')
 
 </div>
