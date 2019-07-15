@@ -3,6 +3,7 @@
 /public/storage
 /public/css
 /public/js
+/public/fonts/
 /public/mix-manifest.json
 /public/precache-manifest.*.js
 /public/*.js
@@ -15,4 +16,3 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
-yarn-error.log
