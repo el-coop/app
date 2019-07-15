@@ -8,7 +8,7 @@ const router = new Router({
 	routes: [
 		{
 			path: '/accounting',
-			name: 'edit',
+			name: 'Accounting',
 			component: Accounting,
 		},
 		{

@@ -2,5 +2,6 @@
 
 @section('body')
 	@include('misc.loader')
+	<navbar></navbar>
 	<router-view v-cloak></router-view>
 @endsection

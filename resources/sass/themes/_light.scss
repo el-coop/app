@@ -14,7 +14,6 @@
 
 	// General colors
 	--background-color: #{$background};
-	--page-background-color: #f5f6f9;
 
 	--border-color: #{$border};
 	--border-hover-color: #{$border-hover};
@@ -46,5 +45,15 @@
 	--link-active-color: #{$link-active};
 	--link-active-border-color: #{$link-active-border};
 
+
+	//page
 	--loader-color: #{$purple};
+	--page-background-color: #f7f7f7;
+
+	// navbar
+
+	--navbar-background-color: #7da2a9;
+	--navbar-item-color: #{$white};
+	--navbar-item-hover-color:  #ffddcc;
 }
+

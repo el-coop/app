@@ -1,13 +1,18 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
+// Bulma
 @import '~bulma';
+@import "breakpoints";
 
 // Themes
 @import "themes/light";
 @import "themes/dark";
 
-// CSS
+// Global
 @import "init";
 @import "loader";
+@import "flex-helpers";
+
+// Components
+@import "navbar";

@@ -1,3 +1,5 @@
+$dark-background: #18181e;
+
 .theme-dark {
 	--primary-color: #{$primary};
 
@@ -13,8 +15,7 @@
 	--danger-invert: #{$danger-invert};
 
 	// General colors
-	--background-color: #{$background};
-	--page-background-color: #17181e;
+	--background-color: #{lighten($dark-background,0.3)};
 
 	--border-color: #{$border};
 	--border-hover-color: #{$border-hover};
@@ -46,5 +47,13 @@
 	--link-active-color: #{$link-active};
 	--link-active-border-color: #{$link-active-border};
 
+
+	//page
 	--loader-color: #{$purple};
+	--page-background-color: #{$dark-background};
+
+	// navbar
+	--navbar-background-color: #22223a;
+	--navbar-item-color: #{$white};
+	--navbar-item-hover-color:  #fab162;
 }
