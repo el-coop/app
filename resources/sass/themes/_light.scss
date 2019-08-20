@@ -1,59 +1,58 @@
 .theme-light {
-	--primary-color: #{$primary};
+    --primary-color: #{$primary};
 
-	--info-color: #{$info};
-	--success-color: #{$success};
-	--warning-color: #{$warning};
-	--danger-color: #{$danger};
+    --info-color: #{$info};
+    --success-color: #{$success};
+    --warning-color: #{$warning};
+    --danger-color: #{$danger};
 
-	--primary-invert: #{$primary-invert};
-	--info-invert: #{$cyan-invert};
-	--success-invert: #{$success-invert};
-	--warning-invert: #{$warning-invert};
-	--danger-invert: #{$danger-invert};
+    --primary-invert: #{$primary-invert};
+    --info-invert: #{$cyan-invert};
+    --success-invert: #{$success-invert};
+    --warning-invert: #{$warning-invert};
+    --danger-invert: #{$danger-invert};
 
-	// General colors
-	--background-color: #{$background};
+    // General colors
+    --background-color: #{$background};
 
-	--border-color: #{$border};
-	--border-hover-color: #{$border-hover};
+    --border-color: #{$border};
+    --border-hover-color: #{$border-hover};
 
-	// Text colors
-	--text-color: #{$text};
-	--text-invert-color: #{$text-invert};
-	--text-light-color: #{$text-light};
-	--text-strong-color: #{$text-strong};
+    @each $name, $pair in $colors {
+        $color: nth($pair, 1);
+        $color-lightning: max((100% - lightness($color)) - 2%, 0%);
+        $color-luminance: colorLuminance($color);
+        $desaturate-percentage: $color-luminance * 30%;
+        $darken-percentage: $color-luminance * 70%;
 
-	// Code colors
-	--code-color: #{$code};
-	--code-background-color: #{$code-background};
+        --#{$name}-background-mixed: #{lighten($color, $color-lightning)};
+        --#{$name}-color-mixed: #{desaturate(darken($color, $darken-percentage), $desaturate-percentage)};
 
-	--pre-color: #{$pre};
-	--pre-background-color: #{$pre-background};
+    }
 
-	// Link colors
-	--link-color: #{$link};
-	--link-invert-color: #{$link-invert};
-	--link-visited-color: #{$link-visited};
+    // Text colors
+    --text-color: #{$text};
+    --text-invert-color: #{$text-invert};
+    --text-light-color: #{$text-light};
+    --text-strong-color: #{$text-strong};
 
-	--link-hover-color: #{$link-hover};
-	--link-hover-border-color: #{$link-hover-border};
+    //page
+    --loader-color: #{$purple};
+    --body-background-color: #{$body-background-color};
 
-	--link-focus-color: #{$link-focus};
-	--link-focus-border-color: #{$link-focus-border};
+    //button:
+    --button-background-color: #{white};
 
-	--link-active-color: #{$link-active};
-	--link-active-border-color: #{$link-active-border};
+    // navbar
 
+    --navbar-background-color: #7da2a9;
+    --navbar-item-color: #{$white};
+    --navbar-item-hover-color: #ffddcc;
 
-	//page
-	--loader-color: #{$purple};
-	--page-background-color: #f7f7f7;
+    // Modal
+    --modal-background-color: #{rgba($black, 0.86)};
 
-	// navbar
-
-	--navbar-background-color: #7da2a9;
-	--navbar-item-color: #{$white};
-	--navbar-item-hover-color:  #ffddcc;
+    // Title
+    --title-color: #{$grey-darker};
+    --subtitle-color: #{$grey-dark};
 }
-

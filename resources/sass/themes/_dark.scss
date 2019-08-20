@@ -1,59 +1,58 @@
-$dark-background: #18181e;
+$dark-primary-color: #22223a;
 
 .theme-dark {
-	--primary-color: #{$primary};
+    --primary-color: #{$primary};
 
-	--info-color: #{$info};
-	--success-color: #{$success};
-	--warning-color: #{$warning};
-	--danger-color: #{$danger};
+    --info-color: #{$info};
+    --success-color: #{$success};
+    --warning-color: #{$warning};
+    --danger-color: #{$danger};
 
-	--primary-invert: #{$primary-invert};
-	--info-invert: #{$cyan-invert};
-	--success-invert: #{$success-invert};
-	--warning-invert: #{$warning-invert};
-	--danger-invert: #{$danger-invert};
+    --primary-invert: #{$primary-invert};
+    --info-invert: #{$cyan-invert};
+    --success-invert: #{$success-invert};
+    --warning-invert: #{$warning-invert};
+    --danger-invert: #{$danger-invert};
 
-	// General colors
-	--background-color: #{lighten($dark-background,0.3)};
+    // General colors
+    --background-color: #{$black-ter};
 
-	--border-color: #{$border};
-	--border-hover-color: #{$border-hover};
+    --border-color: #{$grey-darker};
+    --border-hover-color: #{$grey-dark};
 
-	// Text colors
-	--text-color: #{$text};
-	--text-invert-color: #{$text-invert};
-	--text-light-color: #{$text-light};
-	--text-strong-color: #{$text-strong};
+    @each $name, $pair in $colors {
+        $color: nth($pair, 1);
+        $color-luminance: colorLuminance($color);
+        $color-lightning: max((100% - lightness($color)) - 2%, 0%);
+        $desaturate-percentage: $color-luminance * 30%;
+        $darken-percentage: $color-luminance * 70%;
 
-	// Code colors
-	--code-color: #{$code};
-	--code-background-color: #{$code-background};
+        --#{$name}-background-mixed: #{darken($color, $darken-percentage)};
+        --#{$name}-color-mixed: #{desaturate(lighten($color, $color-lightning), $desaturate-percentage)};
+    }
 
-	--pre-color: #{$pre};
-	--pre-background-color: #{$pre-background};
+    // Text colors
+    --text-color: #{$white-ter};
+    --text-invert-color: #{$text};
+    --text-light-color: #{$text-light}; //TODO
+    --text-strong-color: #{$white-bis}; //TODO
 
-	// Link colors
-	--link-color: #{$link};
-	--link-invert-color: #{$link-invert};
-	--link-visited-color: #{$link-visited};
+    // Page
+    --loader-color: #{$purple};
+    --body-background-color: #18181e;
 
-	--link-hover-color: #{$link-hover};
-	--link-hover-border-color: #{$link-hover-border};
+    //button:
+    --button-background-color: #{$grey-lighter};
 
-	--link-focus-color: #{$link-focus};
-	--link-focus-border-color: #{$link-focus-border};
+    // Navbar
+    --navbar-background-color: #{$dark-primary-color};
+    --navbar-item-color: #{$white};
+    --navbar-item-hover-color: #fab162;
 
-	--link-active-color: #{$link-active};
-	--link-active-border-color: #{$link-active-border};
+    // Modal
+    --modal-background-color: #{rgba($grey-darker, 0.86)};
 
-
-	//page
-	--loader-color: #{$purple};
-	--page-background-color: #{$dark-background};
-
-	// navbar
-	--navbar-background-color: #22223a;
-	--navbar-item-color: #{$white};
-	--navbar-item-hover-color:  #fab162;
+    // Title
+    --title-color: #{$grey-lighter};
+    --subtitle-color: #{$grey-light};
 }

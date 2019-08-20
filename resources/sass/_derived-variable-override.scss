@@ -1,0 +1,12 @@
+.message {
+
+    @each $name, $pair in $message-colors {
+        &.is-#{$name} {
+            background-color: var(--#{$name}-background-mixed);
+
+            .message-body {
+                color: var(--#{$name}-color-mixed);
+            }
+        }
+    }
+}

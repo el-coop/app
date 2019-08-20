@@ -1,0 +1,40 @@
+.accordion {
+
+    @extend .message;
+
+    margin-bottom: 0 !important;
+
+    &:not(first-child){
+        border-radius: 0;
+    }
+
+    &__checkbox {
+        display: none;
+
+        &:checked ~ .accordion__content {
+            max-height: 100em;
+        }
+    }
+
+    &__header {
+        @extend .message-header;
+
+        cursor: pointer;
+
+        &:hover{
+            filter: brightness(110%);
+        }
+    }
+
+    &__content {
+        @extend .message-body;
+        padding: 0;
+        max-height: 0;
+        overflow-y: hidden;
+        transition: max-height .2s ease;
+
+        &-body {
+            padding: 1.25em 1.5em;
+        }
+    }
+}

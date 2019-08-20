@@ -31,7 +31,6 @@
 		components: {ThemePicker},
 
 		created() {
-			console.log(this.$router.options.routes);
 			this.$router.options.routes.forEach((item) => {
 				if (item.name !== '404') {
 					this.routes.push(item);
