@@ -1,8 +1,8 @@
 <template>
     <div class="message mb-1/2 is-small" :class="messageClass">
-        <Modal v-model="edit">
+        <Modal :active.sync="edit">
             <component v-for="(field,index) in fields" :key="index" :is="field.component" :options="field"
-                       v-model="actualValue[field.name]"/>
+                       v-model="actualValue[field.name]" :error="errors[field.name][0] || null"/>
             <div class="buttons">
                 <button class="button is-primary is-flex-1" @click="save">Save</button>
                 <button class="button is-danger" @click="remove">Remove</button>
@@ -11,8 +11,8 @@
         <div class="level is-mobile message-body" @click="edit=true">
             <div class="level-left">
                 <div class="level-item is-block">
-                    <h6 class="title is-6" v-text="actualValue.label || 'Click to edit'"/>
-                    <h7 class="subtitle is-7" v-if="actualValue.comment" v-text="actualValue.comment"/>
+                    <h6 class="title is-6 is-spaced" v-text="actualValue.label || 'Click to edit'"/>
+                    <h6 class="subtitle is-6" v-if="actualValue.comment" v-text="actualValue.comment"/>
                 </div>
             </div>
             <div class="level-right">
@@ -29,7 +29,7 @@
 	import TextareaField from "../../global/Fields/TextareaField";
 
 	export default {
-		name: "AccountRow",
+		name: "SheetRow",
 		components: {Modal, TextField, SelectField, TextareaField},
 
 		props: {
@@ -38,7 +38,13 @@
 				default() {
 					return {};
 				}
-			}
+			},
+            errors: {
+				type: Object,
+				default() {
+					return {};
+				}
+            }
 		},
 
 		data() {
@@ -53,13 +59,14 @@
 					component: 'TextField',
 					type: 'number',
 					label: 'Amount',
+					forceDecimal: 2,
 					name: 'amount',
 				}, {
 					component: 'SelectField',
 					label: 'Action',
-					options: [
-						'+', '-', 'Header', 'Ignore'
-					],
+					options: {
+						'+' : '+', '-':'-', header:'Header', ignore: 'Ignore'
+					},
 					name: 'action',
 				}, {
 					component: 'TextareaField',
@@ -83,11 +90,11 @@
 		computed: {
 			messageClass() {
 				switch (this.value['action']) {
-					case 0:
+					case '+':
 						return 'is-success';
-					case 1:
+					case '-':
 						return 'is-danger';
-					case 2:
+					case 'header':
 						return 'is-info';
 					default:
 						return 'is-dark';

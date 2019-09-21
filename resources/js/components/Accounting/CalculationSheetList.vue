@@ -1,14 +1,19 @@
 <template>
     <div>
-        <Chart :chartData="data" title="Monthly Sheets" :names="{y: 'Total'}">
+        <component is="style" type="text/css" v-if="uploading.length || errored.length">
+            {{ uploadingCss }}
+            {{ errorCss }}
+        </component>
+        <Chart :chartData="chartData" title="Monthly Sheets" :names="{y: 'Total'}" :uploading="uploading"
+               @data-click="editPoint">
             <template #buttons>
                 <div class="buttons ml-3">
-                    <button class="button is-primary" @click="addModal = true">Add</button>
+                    <button class="button is-primary" @click="openSheet">Add</button>
                 </div>
             </template>
         </Chart>
-        <Modal v-model="addModal">
-            <Sheet @saveSheet="addSheet"/>
+        <Modal :active.sync="sheetModal" @update:active="selectedSheet=null">
+            <Sheet @saveSheet="addSheet" :sheet="selectedSheet"/>
         </Modal>
     </div>
 </template>
@@ -17,6 +22,7 @@
 	import Chart from "../../global/Chart";
 	import Modal from "../../global/Modal";
 	import Sheet from "./Sheet";
+	import SheetObject from "../../classes/Sheet";
 
 	export default {
 		name: "CalculationSheetList",
@@ -24,59 +30,131 @@
 
 		data() {
 			return {
-				addModal: false,
-				data: [{
-					x: '2018-7-1',
-					y: '20000'
-				}, {
-					x: '2018-8-1',
-					y: '10000'
-				}, {
-					x: '2018-9-1',
-					y: '50000'
-				}, {
-					x: '2018-10-1',
-					y: '30000'
-				}, {
-					x: '2018-11-1',
-					y: '20000'
-				},{
-					x: '2018-12-1',
-					y: '10000'
-				}, {
-					x: '2019-1-1',
-					y: '10000'
-				}, {
-					x: '2019-2-1',
-					y: '50000'
-				}, {
-					x: '2019-3-1',
-					y: '30000'
-				}, {
-					x: '2019-4-1',
-					y: '20000'
-				}, {
-					x: '2019-5-1',
-					y: '10000'
-				}, {
-					x: '2019-6-1',
-					y: '50000'
-				}, {
-					x: '2019-7-1',
-					y: '30000'
-				}]
+				sheetModal: false,
+				selectedSheet: null,
+				chartData: [],
+				timezone: (new Date).getTimezoneOffset(),
+				uploading: [],
+				errored: [],
 			};
 		},
 
+		created() {
+			this.loadData();
+		},
+
 		methods: {
-			addSheet(sheet) {
-				this.addModal = false;
-				this.data.push({
-					x: `${sheet.date}-1`,
-					y: sheet.total,
+			async loadData() {
+				const response = await axios.get('');
+				this.chartData = response.data.map((sheet) => {
+					return new SheetObject(sheet.date, sheet.rows, sheet.id);
+				});
+
+			},
+
+			openSheet() {
+				if (!this.selectedSheet) {
+					const lastSheet = this.chartData[this.chartData.length - 1] || new SheetObject();
+					this.selectedSheet = SheetObject.CreateFromOld(lastSheet);
+
+				}
+				this.sheetModal = true;
+			},
+
+			async addSheet(sheet) {
+				this.sheetModal = false;
+				this.selectedSheet = null;
+				this.chartData.push(sheet);
+				this.chartData = this.chartData.sort((a, b) => {
+					return a.date.getTime() - b.date.getTime();
+				});
+
+				this.recalculateCss();
+
+				try {
+					const response = await axios.post('', {
+						date: sheet.formattedDate + '-1',
+						rows: sheet.rows
+					});
+					this.$toast.success(' ', 'Datapoint Saved');
+					sheet.id = response.id;
+					sheet.errors = {};
+				} catch (error) {
+					this.$toast.error(' ', 'Error saving datapoint');
+					if (error.response && error.response.data.errors) {
+						sheet.errors = this.formatErrors(error.response.data.errors);
+					} else {
+						sheet.errors = {
+							message: 'There was a server error, please try again'
+						}
+					}
+				}
+				this.recalculateCss();
+			},
+
+			formatErrors(errorList) {
+				const errors = {};
+				for (let prop in errorList) {
+					const parts = prop.split('.');
+					console.log(parts);
+					let currentPath = errors;
+					do {
+						let path = parts.shift();
+						console.log(path, parts);
+
+						if (!currentPath[path]) {
+							if (!parts.length) {
+								currentPath[path] = errorList[prop].map((value) => {
+									return value.replace(prop, path);
+								});
+							} else {
+								currentPath[path] = {};
+							}
+						}
+						currentPath = currentPath[path];
+					} while (parts.length);
+				}
+
+				console.log(errors);
+				return errors;
+			},
+
+			recalculateCss() {
+				this.uploading = [];
+				this.errored = [];
+				this.chartData.forEach((element, index) => {
+					if (Object.entries(element.errors).length) {
+						this.errored.push(index);
+					} else if (String(element.id).indexOf('temp') > -1) {
+						this.uploading.push(index);
+					}
 				});
 			},
-		}
 
+			editPoint(data) {
+				this.selectedSheet = this.chartData[data.data.index];
+				this.openSheet();
+			}
+		},
+
+		computed: {
+			uploadingCss() {
+				let styleRule = '';
+				this.uploading.forEach((index) => {
+					styleRule += `.c3-circle-${index} {animation: blink 2s ease infinite;} `;
+				});
+				return styleRule;
+			},
+
+			errorCss() {
+				let styleRule = '';
+				this.errored.forEach((index) => {
+					styleRule += `.c3-circle-${index} {fill: hsl(348, 100%, 61%);} `;
+				});
+				return styleRule;
+			}
+
+		}
 	}
 </script>
+

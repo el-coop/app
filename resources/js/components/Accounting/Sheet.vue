@@ -1,7 +1,12 @@
 <template>
     <div>
-        <TextField :options="dateFieldConf" v-model="date"/>
-        <AccountRow v-for="(row,index) in rows" :key="row.id" @delete="removeRow(index)" v-model="rows[index]"/>
+        <div class="notification is-danger" v-if="errors.message || false">
+            {{ errors.message}}
+        </div>
+        <TextField :options="dateFieldConf" v-model="date" :error="errors.date ? errors.date[0] : null"/>
+        <SheetRow v-for="(row,index) in rows" :key="row.id" @delete="removeRow(index)"
+                    :errors="errors.rows && errors.rows[index] ? errors.rows[index] : {}"
+                    v-model="rows[index]"/>
         <div class="message mb-1/2 is-primary is-small">
             <div class="level is-mobile message-body" @click="edit=true">
                 <div class="level-left">
@@ -26,17 +31,32 @@
 </template>
 
 <script>
-	import AccountRow from "./SheetRow";
+	import SheetRow from "./SheetRow";
 	import TextField from "../../global/Fields/TextField";
+	import Sheet from "../../classes/Sheet";
 
 	export default {
 		name: "Sheet",
-		components: {TextField, AccountRow},
+		components: {TextField, SheetRow},
+
+		props: {
+			sheet: {
+				type: Object,
+				default() {
+					return {
+						rows: [],
+						date: new Date(),
+                        errors: {}
+					};
+				}
+			}
+		},
 
 		data() {
 			return {
+				date: null,
 				rows: [],
-				date: this.getCurrentDateString(),
+                errors: {},
 				dateFieldConf: {
 					label: 'Date',
 					type: 'month',
@@ -50,10 +70,10 @@
 				return this.rows.reduce((total, row) => {
 					let value = 0;
 					switch (row.action) {
-						case 0:
+						case '+':
 							value = parseFloat(row.amount);
 							break;
-						case 1:
+						case '-':
 							value = -parseFloat(row.amount);
 							break;
 					}
@@ -64,19 +84,6 @@
 		},
 
 		methods: {
-			getCurrentDateString() {
-				let currentDate = new Date();
-				let currentDateString = `${currentDate.getFullYear()}-`;
-
-				if (currentDate.getMonth() < 10) {
-					currentDateString += `0${currentDate.getMonth() + 1}`;
-				} else {
-					currentDateString += currentDate.getMonth() + 1;
-				}
-
-				return currentDateString;
-			},
-
 			removeRow(index) {
 				this.rows.splice(index, 1);
 			},
@@ -87,14 +94,23 @@
 
 			save() {
 				const tempDate = new Date(`${this.date}-10`);
-				this.$emit('saveSheet', {
-					date: `${tempDate.getFullYear()}-${tempDate.getMonth() + 1}`,
-                    rows: this.rows,
-					total: this.value,
-				});
+				const sheet = new Sheet(tempDate, this.rows);
+				this.$emit('saveSheet', sheet);
 			}
 
-		}
+		},
+
+
+		watch: {
+			sheet: {
+				handler(value) {
+					this.rows = value ? value.rows : [];
+					this.date = value ? value.formattedDate : '';
+					this.errors = value ? value.errors : {};
+				},
+				immediate: true
+			}
+		},
 
 	}
 </script>

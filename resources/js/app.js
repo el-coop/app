@@ -6,6 +6,10 @@
 
 import Vue from 'vue';
 
+//Vue Addons
+import VueIziToast from 'vue-izitoast';
+Vue.use(VueIziToast);
+
 require('./bootstrap');
 window.Vue = Vue;
 

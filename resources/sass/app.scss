@@ -1,7 +1,8 @@
 // Variables
 @import 'variables';
-// Bulma
+// Packages
 @import '~bulma';
+@import '~izitoast/dist/css/iziToast.css';
 
 //overrides
 @import 'breakpoints';
@@ -18,6 +19,7 @@
 @import 'chart-colors';
 @import 'flex-helpers';
 @import 'margin-helpers';
+@import 'animations';
 // Components
 @import 'navbar';
 @import 'accordion';

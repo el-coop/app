@@ -7,10 +7,10 @@
             </div>
             <div class="level-right">
                 <div class="buttons" v-if="chartData.length !== displayed.length">
-                    <button class="button" @click="position++; loading = true"
+                    <button class="button" @click="changePage(1)"
                             :disabled="chartData.length - breakpoints[breakpoint] - position <= 0 || loading">Previous
                     </button>
-                    <button class="button" @click="position--; loading = true" :disabled="position === 0 || loading">
+                    <button class="button" @click="changePage(-1)" :disabled="position === 0 || loading">
                         Next
                     </button>
                 </div>
@@ -52,7 +52,10 @@
 						y: 'y',
 					}
 				}
-			}
+			},
+			onClick: {
+				type: Function,
+			},
 		},
 
 		data() {
@@ -79,12 +82,13 @@
 				names: this.names
 			}, {
 				title: this.title,
-				onresized: this.calculateBreakpoint,
-				onrendered: () => {
+				onResized: this.calculateBreakpoint,
+				onRendered: () => {
 					setTimeout(() => {
 						this.loading = false;
 					}, 300);
-				}
+				},
+				onClick: this.onClick || this.clickFunction
 			});
 		},
 
@@ -100,6 +104,18 @@
 				}
 
 				this.breakpoint = breakpoint;
+			},
+
+			clickFunction(data, element) {
+				this.$emit('data-click', {
+					data,
+					element
+				})
+			},
+
+			changePage(value) {
+				this.position += value;
+				this.loading = true
 			}
 		},
 
@@ -113,8 +129,8 @@
 		},
 
 		watch: {
-			displayed() {
-				this.chart.load(this.displayed);
+			displayed(value) {
+				this.chart.load(value);
 			},
 			chartData() {
 				this.position = 0;

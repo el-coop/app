@@ -19,12 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware(['spa'])->group(function(){
-	Route::get('test', function (){
-		return 'bla';
-	});
+Route::middleware(['spa'])->group(function (){
+    foreach (\File::allFiles(__DIR__ . "/web") as $routeFile) {
+        include $routeFile;
+    }
 });
 
-Route::get('/{any}', function(){
-	return view('spa');
+Route::get('/{any}', function () {
+    return view('spa');
 })->where('any', '.*');

@@ -4,7 +4,7 @@ let chartData;
 
 class Chart {
 
-    constructor(el, data, params){
+    constructor(el, data, params,) {
         chartData = data;
         this.chart = c3.generate({
             bindto: el,
@@ -17,7 +17,8 @@ class Chart {
             data: {
                 json: data.data || {},
                 keys: data.keys || [],
-                names: data.names || []
+                names: data.names || [],
+                onclick: params.onClick || null
             },
             axis: {
                 x: {
@@ -27,17 +28,21 @@ class Chart {
                     }
                 }
             },
-            onresized: params.onresized || null,
-            onrendered: params.onrendered || null
+            onresized: params.onResized || null,
+            onrendered: params.onRendered || null
         });
     }
 
-    load(data){
+    load(data) {
         this.chart.load({
             json: data,
             keys: chartData.keys,
             names: chartData.names
         });
+    }
+
+    xGrids(xGrids) {
+        this.chart.xgrids(xGrids);
     }
 }
 
