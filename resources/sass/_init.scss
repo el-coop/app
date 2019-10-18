@@ -1,20 +1,33 @@
 @font-face {
-	font-family: mestizos-unidos;
-	src: url('../fonts/MestizosUnidos.otf');
+    font-family: mestizos-unidos;
+    src: url('../fonts/MestizosUnidos.otf');
+}
+
+html {
+    font-size: var(--body-size);
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: var(--render-mode);
+    text-size-adjust: 100%;
 }
 
 html, body, #app {
-	overflow-x: hidden;
-	overflow-y: auto;
-	height: 100%;
-	width: 100%;
-	margin: 0 !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+    width: 100%;
+    margin: 0 !important;
 }
 
 #app {
-	background-color: var(--body-background-color);
+    background-color: var(--background-color);
+    color: var(--font-color)
 }
 
 [v-cloak] {
-	display: none;
+    display: none;
+}
+
+.logo {
+    font-family: mestizos-unidos;
 }

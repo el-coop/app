@@ -6,10 +6,9 @@
 
 <script>
 	export default {
-		name: "PageNotFound"
+		name: "PageNotFound",
+		metaInfo: {
+			title: '404',
+		},
 	}
 </script>
-
-<style scoped>
-
-</style>

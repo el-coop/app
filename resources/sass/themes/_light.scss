@@ -1,58 +1,6 @@
+$light-font-color: #1d253b;
+
 .theme-light {
-    --primary-color: #{$primary};
-
-    --info-color: #{$info};
-    --success-color: #{$success};
-    --warning-color: #{$warning};
-    --danger-color: #{$danger};
-
-    --primary-invert: #{$primary-invert};
-    --info-invert: #{$cyan-invert};
-    --success-invert: #{$success-invert};
-    --warning-invert: #{$warning-invert};
-    --danger-invert: #{$danger-invert};
-
-    // General colors
-    --background-color: #{$background};
-
-    --border-color: #{$border};
-    --border-hover-color: #{$border-hover};
-
-    @each $name, $pair in $colors {
-        $color: nth($pair, 1);
-        $color-lightning: max((100% - lightness($color)) - 2%, 0%);
-        $color-luminance: colorLuminance($color);
-        $desaturate-percentage: $color-luminance * 30%;
-        $darken-percentage: $color-luminance * 70%;
-
-        --#{$name}-background-mixed: #{lighten($color, $color-lightning)};
-        --#{$name}-color-mixed: #{desaturate(darken($color, $darken-percentage), $desaturate-percentage)};
-
-    }
-
-    // Text colors
-    --text-color: #{$text};
-    --text-invert-color: #{$text-invert};
-    --text-light-color: #{$text-light};
-    --text-strong-color: #{$text-strong};
-
-    //page
-    --loader-color: #{$purple};
-    --body-background-color: #{$body-background-color};
-
-    //button:
-    --button-background-color: #{white};
-
-    // navbar
-
-    --navbar-background-color: #7da2a9;
-    --navbar-item-color: #{$white};
-    --navbar-item-hover-color: #ffddcc;
-
-    // Modal
-    --modal-background-color: #{rgba($black, 0.86)};
-
-    // Title
-    --title-color: #{$grey-darker};
-    --subtitle-color: #{$grey-dark};
+    --background-color: #f5f6fa;
+    --font-color: #{$light-font-color};
 }

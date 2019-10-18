@@ -1,16 +1,16 @@
 <template>
     <div>
         <div ref="chart"></div>
-        <div class="level is-mobile">
+        <div class="level">
             <div class="level-left">
                 <slot name="buttons"></slot>
             </div>
             <div class="level-right">
-                <div class="buttons" v-if="chartData.length !== displayed.length">
-                    <button class="button" @click="changePage(1)"
+                <div class="buttons ml-1">
+                    <button class="button is-flex-1" @click="changePage(1)"
                             :disabled="chartData.length - breakpoints[breakpoint] - position <= 0 || loading">Previous
                     </button>
-                    <button class="button" @click="changePage(-1)" :disabled="position === 0 || loading">
+                    <button class="button is-flex-1" @click="changePage(-1)" :disabled="position === 0 || loading">
                         Next
                     </button>
                 </div>
@@ -124,7 +124,7 @@
 				if (this.chartData.length - this.breakpoints[this.breakpoint] - this.position < 0) {
 					this.position = 0;
 				}
-				return this.chartData.slice(this.chartData.length - this.breakpoints[this.breakpoint] - this.position, this.chartData.length - this.position);
+				return this.chartData.slice(Math.max(this.chartData.length - this.breakpoints[this.breakpoint] - this.position, 0), this.chartData.length - this.position);
 			}
 		},
 

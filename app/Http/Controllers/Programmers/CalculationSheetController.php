@@ -66,8 +66,10 @@ class CalculationSheetController extends Controller {
      * @param \App\Models\CalculationSheet $calculationSheet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CalculationSheet $calculationSheet) {
-        //
+    public function update(CalculationSheetsUpdateRequest $request, CalculationSheet $sheet) {
+        $sheet = $request->commit();
+        
+        return $sheet;
     }
     
     /**

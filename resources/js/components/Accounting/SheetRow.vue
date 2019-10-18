@@ -2,7 +2,7 @@
     <div class="message mb-1/2 is-small" :class="messageClass">
         <Modal :active.sync="edit">
             <component v-for="(field,index) in fields" :key="index" :is="field.component" :options="field"
-                       v-model="actualValue[field.name]" :error="errors[field.name][0] || null"/>
+                       v-model="actualValue[field.name]" :error="errors[field.name] ? errors[field.name][0] : null"/>
             <div class="buttons">
                 <button class="button is-primary is-flex-1" @click="save">Save</button>
                 <button class="button is-danger" @click="remove">Remove</button>

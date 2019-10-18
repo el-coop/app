@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="section">
         <component is="style" type="text/css" v-if="uploading.length || errored.length">
             {{ uploadingCss }}
             {{ errorCss }}
@@ -7,8 +7,8 @@
         <Chart :chartData="chartData" title="Monthly Sheets" :names="{y: 'Total'}" :uploading="uploading"
                @data-click="editPoint">
             <template #buttons>
-                <div class="buttons ml-3">
-                    <button class="button is-primary" @click="openSheet">Add</button>
+                <div class="buttons ml-1">
+                    <button class="button is-primary is-fullwidth" @click="openSheet">Add</button>
                 </div>
             </template>
         </Chart>
@@ -27,7 +27,9 @@
 	export default {
 		name: "CalculationSheetList",
 		components: {Sheet, Chart, Modal},
-
+		metaInfo: {
+			title: 'Accounting',
+		},
 		data() {
 			return {
 				sheetModal: false,
@@ -61,23 +63,49 @@
 				this.sheetModal = true;
 			},
 
-			async addSheet(sheet) {
-				this.sheetModal = false;
-				this.selectedSheet = null;
-				this.chartData.push(sheet);
+			updateSheets(sheet) {
+				const sheetIndex = this.chartData.findIndex((item) => {
+					return item.id === sheet.id;
+				});
+
+
+				if (sheetIndex > -1) {
+					sheet.errors = {};
+					this.$set(this.chartData, sheetIndex, sheet);
+				} else {
+					this.chartData.push(sheet);
+				}
 				this.chartData = this.chartData.sort((a, b) => {
 					return a.date.getTime() - b.date.getTime();
 				});
 
-				this.recalculateCss();
+			},
 
-				try {
-					const response = await axios.post('', {
+			async saveSheet(sheet) {
+				if (String(sheet.id).indexOf('temp') === 0) {
+					return await axios.post('', {
 						date: sheet.formattedDate + '-1',
 						rows: sheet.rows
 					});
+				}
+
+				return await axios.patch(`${window.location.href}/${sheet.id}`, {
+					date: sheet.formattedDate + '-1',
+					rows: sheet.rows
+				});
+
+			},
+
+			async addSheet(sheet) {
+				this.sheetModal = false;
+				this.selectedSheet = null;
+				this.updateSheets(sheet);
+
+				this.recalculateCss();
+				try {
+					const response = await this.saveSheet(sheet);
 					this.$toast.success(' ', 'Datapoint Saved');
-					sheet.id = response.id;
+					sheet.id = response.data.id;
 					sheet.errors = {};
 				} catch (error) {
 					this.$toast.error(' ', 'Error saving datapoint');
@@ -96,11 +124,9 @@
 				const errors = {};
 				for (let prop in errorList) {
 					const parts = prop.split('.');
-					console.log(parts);
 					let currentPath = errors;
 					do {
 						let path = parts.shift();
-						console.log(path, parts);
 
 						if (!currentPath[path]) {
 							if (!parts.length) {
@@ -115,7 +141,6 @@
 					} while (parts.length);
 				}
 
-				console.log(errors);
 				return errors;
 			},
 

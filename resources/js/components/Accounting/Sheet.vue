@@ -5,8 +5,8 @@
         </div>
         <TextField :options="dateFieldConf" v-model="date" :error="errors.date ? errors.date[0] : null"/>
         <SheetRow v-for="(row,index) in rows" :key="row.id" @delete="removeRow(index)"
-                    :errors="errors.rows && errors.rows[index] ? errors.rows[index] : {}"
-                    v-model="rows[index]"/>
+                  :errors="errors.rows && errors.rows[index] ? errors.rows[index] : {}"
+                  v-model="rows[index]"/>
         <div class="message mb-1/2 is-primary is-small">
             <div class="level is-mobile message-body" @click="edit=true">
                 <div class="level-left">
@@ -46,7 +46,7 @@
 					return {
 						rows: [],
 						date: new Date(),
-                        errors: {}
+						errors: {}
 					};
 				}
 			}
@@ -56,7 +56,7 @@
 			return {
 				date: null,
 				rows: [],
-                errors: {},
+				errors: {},
 				dateFieldConf: {
 					label: 'Date',
 					type: 'month',
@@ -94,7 +94,7 @@
 
 			save() {
 				const tempDate = new Date(`${this.date}-10`);
-				const sheet = new Sheet(tempDate, this.rows);
+				const sheet = new Sheet(tempDate, this.rows, this.sheet.id);
 				this.$emit('saveSheet', sheet);
 			}
 

@@ -1,25 +1,25 @@
 // Variables
 @import 'variables';
 // Packages
-@import '~bulma';
-@import '~izitoast/dist/css/iziToast.css';
-
+@import 'bulma';
+//@import '~izitoast/dist/css/iziToast.css';
 //overrides
 @import 'breakpoints';
-@import 'derived-variable-override';
-
-//c3
-@import '~c3/src/scss/main';
+//
+////c3
+//@import '~c3/src/scss/main';
 // Themes
+@import 'themes/main';
 @import 'themes/light';
 @import 'themes/dark';
-// Global
+
+//// Global
 @import 'init';
-@import 'loader';
-@import 'chart-colors';
-@import 'flex-helpers';
-@import 'margin-helpers';
-@import 'animations';
-// Components
-@import 'navbar';
-@import 'accordion';
+//@import 'loader';
+//@import 'chart-colors';
+//@import 'flex-helpers';
+//@import 'margin-helpers';
+//@import 'animations';
+//// Components
+//@import 'navbar';
+//@import 'accordion';

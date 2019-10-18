@@ -8,6 +8,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CalculationSheetsUpdateRequest extends FormRequest {
     /**
+     * @var \Illuminate\Routing\Route|object|string
+     */
+    private $sheet;
+    
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -22,7 +27,7 @@ class CalculationSheetsUpdateRequest extends FormRequest {
      * @return array
      */
     public function rules() {
-        return [
+        $rules =  [
             'date' => 'required|date|unique:calculation_sheets',
             'rows' => 'required|array|min:1',
             'rows.*.label' => 'required|string',
@@ -30,23 +35,32 @@ class CalculationSheetsUpdateRequest extends FormRequest {
             'rows.*.action' => 'required|in:+,-,header,ignore',
             'rows.*.comment' => 'string|nullable',
         ];
+        
+       if($this->sheet = $this->route('sheet')){
+           $rules['date'] .= ",date,{$this->sheet->id}";
+       } else {
+           $this->sheet = new CalculationSheet;
+       }
+       
+       return $rules;
+       
     }
     
     public function commit() {
-        $sheet = new CalculationSheet;
-        throw new \Exception('message');
         
-        $sheet->date = $this->input('date');
-        $sheet->save();
+        $this->sheet->date = $this->input('date');
+        $this->sheet->save();
+        $this->sheet->rows()->delete();
         foreach ($this->input('rows', []) as $rowData) {
             $row = new SheetRow;
             $row->label = $rowData['label'];
             $row->amount = $rowData['amount'] ?? 0;
             $row->action = $rowData['action'];
             $row->comment = $rowData['comment'] ?? '';
-            $sheet->rows()->save($row);
+            $this->sheet->rows()->save($row);
         }
         
-        return $sheet;
+        return $this->sheet;
+        
     }
 }

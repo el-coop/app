@@ -1,23 +1,6 @@
-$navbar-background-color: var(--navbar-background-color);
-$navbar-item-color: var(--navbar-item-color);
-$navbar-item-hover-color: var(--navbar-item-hover-color);
-$navbar-box-shadow-color: var(--background-color);
-$navbar-item-hover-background-color: transparent;
+$gap: 32px;
 
-$modal-background-background-color: var(--modal-background-color);
-
-$box-background-color: var(--body-background-color);
-$box-color: var(--text-color);
-
-$message-header-background-color: var(--navbar-background-color);
-$message-body-border-color: var(--border-color);
-$message-body-color: var(--text-color);
-$message-background-color: var(--background-color);
-
-$title-color: var(--title-color);
-$subtitle-strong-color: var(--title-color);
-$subtitle-color: var(--subtitle-color);
-
-$label-color: var(--title-color);
-
-$button-background-color: var(--button-background-color);
+$tablet: 769px;
+$desktop: 960px + (2 * $gap);
+$widescreen: 1152px + (2 * $gap);
+$fullhd: 1344px + (2 * $gap);

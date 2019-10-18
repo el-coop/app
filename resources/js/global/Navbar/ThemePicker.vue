@@ -19,14 +19,9 @@
 			}
 		},
 
-		created() {
-			this.switchTheme(localStorage.getItem('theme') || 'light');
-		},
-
 		methods: {
 			switchTheme(theme) {
-				this.$bus.$emit('theme-switch', theme);
-				localStorage.setItem('theme', theme);
+				this.$store.commit('switchTheme',theme);
 			}
 		}
 	}
