@@ -1,7 +1,7 @@
-// Colors
 html {
-    --fon-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    --font-sans-serif: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
     --font-monospace: monospace;
+
     --render-mode: optimizeLegibility;
     --body-size: 16px;
 
@@ -19,25 +19,30 @@ html {
     --weight-semibold: 600;
     --weight-bold: 700;
 
-    // Spacing
+    //
+    --easing: ease-in-out;
+    --radius: 4px;
+    --radius-rounded: 290486px;
+    --speed: .3s;
 
-    --block-spacing: 1.5rem;
 
     // Responsiveness
 
-    --gap: 32px;
+    --gap: #{$gap};
 
-    --tablet: $tablet;
-    --desktop: $desktop;
-    --widescreen: $widescreen;
-    --fullhd: $fullhd;
+    --tablet: #{$tablet};
+    --desktop: #{$desktop};
+    --widescreen: #{$widescreen};
+    --fullhd: #{$fullhd};
 
-    // Miscellaneous
+    // Colors
+    --white: #{$white};
 
-    --easing: ease-out;
-    --radius-small: 2px;
-    --radius: 4px;
-    --radius-large: 6px;
-    --radius-rounded: 290486px;
-    --speed: 86ms;
+    @each $name, $color in $colors {
+        @include shades($name, $color);
+    }
+
+    --focus-color: var(--primary-color);
+    --loader-color: hsl(0, 0%, 86%);
+    --sidebar-color: #{$dark-title-color};
 }

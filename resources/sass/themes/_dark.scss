@@ -1,6 +1,10 @@
-$dark-font-color: hsla(0,0%,100%,.8);
-
 .theme-dark {
     --background-color: #1e1e2f;
-    --font-color: #{$dark-font-color};
+
+    --title-color: #{$dark-title-color};
+    --subtitle-color: #{$dark-subtitle-color};
+    --font-color: #{$font-color};
+
+    --input-border-color: #2b3553;
+    --input-text-color: #{$dark-title-color};
 }

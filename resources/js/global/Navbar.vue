@@ -1,28 +1,16 @@
 <template>
-    <nav class="navbar has-shadow is-spaced">
-        <div class="container">
-            <div class="navbar-brand justify-content-between-touch">
-                <RouterLink to="/" class="navbar-item">
-                    <div class="is-size-3-desktop is-size-4-touch logo">
-                        El-Coop
-                    </div>
-                </RouterLink>
-                <ThemePicker class="navbar-item"/>
-            </div>
-            <div class="navbar-menu is-active">
-                <div class="navbar-end">
-                    <RouterLink v-for="route in routes" :to="route.path" class="navbar-menu__button button"
-                                :key="route.name"
-                                tag="button">
-                        <FontAwesomeIcon v-if="icons[route.name]" :icon="icons[route.name]"/>
-                        <span class="has-text-6-mobile" v-text="route.name"/>
-                    </RouterLink>
-                    <a class="navbar-menu__button button" @click="logout">
-                        <FontAwesomeIcon icon="sign-out-alt"/>
-                        Logout
-                    </a>
-                </div>
-            </div>
+    <nav class="navbar">
+        <div class="navbar__title" v-text="$route.name"></div>
+        <div class="navbar__menu">
+            <RouterLink to="/" class="navbar__menu-item navbar__menu-item--brand logo">
+                El-Coop
+            </RouterLink>
+            <ThemePicker class="navbar__menu-item"/>
+            <RouterLink v-for="route in routes" :to="route.path" class="navbar__menu-item"
+                        :key="route.name">
+                <FontAwesomeIcon class="navbar__menu-item-icon" v-if="icons[route.name]" :icon="icons[route.name]"/>
+                <span class="navbar__menu-item-text" v-text="route.name"/>
+            </RouterLink>
         </div>
     </nav>
 </template>
@@ -53,10 +41,10 @@
 		},
 
 		methods: {
-			async logout(){
+			async logout() {
 				await axios.get('/logout');
 				this.$store.commit('auth/logout');
-            }
+			}
 		}
 	}
 </script>

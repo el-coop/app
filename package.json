@@ -26,7 +26,7 @@
 		"@fortawesome/fontawesome-svg-core": "^1.2.25",
 		"@fortawesome/free-solid-svg-icons": "^5.11.2",
 		"@fortawesome/vue-fontawesome": "^0.1.7",
-		"bulma": "^0.7.5",
+		"bulma": "^0.8.0",
 		"c3": "^0.7.11",
 		"register-service-worker": "^1.6.2",
 		"vue-izitoast": "^1.2.1",

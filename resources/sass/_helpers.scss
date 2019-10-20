@@ -1,0 +1,32 @@
+.is-loading {
+    color: transparent !important;
+    pointer-events: none;
+    position: relative;
+
+    &:after {
+        animation: spinAround 500ms infinite linear;
+        border: 2px solid var(--loader-color);
+        border-radius: var(--radius-rounded);
+        border-right-color: transparent;
+        border-top-color: transparent;
+
+        content: "";
+        display: block;
+        position: absolute;
+
+        height: 1em;
+        width: 1em;
+        top: calc(50% - 0.5em);
+        left: calc(50% - 0.5em);
+    }
+}
+
+.is-rounded {
+    border-radius: var(--radius-rounded);
+}
+
+@each $name, $color in $colors {
+    .is-#{$name} {
+        color: #{$color};
+    }
+}

@@ -11,6 +11,9 @@ const router = new Router({
         {
             path: '/',
             redirect: '/accounting',
+            meta: {
+                hide: true
+            }
         },
         {
             path: '/login',

@@ -1,0 +1,29 @@
+.button {
+    @extend %unselectable;
+    @extend %control;
+
+    border: 1px solid transparent;
+    cursor: pointer;
+    justify-content: center;
+    padding: calc(0.375em - 1px) 0.75em;
+    text-align: center;
+    align-items: center;
+    white-space: nowrap;
+    border-radius: var(--radius);
+
+    &.is-fullwidth {
+        display: flex;
+        width: 100%;
+    }
+
+    &.is-primary {
+        background: linear-gradient(to bottom left,var(--primary-color),var(--primary-color-darken),var(--primary-color));
+        border-color: transparent;
+        color: var(--white);
+        transition: background var(--speed) var(--easing);
+
+        &:hover {
+            background: linear-gradient(to bottom left,var(--primary-color-darken),var(--primary-color),var(--primary-color-darken));
+        }
+    }
+}

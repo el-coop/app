@@ -1,33 +1,108 @@
-.navbar-menu {
+.navbar {
 
-	@media #{$under-desktop}{
-		border-top: 1px solid rgba(100, 100, 100, .1);
-	}
+    @include from($desktop) {
+        display: grid;
+        grid-template-rows: [title] 80px [navbar] auto;
+        height: 100%;
+        width: 230px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin-left: 20px;
+    }
 
-	&__button {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		background-color: transparent;
-		color: var(--navbar-item-color);
-		border: none;
+    &__title {
+        display: none;
+        align-items: center;
+        color: var(--title-color);
+        font-size: var(--size-6);
+        text-transform: uppercase;
+        font-weight: var(--weight-light);
+        margin-left: var(--size-4);
+        @include from($desktop) {
+            display: flex;
+        }
+    }
 
-		&:hover {
-			color: var(--navbar-item-hover-color);
-		}
 
-		&.router-link-exact-active {
-			color: var(--navbar-item-hover-color);
-		}
+    &__menu {
+        display: grid;
+        place-items: center;
+        grid-template-columns: repeat(3, 1fr);
+        grid-row: navbar;
+        width: 100%;
+        padding-top: 0.5rem;
+        box-shadow: 0 2px 22px 0 rgba(0, 0, 0, .1), 0 4px 20px 0 rgba(0, 0, 0, .15);
+        background: var(--sidebar-background-color) linear-gradient(0deg, var(--sidebar-background-color-darken), var(--sidebar-background-color));
 
-		@media #{$under-desktop}{
-			&:not(:last-child)::after {
-				position: absolute;
-				right: 0;
-				content: " ";
-				border: 1px solid rgba(255, 255, 255, .1);
-				height: 50%;
-			}
-		}
-	}
+        @include from($desktop) {
+            padding: var(--size-6);
+            overflow: auto;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            place-items: stretch;
+
+        }
+
+
+        &-item {
+            color: var(--sidebar-color);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: var(--size-7);
+            line-height: var(--size-5);
+            text-transform: uppercase;
+            flex-direction: column;
+
+            @include from($desktop) {
+                flex-direction: row;
+            }
+
+            &:hover, &.router-link-exact-active {
+                color: var(--white);
+            }
+
+            &-icon {
+                font-size: var(--size-7);
+                margin-bottom: calc(0.5 * var(--size-7));
+                @include from($desktop) {
+                    font-size: var(--size-5);
+                    margin-right: var(--size-6);
+                    margin-bottom: 0;
+                }
+            }
+
+            &-text {
+                font-size: var(--size-7);
+                font-weight: var(--weight-semibold);
+            }
+
+            &--brand {
+                font-size: var(--size-3);
+                grid-column-start: 1;
+                grid-column-end: 3;
+                justify-self: flex-start;
+                align-items: center;
+
+                @include from($desktop) {
+                    flex-direction: column;
+                    justify-content: space-between;
+                    margin-bottom: var(--size-6);
+
+                    &:after {
+                        content: "";
+                        position: relative;
+                        bottom: -0.6em;
+                        height: 1px;
+                        width: calc(100% + 20px);
+                        background: var(--sidebar-color);
+                    }
+                }
+            }
+        }
+
+    }
 }

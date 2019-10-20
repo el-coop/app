@@ -7,13 +7,13 @@
     }
 
     .spa-loader__animation {
-        color: #B86BFF;
+        color: #e14eca;
         text-indent: -9999em;
         margin: 88px auto;
         position: relative;
         font-size: 11px;
         transform: translateZ(0);
-        background: #B86BFF;
+        background: #e14eca;
         animation: loader 1s infinite ease-in-out;
         animation-delay: -0.16s;
         width: 1em;
@@ -22,7 +22,7 @@
 
     .spa-loader__animation:before,
     .spa-loader__animation:after {
-        background: #B86BFF;
+        background: #e14eca;
         animation: loader 1s infinite ease-in-out;
         width: 1em;
         height: 4em;

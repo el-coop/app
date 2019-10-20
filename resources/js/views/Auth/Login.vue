@@ -5,7 +5,7 @@
                 <h4 class="logo title">
                     El-Coop
                 </h4>
-                <h5 class="subtitle is-6">
+                <h5 class="subtitle">
                     app
                 </h5>
             </div>
@@ -58,17 +58,10 @@
 </script>
 
 <style scoped>
-    .centered-content {
-        display: flex;
-        height: 100%;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-    }
-
     .login-wrapper {
         width: 100%;
         max-width: 400px;
         padding: 3rem 1.5rem;
+
     }
 </style>

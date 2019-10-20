@@ -10,5 +10,5 @@
 @section('body')
 	@include('misc.loader')
 	<navbar v-if="$store.getters['auth/loggedIn']"></navbar>
-	<router-view v-cloak></router-view>
+{{--	<router-view v-cloak></router-view>--}}
 @endsection

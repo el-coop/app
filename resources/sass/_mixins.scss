@@ -1,0 +1,5 @@
+@mixin shades($name, $color) {
+    $darker: darken($color, 7.5%);
+    --#{$name}-color: #{$color};
+    --#{$name}-color-darken: #{$darker};
+}

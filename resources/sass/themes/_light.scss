@@ -1,6 +1,15 @@
-$light-font-color: #1d253b;
+$black: #1d253b;
+
+$light-title-color: #363636;
+$light-subtitle-color: #4a4a4a;
+$light-font-color: #363636;
 
 .theme-light {
     --background-color: #f5f6fa;
+    --title-color: #{$light-title-color};
+    --subtitle-color: #{$light-subtitle-color};
     --font-color: #{$light-font-color};
+
+    --input-border-color: #222a42;
+    --input-text-color: #{$light-font-color};
 }
