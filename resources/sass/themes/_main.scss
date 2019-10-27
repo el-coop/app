@@ -1,4 +1,6 @@
 html {
+    // Typography
+
     --font-sans-serif: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
     --font-monospace: monospace;
 
@@ -19,7 +21,7 @@ html {
     --weight-semibold: 600;
     --weight-bold: 700;
 
-    //
+    // Misc
     --easing: ease-in-out;
     --radius: 4px;
     --radius-rounded: 290486px;
@@ -34,6 +36,9 @@ html {
     --desktop: #{$desktop};
     --widescreen: #{$widescreen};
     --fullhd: #{$fullhd};
+
+    // Shadows
+    --card-shadow: 0 1px 20px 0 rgba(0, 0, 0, .1);
 
     // Colors
     --white: #{$white};

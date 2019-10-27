@@ -6,10 +6,21 @@ $light-font-color: #363636;
 
 .theme-light {
     --background-color: #f5f6fa;
+    --background: #f5f6fa;
+
     --title-color: #{$light-title-color};
     --subtitle-color: #{$light-subtitle-color};
     --font-color: #{$light-font-color};
+    --font-muted-color: #{transparentize($light-font-color, 0.5)};
+    --border-color: rgba(34, 42, 66, .2);
+    --border-color-disabled: rgba(34, 42, 66, .1);
 
-    --input-border-color: #222a42;
+    --input-border-color: rgba(29, 37, 59, .5);
     --input-text-color: #{$light-font-color};
+
+    --card-background: var(--white);
+
+    @each $name, $color in $light-colors {
+        @include shades($name, $color);
+    }
 }

@@ -19,5 +19,8 @@
     font-size: var(--size-5);
     font-weight: var(--weight-normal);
     line-height: 1.25;
-    margin-top: -1.25rem;
+
+    &:not(:last-child) {
+        margin-top: -1.25rem;
+    }
 }

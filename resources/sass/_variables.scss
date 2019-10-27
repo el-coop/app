@@ -1,5 +1,7 @@
 //colors
 $colors: ('primary': #e14eca, 'danger': hsl(348, 86%, 61%), 'sidebar-background': #42b883);
+$light-colors: ('success': #48c774);
+$dark-colors: ('success': #389c6f);
 
 $white: hsl(0, 0%, 100%);
 $dark-title-color: transparentize($white, 0.2);

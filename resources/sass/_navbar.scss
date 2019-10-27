@@ -1,17 +1,17 @@
 .navbar {
+    grid-area: navbar;
+    z-index: 20;
 
     @include from($desktop) {
         display: grid;
         grid-template-rows: [title] 80px [navbar] auto;
         height: 100%;
         width: 230px;
-        position: fixed;
-        top: 0;
-        left: 0;
         margin-left: 20px;
     }
 
     &__title {
+
         display: none;
         align-items: center;
         color: var(--title-color);
@@ -26,6 +26,7 @@
 
 
     &__menu {
+
         display: grid;
         place-items: center;
         grid-template-columns: repeat(3, 1fr);

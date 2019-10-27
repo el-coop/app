@@ -42,7 +42,7 @@
 
 		methods: {
 			async logout() {
-				await axios.get('/logout');
+				// await axios.get('/logout');
 				this.$store.commit('auth/logout');
 			}
 		}

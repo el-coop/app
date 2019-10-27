@@ -4,7 +4,7 @@ let chartData;
 
 class Chart {
 
-    constructor(el, data, params,) {
+    constructor(el, data, params = {}) {
         chartData = data;
         this.chart = c3.generate({
             bindto: el,
@@ -22,10 +22,14 @@ class Chart {
             },
             axis: {
                 x: {
+                    show: false,
                     type: 'timeseries',
                     tick: {
                         format: '%m/%y',
                     }
+                },
+                y: {
+                    show: false
                 }
             },
             onresized: params.onResized || null,

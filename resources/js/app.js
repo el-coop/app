@@ -24,17 +24,6 @@ require('./global/global');
 import router from './router';
 import store from "./store";
 
-window.axios.interceptors.response.use(function (response) {
-    return response;
-}, function (error) {
-    if (error.response.status === 401 && error.response.data.message === 'Unauthenticated.') {
-        store.commit('auth/logout');
-    }
-    if(error.response.status === 419){
-        router.go();
-    }
-    return Promise.reject(error);
-});
 
 const app = new Vue({
     el: '#app',

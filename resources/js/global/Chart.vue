@@ -1,21 +1,21 @@
 <template>
     <div>
         <div ref="chart"></div>
-        <div class="level">
-            <div class="level-left">
-                <slot name="buttons"></slot>
-            </div>
-            <div class="level-right">
-                <div class="buttons ml-1">
-                    <button class="button is-flex-1" @click="changePage(1)"
-                            :disabled="chartData.length - breakpoints[breakpoint] - position <= 0 || loading">Previous
-                    </button>
-                    <button class="button is-flex-1" @click="changePage(-1)" :disabled="position === 0 || loading">
-                        Next
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!--        <div class="level">-->
+        <!--            <div class="level-left">-->
+        <!--                <slot name="buttons"></slot>-->
+        <!--            </div>-->
+        <!--            <div class="level-right">-->
+        <!--                <div class="buttons ml-1">-->
+        <!--                    <button class="button is-flex-1" @click="changePage(1)"-->
+        <!--                            :disabled="chartData.length - breakpoints[breakpoint] - position <= 0 || loading">Previous-->
+        <!--                    </button>-->
+        <!--                    <button class="button is-flex-1" @click="changePage(-1)" :disabled="position === 0 || loading">-->
+        <!--                        Next-->
+        <!--                    </button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </template>
 

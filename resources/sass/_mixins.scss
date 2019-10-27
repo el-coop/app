@@ -3,3 +3,12 @@
     --#{$name}-color: #{$color};
     --#{$name}-color-darken: #{$darker};
 }
+
+@mixin statusColors($name) {
+    color: white;
+    background-color: var(--#{$name}-color);
+
+    &:hover {
+        background-color: var(--#{$name}-color-darken);
+    }
+}

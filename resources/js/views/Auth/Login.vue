@@ -1,5 +1,5 @@
 <template>
-    <div class="centered-content">
+    <div class="app-content--centered">
         <div class="login-wrapper">
             <div class="has-text-centered">
                 <h4 class="logo title">
@@ -27,6 +27,9 @@
 	export default {
 		name: "Login",
 		components: {TextField},
+		metaInfo: {
+			title: 'Login'
+		},
 
 		data() {
 			return {

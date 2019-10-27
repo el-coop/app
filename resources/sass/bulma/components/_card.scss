@@ -1,0 +1,17 @@
+.card {
+    background-color: var(--card-background);
+    box-shadow: 0 1px 15px 1px rgba(0, 0, 0, .15);
+    color: var(--font-color);
+    border-radius: var(--radius);
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: var(--size-6);
+    margin-bottom: var(--size-5);
+
+    &__header {
+        margin-bottom: var(--size-6);
+        display: flex;
+        justify-content: space-between;
+    }
+}

@@ -2,7 +2,7 @@
     <div class="modal" :class="{'is-active': active}">
         <div class="modal-background" @click="$emit('update:active',false)"></div>
         <div class="modal-content">
-            <div class="box">
+            <div class="card">
                 <slot></slot>
             </div>
         </div>
