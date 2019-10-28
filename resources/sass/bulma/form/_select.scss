@@ -1,0 +1,39 @@
+.select {
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    vertical-align: top;
+    height: $input-height;
+
+    &::after {
+        @extend %arrow;
+        border-color: var(--primary-color-darken);
+        right: 1.125em;
+        z-index: 4;
+    }
+
+    & > select {
+        @extend %input;
+        background-color: var(--card-background);
+        border: none;
+        border-bottom: 1px solid var(--input-border-color);
+        color: var(--input-text-color);
+
+        cursor: pointer;
+        display: block;
+        font-size: 1em;
+        max-width: 100%;
+        outline: none;
+        padding-right: 2.5em;
+
+        &::-ms-expand {
+            display: none;
+        }
+
+        &:focus, &:hover {
+            border-color: var(--focus-color);
+        }
+
+    }
+
+}

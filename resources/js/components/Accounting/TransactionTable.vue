@@ -1,33 +1,51 @@
 <template>
     <div class="card">
         <div class="card__header">
-            <h5 class="title is-size-6">Transaction List</h5>
+            <div>
+                <h5 class="title is-size-6">Transaction List</h5>
+                <SelectField v-model="perPage" :options="{
+                 label:'Per page',
+                name: 'per-page',
+                options: {
+                5: '5',
+                10: '10',
+                20: '20',
+                }
+                }"/>
+            </div>
             <div>
                 <button class="button is-success" @click="editTransaction()">
                     + Add
                 </button>
             </div>
         </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <td class="table__cell table__cell--header table__cell--narrow">Action</td>
-                <td class="table__cell table__cell--header table__cell--narrow">Date</td>
-                <td class="table__cell table__cell--header table__cell--narrow">Label</td>
-                <td class="table__cell table__cell--header table__cell--right">Amount</td>
-            </tr>
-            </thead>
-            <tbody>
-            <TransactionRow v-for="transaction in shownTransactions" :key="`transaction_${transaction.id}`"
-                            :transaction="transaction"/>
+        <template v-for="table in [pending, shownTransactions]">
+            <template v-if="table.length">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td class="table__cell table__cell--header table__cell--narrow">Action</td>
+                        <td class="table__cell table__cell--header table__cell--narrow">Date</td>
+                        <td class="table__cell table__cell--header table__cell--narrow">Label</td>
+                        <td class="table__cell table__cell--header table__cell--right">Amount</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <TransactionRow v-for="transaction in table" :key="`transaction_${transaction.id}`"
+                                    @edit="editTransaction(transaction)"
+                                    :transaction="transaction"/>
 
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+                <hr>
+            </template>
+        </template>
         <div class="pagination">
             <div v-text="paginationText">
             </div>
             <div class="buttons">
-                <button v-for="n in pages" v-text="n" class="button" @click="page = (n-1)" :disabled="page === (n-1)"></button>
+                <button v-for="n in pages" v-text="n" class="button" @click="page = (n-1)"
+                        :disabled="page === (n-1)"></button>
             </div>
         </div>
         <Modal :active.sync="transactionForm" @update:active="selectedTransaction=null">
@@ -42,10 +60,11 @@
 	import Transaction from "../../classes/Transaction";
 	import TransactionRow from "./TransactionRow";
 	import InteractsWithObjects from "../../mixins/InteractsWithObjects";
+	import SelectField from "../../global/Fields/SelectField";
 
 	export default {
 		name: "TransactionTable",
-		components: {TransactionRow, TransactionForm, Modal},
+		components: {SelectField, TransactionRow, TransactionForm, Modal},
 		mixins: [InteractsWithObjects],
 
 		props: {
@@ -61,13 +80,13 @@
 				selectedTransaction: null,
 				pending: [],
 				page: 0,
-				perPage: 5
+				perPage: localStorage.getItem('accounting-per-page') || 5
 			}
 		},
 
 		computed: {
 			shownTransactions() {
-				return this.transactions.concat(this.pending).sort((a, b) => {
+				return this.transactions.sort((a, b) => {
 					return b.date - a.date;
 				}).slice(this.pageStart, this.pageEnd);
 			},
@@ -105,16 +124,24 @@
 
 			async updateTransaction() {
 				const transaction = this.selectedTransaction;
-				if (transaction.status === 'new') {
-					this.pending.push(this.selectedTransaction);
-				}
+				this.updateById(this.pending, transaction.id, transaction);
 				this.selectedTransaction = null;
 				this.transactionForm = false;
-				const saved = await transaction.save();
-				if (saved) {
+				const response = await transaction.save();
+				if (transaction.status === 'saved') {
 					this.removeById(this.pending, transaction.id);
 					this.$emit('update', transaction);
+				} else {
+					if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
+						this.$toast.error('Please try again', 'Transaction save error');
+					}
 				}
+			}
+		},
+
+		watch: {
+			async perPage(value) {
+				localStorage.setItem('accounting-per-page', value);
 			}
 		}
 	}

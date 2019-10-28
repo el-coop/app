@@ -4,18 +4,18 @@
             label: 'Date',
             type: 'date',
             format: 'dd/mm/yyyy',
-        }"/>
+        }" :error="errors.date ? errors.date[0] : ''"/>
         <TextField v-model="value.label" :options="{
-            label: 'Label'
-        }"/>
+            label: 'Label (NIS)'
+        }" :error="errors.label ? errors.label[0] : ''"/>
         <TextField v-model="value.amount" :options="{
 					type: 'number',
 					label: 'Amount',
 					forceDecimal: 2,
-        }"/>
+        }" :error="errors.amount ? errors.amount[0] : ''"/>
         <TextareaField v-model="value.comment" :options="{
             label: 'Comment'
-        }"/>
+        }" :error="errors.comment ? errors.comment[0] : ''"/>
         <button class="button is-success is-fullwidth" @click="submit">Save</button>
     </div>
 </template>
@@ -40,8 +40,11 @@
 		},
 
 		data() {
+			const transaction = Object.assign(Object.create(Object.getPrototypeOf(this.transaction)), this.transaction);
+			transaction.date = transaction.date.toISOString().substring(0, 10);
 			return {
-				value: Object.assign(Object.create(Object.getPrototypeOf(this.transaction)), this.transaction)
+				value: transaction,
+				errors: transaction.errors
 			}
 		},
 

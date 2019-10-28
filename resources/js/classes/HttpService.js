@@ -27,30 +27,55 @@ class HttpService {
         if (error.response.status === 401 && error.response.data.message === 'Unauthenticated.') {
             store.commit('auth/logout');
         }
-        if (error.response.status === 419) {
-            router.push('/');
-        }
         return Promise.reject(error);
     }
 
     async get(url, headers = {}) {
         try {
             return await axios.get(url, headers);
-        } catch (e) {
-            return e.response;
+        } catch (error) {
+            return error.response;
         }
     }
 
-    async post(url, data = {}, headers = {}, config = {}) {
+    async post(url, data = {}, headers = {}, config = {}, repeat = true) {
         try {
             return await axios.post(url, data, {
                 headers,
                 ...config
             });
-        } catch (e) {
-            return e.response;
+        } catch (error) {
+            if (error.response && error.response.data.message === 'CSRF token mismatch.' && repeat) {
+                return await this.repeatWithCsrf('post', url, headers, data, config);
+            }
+            return error.response;
         }
     }
+
+    async patch(url, data = {}, headers = {}, config = {}, repeat = true) {
+        try {
+            return await axios.patch(url, data, {
+                headers,
+                ...config
+            });
+        } catch (error) {
+            if (error.response && error.response.data.message === 'CSRF token mismatch.' && repeat) {
+                return await this.repeatWithCsrf('patch', url, headers, data, config);
+            }
+            return error.response;
+        }
+    }
+
+    async repeatWithCsrf(method, url, headers, data = {}, config = {}) {
+        const response = await this.get('csrf');
+        setCommonHeader('X-CSRF-TOKEN', response.data.token);
+
+        if (method === "delete") {
+            return await this.delete(url, headers, false);
+        }
+        return await this[method](url, data, headers, config, false);
+    }
+
 }
 
 

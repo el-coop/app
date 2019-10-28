@@ -20,17 +20,28 @@ class Transaction {
 
     constructor(object = {}) {
         this.status = object.id ? 'saved' : 'new';
-        this.date = new Date(object.date) || (new Date()).toISOString().split('T')[0];
+        this.date = object.date ? new Date(object.date) : new Date();
         this.label = object.label || '';
         this.amount = object.amount || 0;
         this.comment = object.comment || '';
-        this.id = object.id || Date.now()
+        this.id = object.id || Date.now();
+        this.dbId = object.id || null;
+        this.errors = {};
     }
 
     async save() {
         this.status = 'uploading';
+        let response;
         try {
-            const response = await httpService.post('/transactions', {
+            this.errors = {};
+            let method = 'post';
+            let url = '/transactions';
+            if (this.dbId) {
+                method = 'patch';
+                url += `/${this.dbId}`;
+            }
+
+            response = await httpService[method](url, {
                 date: this.date,
                 label: this.label,
                 amount: this.amount,
@@ -39,18 +50,18 @@ class Transaction {
 
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';
-                this.id = response.data.id;
-                return true;
+                this.dbId = response.data.id;
+                return response;
             }
 
-            this.errors = response.data;
-        } catch (e) {
+            this.errors = response.data.errors || [];
+        } catch (error) {
+            response = error.response;
         }
 
         this.status = 'error';
-        return false;
+        return response;
     }
 }
 
 export default Transaction;
-

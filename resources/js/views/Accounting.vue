@@ -54,24 +54,34 @@
 					const loadData = response.data;
 					this.transactions = loadData.transactions.map((transaction) => {
 						this.tableNumbers.total += transaction.amount;
-						if(transaction.amount > 0){
+						if (transaction.amount > 0) {
 							this.tableNumbers.income += transaction.amount;
-                        } else {
+						} else {
 							this.tableNumbers.expenditure += transaction.amount;
-                        }
+						}
 						return new Transaction(transaction);
 					});
 					this.total = parseFloat(loadData.total);
 
 				} else {
-
+					if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
+						this.$toast.error('Please refresh page', 'Transaction loading error');
+					}
 				}
 				this.loading = false;
 
 			},
 
-			update(transaction) {
-				this.updateById(this.transactions.data, transaction.id, transaction);
+			async update(transaction) {
+				this.updateById(this.transactions, transaction.id, transaction);
+				const response = await httpService.get('transactions/total');
+				if (response.status > 199 && response.status < 300) {
+					return this.total = parseFloat(response.data.total);
+				}
+
+				if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
+					this.$toast.error('Please refresh page', 'Total money update error');
+				}
 			}
 		}
 	}

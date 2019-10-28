@@ -13,7 +13,7 @@
 
 .app-content {
     grid-area: content;
-    overflow: visible;
+    overflow-y: auto;
 
     &--centered {
         display: flex;

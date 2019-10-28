@@ -4,7 +4,8 @@
     width: 100%;
     box-shadow: none;
     background-color: transparent;
-    border: 1px solid var(--input-border-color);
+    border: none;
+    border-bottom: 1px solid var(--input-border-color);
     color: var(--input-text-color);
     transition: border-color var(--speed) var(--easing);
     font-family: inherit;

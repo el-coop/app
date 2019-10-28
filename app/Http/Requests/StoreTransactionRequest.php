@@ -25,7 +25,7 @@ class StoreTransactionRequest extends FormRequest {
         return [
             'label' => 'required|string',
             'date' => 'required|date',
-            'amount' => 'required|string|numeric',
+            'amount' => 'required|numeric',
             'comment' => 'string|nullable',
         ];
     }
