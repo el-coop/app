@@ -1,5 +1,14 @@
-$navbar-background-color: var(--navbar-background-color);
-$navbar-item-color: var(--navbar-item-color);
-$navbar-item-hover-color: var(--navbar-item-hover-color);
-$navbar-box-shadow-color: var(--background-color);
-$navbar-item-hover-background-color: transparent;
+//colors
+$colors: ('primary': #e14eca, 'danger': hsl(348, 86%, 61%), 'sidebar-background': #42b883);
+$statuses: ('primary', 'success', 'danger');
+$light-colors: ('success': #48c774);
+$dark-colors: ('success': #389c6f);
+
+$white: hsl(0, 0%, 100%);
+$dark-title-color: transparentize($white, 0.2);
+$dark-subtitle-color: transparentize($white, 0.3);
+$font-color: transparentize($white, 0.4);
+
+// misc
+$radius: var(--radius);
+$speed: var(--speed);

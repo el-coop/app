@@ -11,20 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout');
+
+Route::middleware(['spa'])->group(function () {
+    foreach (\File::allFiles(__DIR__ . "/web") as $routeFile) {
+        include $routeFile;
+    }
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::middleware(['spa'])->group(function(){
-	Route::get('test', function (){
-		return 'bla';
-	});
-});
-
-Route::get('/{any}', function(){
-	return view('spa');
+Route::get('/{any}', function () {
+    return view('spa');
 })->where('any', '.*');

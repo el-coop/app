@@ -1,26 +1,22 @@
 <template>
-	<nav class="navbar has-shadow is-spaced">
-		<div class="container">
-			<div class="navbar-brand justify-content-between-touch">
-				<RouterLink to="/" class="navbar-item">
-					<div class="is-size-3-desktop is-size-4-touch">
-						El-Coop
-					</div>
-				</RouterLink>
-				<ThemePicker class="navbar-item"/>
-			</div>
-			<div class="navbar-menu is-active">
-				<div class="navbar-end">
-					<RouterLink v-for="route in routes" :to="route.path" class="navbar-menu__button button"
-								:key="route.name"
-								tag="button">
-						<FontAwesomeIcon v-if="icons[route.name]" :icon="icons[route.name]"/>
-						<span class="has-text-6-mobile" v-text="route.name"/>
-					</RouterLink>
-				</div>
-			</div>
-		</div>
-	</nav>
+    <nav class="navbar">
+        <div class="navbar__title" v-text="$route.name"></div>
+        <div class="navbar__menu">
+            <RouterLink to="/" class="navbar__menu-item navbar__menu-item--brand logo">
+                El-Coop
+            </RouterLink>
+            <ThemePicker class="navbar__menu-item"/>
+            <RouterLink v-for="route in routes" :to="route.path" class="navbar__menu-item"
+                        :key="route.name">
+                <FontAwesomeIcon class="navbar__menu-item-icon" v-if="icons[route.name]" :icon="icons[route.name]"/>
+                <span class="navbar__menu-item-text" v-text="route.name"/>
+            </RouterLink>
+            <a class="navbar__menu-item navbar__menu-item--danger" @click="logout">
+                <FontAwesomeIcon class="navbar__menu-item-icon" icon="sign-out-alt"/>
+                <span class="navbar__menu-item-text">Logout</span>
+            </a>
+        </div>
+    </nav>
 </template>
 
 <script>
@@ -31,11 +27,11 @@
 		components: {ThemePicker},
 
 		created() {
-			console.log(this.$router.options.routes);
 			this.$router.options.routes.forEach((item) => {
-				if (item.name !== '404') {
-					this.routes.push(item);
+				if (item.meta && item.meta.hide) {
+					return;
 				}
+				this.routes.push(item);
 			});
 		},
 
@@ -46,17 +42,19 @@
 				},
 				routes: []
 			};
+		},
+
+		methods: {
+			logout() {
+				this.$store.dispatch('auth/logout');
+			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	.navbar-brand {
-		font-family: mestizos-unidos;
-	}
-
-	.navbar-end {
-		display: flex;
-		justify-content: stretch;
-	}
+    .navbar-end {
+        display: flex;
+        justify-content: stretch;
+    }
 </style>

@@ -11,7 +11,8 @@
 	<!-- Fonts -->
 	<link href="{{ mix('/css/app.css') }}" rel="stylesheet">
 
-	@include('misc.pwaMeta')
+
+    @stack('head')
 </head>
 <body>
 <div id="app" :class="`theme-${theme}`">
@@ -20,6 +21,6 @@
 </div>
 
 <script src="{{ mix('/js/app.js') }}"></script>
-@yield('scripts')
+@stack('scripts')
 </body>
 </html>

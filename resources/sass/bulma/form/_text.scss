@@ -1,0 +1,22 @@
+.input, .textarea {
+    @extend %control;
+    max-width: 100%;
+    width: 100%;
+    box-shadow: none;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--input-border-color);
+    color: var(--input-text-color);
+    transition: border-color var(--speed) var(--easing);
+    font-family: inherit;
+
+    &:focus {
+        border-color: var(--focus-color);
+    }
+}
+
+.textarea {
+    max-height: 40em;
+    min-height: 8em;
+    resize: vertical;
+}

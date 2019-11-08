@@ -6,6 +6,7 @@
 
 import Vue from 'vue';
 
+
 require('./bootstrap');
 window.Vue = Vue;
 
@@ -21,24 +22,36 @@ require('./global/global');
  */
 
 import router from './router';
+import store from "./store";
 
 
 const app = new Vue({
-	el: '#app',
-	router,
-	data() {
-		return {
-			theme: 'light',
-			loader: false,
-		}
-	},
-	created() {
-		this.$bus.$on('theme-switch', (theme) => {
-			this.theme = theme;
-		});
-	},
+    el: '#app',
+    router,
+    store,
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Loading',
+        // all titles will be injected into this template
+        titleTemplate: '%s | El-Coop'
+    },
+    data() {
+        return {
+            loader: false,
+        }
+    },
+    beforeCreate() {
+        this.$store.dispatch('init');
+    },
 
-	beforeDestroy() {
-		this.$bus.$off('theme-switch');
-	}
+
+    computed: {
+        theme() {
+            return this.$store.state.theme;
+        }
+    },
+
+    beforeDestroy() {
+        this.$bus.$off('theme-switch');
+    }
 });

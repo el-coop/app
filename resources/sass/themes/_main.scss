@@ -1,0 +1,53 @@
+html {
+    // Typography
+
+    --font-sans-serif: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+    --font-monospace: monospace;
+
+    --render-mode: optimizeLegibility;
+    --body-size: 16px;
+
+    --size-1: 3rem;
+    --size-2: 2.5rem;
+    --size-3: 2rem;
+    --size-4: 1.5rem;
+    --size-5: 1.25rem;
+    --size-6: 1rem;
+    --size-7: 0.75rem;
+
+    --weight-light: 300;
+    --weight-normal: 400;
+    --weight-medium: 500;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+
+    // Misc
+    --easing: ease-in-out;
+    --radius: 4px;
+    --radius-rounded: 290486px;
+    --speed: .3s;
+
+
+    // Responsiveness
+
+    --gap: #{$gap};
+
+    --tablet: #{$tablet};
+    --desktop: #{$desktop};
+    --widescreen: #{$widescreen};
+    --fullhd: #{$fullhd};
+
+    // Shadows
+    --card-shadow: 0 1px 20px 0 rgba(0, 0, 0, .1);
+
+    // Colors
+    --white: #{$white};
+
+    @each $name, $color in $colors {
+        @include shades($name, $color);
+    }
+
+    --focus-color: var(--primary-color);
+    --loader-color: hsl(0, 0%, 86%);
+    --sidebar-color: #{$dark-title-color};
+}

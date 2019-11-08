@@ -14,28 +14,27 @@ const fs = require('fs');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-	.sass('resources/sass/app.scss', 'public/css')
-	.version()
-	.browserSync('app.elcoop.test')
-	.webpackConfig({
-		plugins: [
-			new WorkboxPlugin.InjectManifest({
-				swSrc: 'resources/js/serviceWorker/serviceWorker.js',
-				swDest: 'serviceWorker.js'
-			})
-		],
-		output: {
-			publicPath: ''
-		}
-	}).then(
-	({compilation}) => {
-		const path = './public/';
-		const regex = /precache-manifest\..*\.js/;
-		fs.readdirSync(path)
-			.filter((filename) => {
-				return (! Object.keys(compilation.assets).includes(filename)) && regex.test(filename);
-			})
-			.map((filename) => {
-				fs.unlinkSync(path + filename)
-			});
-	});
+    .sass('resources/sass/app.scss', 'public/css')
+    .version()
+    .webpackConfig({
+        plugins: [
+            new WorkboxPlugin.InjectManifest({
+                swSrc: 'resources/js/serviceWorker/serviceWorker.js',
+                swDest: 'serviceWorker.js'
+            })
+        ],
+        output: {
+            publicPath: ''
+        }
+    }).then(
+    ({compilation}) => {
+        const path = './public/';
+        const regex = /precache-manifest\..*\.js/;
+        fs.readdirSync(path)
+            .filter((filename) => {
+                return (!Object.keys(compilation.assets).includes(filename)) && regex.test(filename);
+            })
+            .map((filename) => {
+                fs.unlinkSync(path + filename)
+            });
+    });

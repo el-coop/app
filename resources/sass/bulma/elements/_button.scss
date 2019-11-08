@@ -1,0 +1,69 @@
+.buttons {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    & > .button:not(:last-child) {
+        margin-right: .5rem;
+    }
+}
+
+.button {
+    @extend %unselectable;
+    @extend %control;
+
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    justify-content: center;
+    padding: calc(0.375em - 1px) 0.75em;
+    text-align: center;
+    align-items: center;
+    white-space: nowrap;
+    color: var(--font-color);
+    border-radius: var(--radius);
+    background-color: transparent;
+
+    &:not(:disabled):hover {
+        background-color: var(--primary-color);
+    }
+
+    &:disabled {
+        border-color: var(--border-color-disabled);
+        color: var(--font-muted-color);
+        background-color: transparent !important;
+    }
+
+    &.is-fullwidth {
+        display: flex;
+        width: 100%;
+    }
+
+    &.is-small {
+        font-size: var(--size-7);
+    }
+
+    &.is-primary {
+        background: linear-gradient(to bottom left, var(--primary-color), var(--primary-color-darker), var(--primary-color));
+        border-color: transparent;
+        color: var(--white);
+        transition: background var(--speed) var(--easing);
+
+        &:hover {
+            background: linear-gradient(to bottom left, var(--primary-color-darker), var(--primary-color), var(--primary-color-darker));
+        }
+    }
+
+    @each $name, $color in $colors {
+        &.is-#{$name} {
+            border-color: transparent;
+            @include statusColors($name);
+        }
+    }
+
+    @each $name, $color in $light-colors {
+        &.is-#{$name} {
+            @include statusColors($name);
+        }
+    }
+}
