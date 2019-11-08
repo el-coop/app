@@ -7,7 +7,7 @@
 
     &::after {
         @extend %arrow;
-        border-color: var(--primary-color-darken);
+        border-color: var(--primary-color-darker);
         right: 1.125em;
         z-index: 4;
     }

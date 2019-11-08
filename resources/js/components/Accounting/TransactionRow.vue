@@ -1,6 +1,6 @@
 <template>
     <tr class="table__row">
-        <td class="table__cell table__cell--centered table__cell--narrow"
+        <td class="table__cell table__cell--centered table__cell--narrow no-loading-overlay"
             :class="{'is-loading': transaction.status === 'uploading'}">
             <button class="button is-small" @click="$emit('edit')"
                     :class="{'is-success': transaction.status === 'saved', 'is-danger': transaction.status === 'error'}"

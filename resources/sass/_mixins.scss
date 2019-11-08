@@ -1,7 +1,7 @@
 @mixin shades($name, $color) {
     $darker: darken($color, 7.5%);
     --#{$name}-color: #{$color};
-    --#{$name}-color-darken: #{$darker};
+    --#{$name}-color-darker: #{$darker};
 }
 
 @mixin statusColors($name) {
@@ -9,6 +9,6 @@
     background-color: var(--#{$name}-color);
 
     &:hover {
-        background-color: var(--#{$name}-color-darken);
+        background-color: var(--#{$name}-color-darker);
     }
 }

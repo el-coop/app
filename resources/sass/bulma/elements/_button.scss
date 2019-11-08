@@ -44,13 +44,13 @@
     }
 
     &.is-primary {
-        background: linear-gradient(to bottom left, var(--primary-color), var(--primary-color-darken), var(--primary-color));
+        background: linear-gradient(to bottom left, var(--primary-color), var(--primary-color-darker), var(--primary-color));
         border-color: transparent;
         color: var(--white);
         transition: background var(--speed) var(--easing);
 
         &:hover {
-            background: linear-gradient(to bottom left, var(--primary-color-darken), var(--primary-color), var(--primary-color-darken));
+            background: linear-gradient(to bottom left, var(--primary-color-darker), var(--primary-color), var(--primary-color-darker));
         }
     }
 

@@ -1,41 +1,3 @@
-.is-loading {
-
-    &--has-overlay:before {
-        position: absolute;
-        content: "";
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background-color: var(--background-color);
-        opacity: 0.6;
-        z-index: 20;
-    }
-
-    color: transparent !important;
-    pointer-events: none;
-    position: relative;
-    padding: calc(0.375em - 1px) 0.75em;
-
-    &:after {
-        animation: spinAround 500ms infinite linear;
-        border: 2px solid var(--loader-color);
-        border-radius: var(--radius-rounded);
-        border-right-color: transparent;
-        border-top-color: transparent;
-
-        content: "";
-        display: block;
-        position: absolute;
-
-        height: 1em;
-        width: 1em;
-        top: calc(50% - 0.5em);
-        left: calc(50% - 0.5em);
-        z-index: 40;
-    }
-}
-
 .is-rounded {
     border-radius: var(--radius-rounded);
 }
@@ -55,5 +17,41 @@
 .is-nis {
     &:before {
         content: '₪';
+    }
+}
+
+.is-loading {
+    color: transparent !important;
+    pointer-events: none;
+    position: relative;
+
+    &:not(.no-loading-overlay):before {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: var(--background);
+        opacity: 0.6;
+        z-index: 20;
+    }
+
+    &:after {
+        animation: spinAround 500ms infinite linear;
+        border: 2px solid var(--loader-color);
+        border-radius: var(--radius-rounded);
+        border-right-color: transparent;
+        border-top-color: transparent;
+
+        content: "";
+        display: block;
+        position: absolute;
+
+        height: 1em;
+        width: 1em;
+        top: calc(50% - 0.5em);
+        left: calc(50% - 0.5em);
+        z-index: 40;
     }
 }

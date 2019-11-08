@@ -12,10 +12,10 @@
 */
 
 
-Route::post('login','Auth\LoginController@login');
-Route::get('logout','Auth\LoginController@logout');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout');
 
-Route::middleware(['spa'])->group(function (){
+Route::middleware(['spa'])->group(function () {
     foreach (\File::allFiles(__DIR__ . "/web") as $routeFile) {
         include $routeFile;
     }

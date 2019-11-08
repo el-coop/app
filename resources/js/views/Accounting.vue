@@ -1,5 +1,5 @@
 <template>
-    <div class="container" :class="{'is-loading is-loading--has-overlay': loading}">
+    <div class="container" :class="{'is-loading': loading}">
         <div class="background-content" style="height: 400px">
         </div>
         <div class="foreground-content">

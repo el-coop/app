@@ -34,7 +34,7 @@
         width: 100%;
         padding-top: 0.5rem;
         box-shadow: 0 2px 22px 0 rgba(0, 0, 0, .1), 0 4px 20px 0 rgba(0, 0, 0, .15);
-        background: var(--sidebar-background-color) linear-gradient(0deg, var(--sidebar-background-color-darken), var(--sidebar-background-color));
+        background: var(--sidebar-background-color) linear-gradient(0deg, var(--sidebar-background-color-darker), var(--sidebar-background-color));
 
         @include from($desktop) {
             padding: var(--size-6);
@@ -57,6 +57,7 @@
             line-height: var(--size-5);
             text-transform: uppercase;
             flex-direction: column;
+            cursor: pointer;
 
             @include from($desktop) {
                 flex-direction: row;
@@ -64,6 +65,17 @@
 
             &:hover, &.router-link-exact-active {
                 color: var(--white);
+            }
+
+            @each $status in $statuses {
+                &--#{$status} {
+                    color: var(--#{$status}-color);
+
+                    &:hover, &.router-link-exact-active {
+                        color: var(--#{$status}-color-darker);
+                    }
+
+                }
             }
 
             &-icon {

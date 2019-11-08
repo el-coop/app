@@ -32,6 +32,11 @@ export default {
                 throw new Error('Login Failes');
             }
             commit('login');
+        },
+
+        async logout({commit}) {
+            await httpService.post('/logout');
+            commit('logout');
         }
     }
 }

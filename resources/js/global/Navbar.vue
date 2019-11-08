@@ -11,6 +11,10 @@
                 <FontAwesomeIcon class="navbar__menu-item-icon" v-if="icons[route.name]" :icon="icons[route.name]"/>
                 <span class="navbar__menu-item-text" v-text="route.name"/>
             </RouterLink>
+            <a class="navbar__menu-item navbar__menu-item--danger" @click="logout">
+                <FontAwesomeIcon class="navbar__menu-item-icon" icon="sign-out-alt"/>
+                <span class="navbar__menu-item-text">Logout</span>
+            </a>
         </div>
     </nav>
 </template>
@@ -41,9 +45,8 @@
 		},
 
 		methods: {
-			async logout() {
-				// await axios.get('/logout');
-				this.$store.commit('auth/logout');
+			logout() {
+				this.$store.dispatch('auth/logout');
 			}
 		}
 	}
