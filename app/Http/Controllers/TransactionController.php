@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyTransactionRequest;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
@@ -28,5 +29,11 @@ class TransactionController extends Controller {
     
     public function update(UpdateTransactionRequest $request, Transaction $transaction) {
         return $request->commit();
+    }
+    
+    public function destroy(DestroyTransactionRequest $request, Transaction $transaction) {
+        return [
+            'success' => $request->commit()
+        ];
     }
 }

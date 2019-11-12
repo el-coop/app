@@ -62,6 +62,20 @@ class Transaction {
         this.status = 'error';
         return response;
     }
+
+    async delete() {
+        this.status = 'deleting';
+
+        try {
+            const response = await httpService.delete(`/transactions/${this.dbId}`);
+            if (response.status > 199 && response.status < 300) {
+                return true;
+            }
+        } catch (error) {
+        }
+        this.status = 'saved';
+        return false;
+    }
 }
 
 export default Transaction;

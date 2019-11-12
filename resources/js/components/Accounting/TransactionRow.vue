@@ -4,6 +4,7 @@
             :class="{'is-loading': transaction.status === 'uploading'}">
             <button class="button is-small" @click="$emit('edit')"
                     :class="{'is-success': transaction.status === 'saved', 'is-danger': transaction.status === 'error'}"
+                    :disabled="transaction.status === 'deleting'"
                     v-if="transaction.status !== 'uploading'">
                 <FontAwesomeIcon :icon="icon" fixed-width/>
             </button>
@@ -13,6 +14,12 @@
         })"></td>
         <td class="table__cell table__cell--narrow" v-text="transaction.label"></td>
         <td class="table__cell is-nis" v-text="transaction.amount"></td>
+        <td class="table__cell table__cell--right">
+            <button class="button is-small is-danger" :class="{ 'is-loading': transaction.status === 'deleting'}"
+                    @click="$emit('delete')">
+                <FontAwesomeIcon icon="trash" fixed-width/>
+            </button>
+        </td>
     </tr>
 </template>
 

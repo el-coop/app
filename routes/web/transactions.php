@@ -5,4 +5,5 @@ Route::prefix('transactions')->middleware('auth')->group(function () {
     Route::get('/total', 'TransactionController@total');
     Route::post('/', 'TransactionController@store');
     Route::patch('/{transaction}', 'TransactionController@update');
+    Route::delete('/{transaction}', 'TransactionController@destroy');
 });

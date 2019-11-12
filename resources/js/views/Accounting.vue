@@ -7,7 +7,7 @@
                 <AccountDisplay :total="total" :table-numbers="tableNumbers"/>
             </div>
             <div>
-                <TransactionTable :transactions="transactions" @update="update"/>
+                <TransactionTable :transactions="transactions" @update="update" @delete="destroy"/>
             </div>
         </div>
     </div>
@@ -72,8 +72,7 @@
 
 			},
 
-			async update(transaction) {
-				this.updateById(this.transactions, transaction.id, transaction);
+			async updateTotal() {
 				const response = await httpService.get('transactions/total');
 				if (response.status > 199 && response.status < 300) {
 					return this.total = parseFloat(response.data.total);
@@ -82,6 +81,16 @@
 				if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
 					this.$toast.error('Please refresh page', 'Total money update error');
 				}
+			},
+
+			update(transaction) {
+				this.updateById(this.transactions, transaction.id, transaction);
+				this.updateTotal();
+			},
+
+			destroy(transaction) {
+				this.removeById(this.transactions, transaction.id);
+				this.updateTotal();
 			}
 		}
 	}

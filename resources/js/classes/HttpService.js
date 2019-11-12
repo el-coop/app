@@ -1,6 +1,5 @@
 import axios from 'axios';
 import store from "../store";
-import router from "../router";
 
 
 function setCommonHeader(key, value) {
@@ -61,6 +60,19 @@ class HttpService {
         } catch (error) {
             if (error.response && error.response.data.message === 'CSRF token mismatch.' && repeat) {
                 return await this.repeatWithCsrf('patch', url, headers, data, config);
+            }
+            return error.response;
+        }
+    }
+
+    async delete(url, headers = {}, repeat = true) {
+        try {
+            return await axios.delete(url, {
+                headers,
+            });
+        } catch (error) {
+            if (error.response && error.response.data.message === 'CSRF token mismatch.' && repeat) {
+                return await this.repeatWithCsrf('delete', url, headers);
             }
             return error.response;
         }

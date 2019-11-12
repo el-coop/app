@@ -27,12 +27,13 @@
                         <td class="table__cell table__cell--header table__cell--narrow">Action</td>
                         <td class="table__cell table__cell--header table__cell--narrow">Date</td>
                         <td class="table__cell table__cell--header table__cell--narrow">Label</td>
-                        <td class="table__cell table__cell--header table__cell--right">Amount</td>
+                        <td class="table__cell table__cell--header table__cell">Amount</td>
                     </tr>
                     </thead>
                     <tbody>
                     <TransactionRow v-for="transaction in table" :key="`transaction_${transaction.id}`"
                                     @edit="editTransaction(transaction)"
+                                    @delete="deleteTransaction(transaction)"
                                     :transaction="transaction"/>
 
                     </tbody>
@@ -120,6 +121,17 @@
 
 				this.selectedTransaction = transaction;
 				this.transactionForm = true;
+			},
+
+			async deleteTransaction(transaction) {
+				const response = await transaction.delete();
+
+				if(response){
+					this.$emit('delete', transaction);
+					return;
+                }
+				this.$toast.error('Please try again', 'Transaction delete error');
+
 			},
 
 			async updateTransaction() {
