@@ -22,7 +22,7 @@ class Transaction {
         this.status = object.id ? 'saved' : 'new';
         this.date = object.date ? new Date(object.date) : new Date();
         this.label = object.label || '';
-        this.amount = object.amount || 0;
+        this.amount = parseFloat(object.amount) || 0;
         this.comment = object.comment || '';
         this.id = object.id || Date.now();
         this.dbId = object.id || null;

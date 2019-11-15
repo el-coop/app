@@ -12,3 +12,6 @@ $font-color: transparentize($white, 0.4);
 // misc
 $radius: var(--radius);
 $speed: var(--speed);
+
+// breakpoints
+$mobile: 576px !default

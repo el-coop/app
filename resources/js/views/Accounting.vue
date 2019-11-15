@@ -1,6 +1,8 @@
 <template>
     <div class="container" :class="{'is-loading': loading}">
-        <div class="background-content" style="height: 400px">
+        <div class="background-content">
+            <TransactionsChart :transactions="transactions" :start-value="sumBefore"
+                               :start-date="filters.startDate" :end-date="filters.endDate" @filter="filter"/>
         </div>
         <div class="foreground-content">
             <div>
@@ -19,10 +21,11 @@
 	import AccountDisplay from "../components/Accounting/AccountDisplay";
 	import httpService from "../classes/HttpService";
 	import Transaction from "../classes/Transaction";
+	import TransactionsChart from "../components/Accounting/TransactionsChart";
 
 	export default {
 		name: "Accounting",
-		components: {AccountDisplay, TransactionTable},
+		components: {TransactionsChart, AccountDisplay, TransactionTable},
 		mixins: [InteractsWithObjects],
 
 		metaInfo: {
@@ -30,14 +33,23 @@
 		},
 
 		created() {
-			this.initialLoad();
+			this.load();
 		},
 
 		data() {
+			const today = new Date();
+			const monthAgo = new Date();
+			monthAgo.setMonth(today.getMonth() - 1);
+
 			return {
 				transactions: [],
 				loading: false,
 				total: 0,
+				sumBefore: 0,
+				filters: {
+					startDate: monthAgo.toISOString().substring(0, 10),
+					endDate: today.toISOString().substring(0, 10),
+				},
 				tableNumbers: {
 					total: 0,
 					income: 0,
@@ -47,9 +59,9 @@
 		},
 
 		methods: {
-			async initialLoad() {
+			async load() {
 				this.loading = true;
-				const response = await httpService.get('/transactions');
+				const response = await httpService.get(`/transactions?startDate=${this.filters.startDate}&endDate=${this.filters.endDate}`);
 				if (response.status > 199 && response.status < 300) {
 					const loadData = response.data;
 					this.transactions = loadData.transactions.map((transaction) => {
@@ -61,6 +73,7 @@
 						}
 						return new Transaction(transaction);
 					});
+					this.sumBefore = parseFloat(loadData.sumBefore);
 					this.total = parseFloat(loadData.total);
 
 				} else {
@@ -91,6 +104,12 @@
 			destroy(transaction) {
 				this.removeById(this.transactions, transaction.id);
 				this.updateTotal();
+			},
+
+			filter(filters) {
+				this.filters.startDate = filters.startDate;
+				this.filters.endDate = filters.endDate;
+				this.load();
 			}
 		}
 	}
@@ -101,8 +120,24 @@
     @import "~bulma/sass/utilities/functions";
     @import "~bulma/sass/utilities/derived-variables";
     @import "~bulma/sass/utilities/mixins";
+    @import "../../sass/variables";
+
+    .container {
+        display: flex;
+        flex-direction: column-reverse;
+
+        @include from($mobile) {
+            display: block;
+        }
+    }
 
     .foreground-content {
+        margin: 0;
+
+        @include from($mobile) {
+            margin: -20px;
+        }
+
 
         @include from($tablet) {
             display: grid;

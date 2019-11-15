@@ -10,11 +10,15 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller {
-    public function index() {
-        $transactions = Transaction::where('date', '>', Carbon::parse('30 days ago'))->orderByDesc('date')->get();
-        $total = Transaction::sum('amount');
+    public function index(Request $request) {
+        $startDate = Carbon::parse($request->get('startDate', '- 1 month'))->startOfDay();
+        $endDate = Carbon::parse($request->get('endDate', 'today'))->endOfDay();
         
-        return compact('transactions', 'total');
+        $transactions = Transaction::select('id','date','amount','label','comment')->whereBetween('date', [$startDate, $endDate])->orderByDesc('date')->get();
+        $sumBefore = Transaction::where('date', '<', $startDate)->sum('amount');
+        $total = $sumBefore + Transaction::where('date', '>=', $startDate)->sum('amount');
+        
+        return compact('transactions', 'total', 'sumBefore');
     }
     
     public function total() {

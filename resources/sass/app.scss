@@ -5,8 +5,7 @@
 // Packages
 @import 'bulma/bulma';
 @import '~izitoast/dist/css/iziToast.css';
-//overrides
-@import 'breakpoints';
+@import "chart/c3";
 
 ////c3
 //@import '~c3/src/scss/main';
@@ -21,11 +20,5 @@
 @import "navbar";
 @import "content";
 @import "table";
-//@import 'loader';
-//@import 'chart-colors';
-//@import 'flex-helpers';
-//@import 'margin-helpers';
-//@import 'animations';
-//// Components
-//@import 'navbar';
-//@import 'accordion';
+@import "chart/chart";
+

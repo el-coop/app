@@ -5,8 +5,8 @@ $light-subtitle-color: #4a4a4a;
 $light-font-color: #363636;
 
 .theme-light {
-    --background-color: #f5f6fa;
-    --background: #f5f6fa;
+    --background-color: #ebecf1;
+    --background: #ebecf1;
 
     --title-color: #{$light-title-color};
     --subtitle-color: #{$light-subtitle-color};
@@ -19,6 +19,18 @@ $light-font-color: #363636;
     --input-text-color: #{$light-font-color};
 
     --card-background: var(--white);
+
+    // chart
+    --chart-background-color: #{$white-bis};
+    --chart-background: linear-gradient(90deg, #{$grey-lightest} 0, #{$white-ter} 60%, #{$white-bis});
+
+    --chart-grid: rgba(0, 0, 0, 0.1);
+
+    --chart-circle: var(--success-color);
+    --chart-circle-selected: #{$black};
+
+    --chart-legend-weight: #{$weight-bold};
+    --chart-legend-color: rgba(0,0,0,0.4);
 
     @each $name, $color in $light-colors {
         @include shades($name, $color);

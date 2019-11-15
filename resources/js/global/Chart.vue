@@ -1,21 +1,20 @@
 <template>
-    <div>
+    <div class="chart">
+        <div class="chart__top-row">
+            <div class="buttons chart__pagination">
+                <button class="button" @click="changePage(1)"
+                        :disabled="chartData.length - breakpoints[breakpoint] - position <= 0 || loading">Previous
+                </button>
+                <button class="button" @click="changePage(-1)" :disabled="position === 0 || loading">
+                    Next
+                </button>
+            </div>
+            <div class="chart__filters" v-if="$slots.filters">
+                <slot name="filters"></slot>
+            </div>
+
+        </div>
         <div ref="chart"></div>
-        <!--        <div class="level">-->
-        <!--            <div class="level-left">-->
-        <!--                <slot name="buttons"></slot>-->
-        <!--            </div>-->
-        <!--            <div class="level-right">-->
-        <!--                <div class="buttons ml-1">-->
-        <!--                    <button class="button is-flex-1" @click="changePage(1)"-->
-        <!--                            :disabled="chartData.length - breakpoints[breakpoint] - position <= 0 || loading">Previous-->
-        <!--                    </button>-->
-        <!--                    <button class="button is-flex-1" @click="changePage(-1)" :disabled="position === 0 || loading">-->
-        <!--                        Next-->
-        <!--                    </button>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
     </div>
 </template>
 
@@ -31,10 +30,11 @@
 			},
 			show: {
 				type: Number,
-				default: 12
+				default: 10
 			},
 			title: {
 				type: String,
+				default: ''
 			},
 			keys: {
 				type: Object,
@@ -115,7 +115,7 @@
 
 			changePage(value) {
 				this.position += value;
-				this.loading = true
+				this.loading = true;
 			}
 		},
 

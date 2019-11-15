@@ -41,7 +41,9 @@
 
 		data() {
 			const transaction = Object.assign(Object.create(Object.getPrototypeOf(this.transaction)), this.transaction);
-			transaction.date = transaction.date.toISOString().substring(0, 10);
+			if (!isNaN(transaction.date.getTime())) {
+				transaction.date = transaction.date.toISOString().substring(0, 10);
+			}
 			return {
 				value: transaction,
 				errors: transaction.errors
@@ -51,6 +53,7 @@
 		methods: {
 			submit() {
 				this.value.date = new Date(this.value.date);
+				this.value.amount = parseFloat(this.value.amount);
 				this.$emit('update', this.value);
 			}
 		}

@@ -18,6 +18,8 @@ class CreateTransactionsTable extends Migration {
             $table->string('label');
             $table->text('comment')->nullable();
             $table->timestamps();
+            
+            $table->index('date');
         });
     }
     
