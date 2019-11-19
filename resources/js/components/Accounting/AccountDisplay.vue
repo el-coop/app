@@ -9,16 +9,16 @@
         <table class="table">
             <tbody>
             <tr class="table__row">
-                <td class="table__cell">Last 30 day total</td>
-                <td class="table__cell is-nis" v-text="tableNumbers.total.toFixed(2)"/>
+                <td class="table__cell">Table total</td>
+                <td class="table__cell is-nis table__cell--right" v-text="transactionsTotal.toFixed(2)"/>
             </tr>
             <tr class="table__row">
-                <td class="table__cell">Last 30 day income</td>
-                <td class="table__cell is-nis" v-text="tableNumbers.income.toFixed(2)"/>
+                <td class="table__cell">Table income</td>
+                <td class="table__cell is-nis table__cell--right" v-text="income.toFixed(2)"/>
             </tr>
             <tr class="table__row">
-                <td class="table__cell">Last 30 day expenditure</td>
-                <td class="table__cell is-nis" v-text="tableNumbers.expenditure.toFixed(2)"/>
+                <td class="table__cell">Table expenditure</td>
+                <td class="table__cell is-nis table__cell--right" v-text="expenditure.toFixed(2)"/>
             </tr>
             </tbody>
         </table>
@@ -34,15 +34,32 @@
 				required: true,
 				type: Number
 			},
-			tableNumbers: {
+			transactions: {
 				required: true,
-				type: Object
+				type: Array
 			}
 		},
 
 		data() {
 			return {
-				shownTotal: this.total
+				shownTotal: this.total,
+				expenditure: 0,
+				income: 0
+			}
+		},
+
+		computed: {
+			transactionsTotal() {
+				this.expenditure = 0;
+				this.income = 0;
+				return this.transactions.reduce((sum, transaction) => {
+					if (transaction.amount > 0) {
+						this.income += transaction.amount;
+					} else {
+						this.expenditure += transaction.amount;
+					}
+					return sum += transaction.amount;
+				}, 0);
 			}
 		},
 

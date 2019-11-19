@@ -6,7 +6,7 @@
         </div>
         <div class="foreground-content">
             <div>
-                <AccountDisplay :total="total" :table-numbers="tableNumbers"/>
+                <AccountDisplay :total="total" :transactions="transactions"/>
             </div>
             <div>
                 <TransactionTable :transactions="transactions" @update="update" @delete="destroy"/>
@@ -50,11 +50,6 @@
 					startDate: monthAgo.toISOString().substring(0, 10),
 					endDate: today.toISOString().substring(0, 10),
 				},
-				tableNumbers: {
-					total: 0,
-					income: 0,
-					expenditure: 0
-				},
 			}
 		},
 
@@ -65,12 +60,6 @@
 				if (response.status > 199 && response.status < 300) {
 					const loadData = response.data;
 					this.transactions = loadData.transactions.map((transaction) => {
-						this.tableNumbers.total += transaction.amount;
-						if (transaction.amount > 0) {
-							this.tableNumbers.income += transaction.amount;
-						} else {
-							this.tableNumbers.expenditure += transaction.amount;
-						}
 						return new Transaction(transaction);
 					});
 					this.sumBefore = parseFloat(loadData.sumBefore);
@@ -97,7 +86,11 @@
 			},
 
 			update(transaction) {
-				this.updateById(this.transactions, transaction.id, transaction);
+				if (transaction.date >= this.filters.startDate && transaction.date <= this.filters.endDate) {
+					this.updateById(this.transactions, transaction.id, transaction);
+				} else {
+					this.removeById(this.transactions, transaction.id);
+				}
 				this.updateTotal();
 			},
 
@@ -139,7 +132,7 @@
         }
 
 
-        @include from($tablet) {
+        @include from($desktop) {
             display: grid;
             grid-template-columns: max-content 1fr;
             grid-template-rows: auto;

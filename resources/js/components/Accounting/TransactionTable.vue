@@ -23,19 +23,23 @@
             <template v-if="table.length">
                 <table class="table">
                     <thead>
-                    <tr>
+                    <tr class="table__row table__row--header table__row--responsive">
                         <td class="table__cell table__cell--header table__cell--narrow">Action</td>
                         <td class="table__cell table__cell--header table__cell--narrow">Date</td>
-                        <td class="table__cell table__cell--header table__cell--narrow">Label</td>
-                        <td class="table__cell table__cell--header table__cell">Amount</td>
+                        <td class="table__cell table__cell--header table__cell--narrow table__cell--important">Label
+                        </td>
+                        <td class="table__cell table__cell--header table__cell--right table__cell table__cell--important">
+                            Amount
+                        </td>
                     </tr>
                     </thead>
                     <tbody>
-                    <TransactionRow v-for="transaction in table" :key="`transaction_${transaction.id}`"
+                    <TransactionRow v-for="(transaction, index) in table" :key="`transaction_${transaction.id}`"
+                                    :class="{'table__row--responsive--active': active === index}"
+                                    @toggle="toggleActive(index)"
                                     @edit="editTransaction(transaction)"
                                     @delete="deleteTransaction(transaction)"
                                     :transaction="transaction"/>
-
                     </tbody>
                 </table>
                 <hr>
@@ -81,7 +85,8 @@
 				selectedTransaction: null,
 				pending: [],
 				page: 0,
-				perPage: localStorage.getItem('accounting-per-page') || 5
+				perPage: localStorage.getItem('accounting-per-page') || 5,
+				active: null
 			}
 		},
 
@@ -114,6 +119,12 @@
 		},
 
 		methods: {
+			toggleActive(index) {
+				if (this.active === index) {
+					return this.active = null;
+				}
+				this.active = index;
+			},
 			editTransaction(transaction) {
 				if (!transaction) {
 					transaction = new Transaction();
@@ -126,10 +137,11 @@
 			async deleteTransaction(transaction) {
 				const response = await transaction.delete();
 
-				if(response){
+				if (response) {
 					this.$emit('delete', transaction);
+					this.$toast.success(' ', 'Transaction deleted');
 					return;
-                }
+				}
 				this.$toast.error('Please try again', 'Transaction delete error');
 
 			},
@@ -143,6 +155,7 @@
 				if (transaction.status === 'saved') {
 					this.removeById(this.pending, transaction.id);
 					this.$emit('update', transaction);
+					this.$toast.success(' ', 'Transaction saved');
 				} else {
 					if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
 						this.$toast.error('Please try again', 'Transaction save error');

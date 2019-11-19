@@ -13,6 +13,7 @@
     --input-text-color: #{$dark-title-color};
 
     --card-background: #27293d;
+    --card-background-accent: #{darken(#27293d, 5%)};
 
 
     // chart
@@ -25,7 +26,7 @@
     --chart-circle-selected: var(--white);
 
     --chart-legend-weight: #{$weight-bold};
-    --chart-legend-color: rgba(255,255,255,0.4);
+    --chart-legend-color: rgba(255, 255, 255, 0.4);
 
     @each $name, $color in $dark-colors {
         @include shades($name, $color);

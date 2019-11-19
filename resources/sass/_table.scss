@@ -2,10 +2,66 @@
     width: 100%;
 
     &__row {
+        $self: &;
+
         border-top: 1px solid var(--border-color);
 
         &--header {
             border: none;
+        }
+
+        @include until($mobile) {
+            &--responsive {
+                transition: background-color var(--speed);
+                $cell: '.table__cell';
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+
+                &:not(#{$self}--header) {
+                    cursor: pointer;
+                }
+
+                #{$cell}--important {
+                    order: 0;
+
+                    #{$cell}:first-of-type:not(#{$cell}--header):before {
+                        content: '+';
+                        font-weight: var(--weight-bold);
+                    }
+                }
+
+                #{$cell}--action {
+                    order: 2 !important;
+                    width: auto !important;
+                    flex: 1;
+
+                    > .button {
+                        width: 100%;
+                    }
+                }
+
+                #{$cell}:not(#{$cell}--important) {
+                    display: none;
+                }
+
+                &--active {
+                    background-color: var(--card-background-accent);
+
+                    #{$cell}:not(#{$cell}--important) {
+                        display: flex;
+                        width: 100%;
+                        order: 1;
+                        justify-content: space-between;
+
+                        &:before {
+                            content: attr(data-label);
+                            font-weight: var(--weight-bold);
+
+                        }
+                    }
+                }
+            }
         }
     }
 
