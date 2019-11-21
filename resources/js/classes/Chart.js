@@ -47,7 +47,7 @@ class Chart {
                     const dayTransactions = chartData.json[data.index].transactions;
                     let transactionsTable = '';
                     dayTransactions.forEach((transaction) => {
-                        transactionsTable += `<tr><td class="name">${transaction.label}</td><td class="value is-nis">${transaction.amount}</td></tr>`
+                        transactionsTable += `<tr><td class="name">${transaction.payer}</td><td class="value is-nis">${transaction.amount}</td></tr>`
                     });
                     const dailyTotal = dayTransactions.reduce((sum, transaction) => {
                         return sum += transaction.amount;
