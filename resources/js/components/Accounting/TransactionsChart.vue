@@ -1,5 +1,5 @@
 <template>
-    <Chart :chartData="chartData" title="Financial situation" :names="{y: 'Total'}">
+    <Chart :chartData="chartData" title="Financial report" :names="{y: 'Total'}">
         <template #filters>
             <TextField class="field--marginless" :options="{
                 type: 'date',

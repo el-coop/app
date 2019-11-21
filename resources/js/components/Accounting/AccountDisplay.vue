@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card__header">
-            <h5 class="title is-size-6">Total Money</h5>
+            <h5 class="title is-size-6">Current Balance</h5>
         </div>
         <div class="title is-size-1 has-text-centered"><span class="is-size-5 is-nis"/><span
             v-text="shownTotal.toFixed(2)"/>
@@ -9,15 +9,15 @@
         <table class="table">
             <tbody>
             <tr class="table__row">
-                <td class="table__cell">Table total</td>
+                <td class="table__cell">Period total</td>
                 <td class="table__cell is-nis table__cell--right" v-text="transactionsTotal.toFixed(2)"/>
             </tr>
             <tr class="table__row">
-                <td class="table__cell">Table income</td>
+                <td class="table__cell">Period income</td>
                 <td class="table__cell is-nis table__cell--right" v-text="income.toFixed(2)"/>
             </tr>
             <tr class="table__row">
-                <td class="table__cell">Table expenditure</td>
+                <td class="table__cell">Period expenditure</td>
                 <td class="table__cell is-nis table__cell--right" v-text="expenditure.toFixed(2)"/>
             </tr>
             </tbody>

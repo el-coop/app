@@ -86,7 +86,7 @@
 			},
 
 			update(transaction) {
-				if (transaction.date >= this.filters.startDate && transaction.date <= this.filters.endDate) {
+                if (transaction.date >= new Date(`${this.filters.startDate}T00:00:00+0000`) && transaction.date <= new Date(`${this.filters.endDate}T23:59:59+0000`)) {
 					this.updateById(this.transactions, transaction.id, transaction);
 				} else {
 					this.removeById(this.transactions, transaction.id);
