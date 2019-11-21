@@ -24,6 +24,7 @@
 
                 #{$cell}--important {
                     order: 0;
+                    width: auto;
 
                     #{$cell}:first-of-type:not(#{$cell}--header):before {
                         content: '+';
@@ -57,6 +58,7 @@
                         &:before {
                             content: attr(data-label);
                             font-weight: var(--weight-bold);
+                            padding-right: 1rem;
 
                         }
                     }
@@ -74,7 +76,6 @@
 
         &--narrow {
             width: 1%;
-            white-space: nowrap;
         }
 
         &--right {

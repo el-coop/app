@@ -5,12 +5,15 @@
             type: 'date',
             format: 'dd/mm/yyyy',
         }" :error="errors.date ? errors.date[0] : ''"/>
-        <TextField v-model="value.label" :options="{
-            label: 'Label (NIS)'
-        }" :error="errors.label ? errors.label[0] : ''"/>
+        <TextField v-model="value.payer" :options="{
+            label: 'Payer'
+        }" :error="errors.payer ? errors.payer[0] : ''"/>
+        <TextField v-model="value.reason" :options="{
+            label: 'Reason'
+        }" :error="errors.reason ? errors.reason[0] : ''"/>
         <TextField v-model="value.amount" :options="{
 					type: 'number',
-					label: 'Amount',
+					label: 'Amount (NIS)',
 					forceDecimal: 2,
         }" :error="errors.amount ? errors.amount[0] : ''"/>
         <TextareaField v-model="value.comment" :options="{

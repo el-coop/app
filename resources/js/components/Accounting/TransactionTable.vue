@@ -26,7 +26,9 @@
                     <tr class="table__row table__row--header table__row--responsive">
                         <td class="table__cell table__cell--header table__cell--narrow">Action</td>
                         <td class="table__cell table__cell--header table__cell--narrow">Date</td>
-                        <td class="table__cell table__cell--header table__cell--narrow table__cell--important">Label
+                        <td class="table__cell table__cell--header table__cell--narrow table__cell--important">Payer
+                        </td>
+                        <td class="table__cell table__cell--header">Reason
                         </td>
                         <td class="table__cell table__cell--header table__cell--right table__cell table__cell--important">
                             Amount

@@ -14,7 +14,7 @@ class TransactionController extends Controller {
         $startDate = Carbon::parse($request->get('startDate', '- 1 month'))->startOfDay();
         $endDate = Carbon::parse($request->get('endDate', 'today'))->endOfDay();
         
-        $transactions = Transaction::select('id','date','amount','label','comment')->whereBetween('date', [$startDate, $endDate])->orderByDesc('date')->get();
+        $transactions = Transaction::select('id','date','amount','payer','reason','comment')->whereBetween('date', [$startDate, $endDate])->orderByDesc('date')->get();
         $sumBefore = Transaction::where('date', '<', $startDate)->sum('amount');
         $total = $sumBefore + Transaction::where('date', '>=', $startDate)->sum('amount');
         

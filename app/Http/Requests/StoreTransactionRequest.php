@@ -23,7 +23,8 @@ class StoreTransactionRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'label' => 'required|string',
+            'payer' => 'required|string',
+            'reason' => 'required|string',
             'date' => 'required|date',
             'amount' => 'required|numeric',
             'comment' => 'string|nullable',
@@ -32,7 +33,8 @@ class StoreTransactionRequest extends FormRequest {
     
     public function commit() {
         $transaction = new Transaction;
-        $transaction->label = $this->get('label');
+        $transaction->payer = $this->get('payer');
+        $transaction->reason = $this->get('reason');
         $transaction->date = new Carbon($this->get('date'));
         $transaction->amount = $this->get('amount');
         $transaction->comment = $this->get('comment');

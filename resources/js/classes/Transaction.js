@@ -21,7 +21,8 @@ class Transaction {
     constructor(object = {}) {
         this.status = object.id ? 'saved' : 'new';
         this.date = object.date ? new Date(object.date) : new Date();
-        this.label = object.label || '';
+        this.payer = object.payer || '';
+        this.reason = object.reason || '';
         this.amount = parseFloat(object.amount) || 0;
         this.comment = object.comment || '';
         this.id = object.id || Date.now();
@@ -43,7 +44,8 @@ class Transaction {
 
             response = await httpService[method](url, {
                 date: this.date,
-                label: this.label,
+                payer: this.payer,
+                reason: this.reason,
                 amount: this.amount,
                 comment: this.comment,
             });

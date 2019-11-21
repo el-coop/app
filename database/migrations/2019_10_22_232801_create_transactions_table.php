@@ -15,7 +15,8 @@ class CreateTransactionsTable extends Migration {
             $table->bigIncrements('id');
             $table->date('date');
             $table->float('amount');
-            $table->string('label');
+            $table->string('payer');
+            $table->string('reason');
             $table->text('comment')->nullable();
             $table->timestamps();
             
