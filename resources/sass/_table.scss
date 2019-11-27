@@ -1,6 +1,10 @@
 .table {
     width: 100%;
 
+    &__header {
+        @extend .card__header
+    }
+
     &__row {
         $self: &;
 

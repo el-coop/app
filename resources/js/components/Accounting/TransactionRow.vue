@@ -60,7 +60,6 @@
 
 				return 'edit'
 			},
-
 		}
 	}
 </script>

@@ -57,7 +57,5 @@ class StoreTransactionRequest extends FormRequest {
         $transaction->save();
         
         return $transaction;
-        
-        return $transaction;
     }
 }

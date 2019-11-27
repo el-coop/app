@@ -2,7 +2,8 @@ import Router from 'vue-router';
 import AuthMiddleware from "./middleware/AuthMiddleware";
 
 const Accounting = () => import('./views/Accounting' /* webpackChunkName: "js/Accounting" */);
-const Login = () => import('./views/Auth/Login' /* webpackChunkName: "js/Accounting" */);
+const Entities = () => import('./views/Entities' /* webpackChunkName: "js/Entities" */);
+const Login = () => import('./views/Auth/Login' /* webpackChunkName: "js/Login" */);
 const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "js/PageNotFound" */);
 
 const router = new Router({
@@ -28,6 +29,11 @@ const router = new Router({
             path: '/accounting',
             name: 'Accounting',
             component: Accounting,
+            beforeEnter: AuthMiddleware.auth
+        },{
+            path: '/entities',
+            name: 'Entities',
+            component: Entities,
             beforeEnter: AuthMiddleware.auth
         },
         {

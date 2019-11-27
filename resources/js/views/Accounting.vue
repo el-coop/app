@@ -22,7 +22,7 @@
 	import httpService from "../classes/HttpService";
 	import Transaction from "../classes/Transaction";
 	import TransactionsChart from "../components/Accounting/TransactionsChart";
-	import Entity from "../classes/Entity";
+	import Entity from "../classes/Models/Entity";
 
 	export default {
 		name: "Accounting",

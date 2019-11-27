@@ -14,6 +14,7 @@ class CreateTransactionsTable extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('entity_id')->unsigned();
+            $table->bigInteger('project_id')->unsigned()->nullable()->default(null);
             $table->date('date');
             $table->decimal('amount');
             $table->string('reason');
@@ -24,6 +25,7 @@ class CreateTransactionsTable extends Migration {
             
             $table->index('date');
             $table->foreign('entity_id')->references('id')->on('entities');
+            $table->foreign('project_id')->references('id')->on('projects');
         });
     }
     

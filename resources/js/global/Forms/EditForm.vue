@@ -12,62 +12,42 @@
 	import TextField from "../../global/Fields/TextField";
 	import SelectField from "../../global/Fields/SelectField";
 	import TextareaField from "../../global/Fields/TextareaField";
-	import Transaction from "../../classes/Transaction";
-	import Entity from "../../classes/Models/Entity";
 
 	export default {
-		name: "TransactionForm",
+		name: "EditForm",
 		components: {TextareaField, TextField, SelectField},
 		model: {
-			prop: 'transaction',
+			prop: 'entry',
 			event: 'update'
 		},
 
 		props: {
-			transaction: {
+			entry: {
 				required: true,
 				type: Object
 			},
-			entities: {
+			fields: {
 				required: true,
 				type: Array
 			},
 		},
 
 		data() {
-			const transaction = Object.assign(Object.create(Object.getPrototypeOf(this.transaction)), this.transaction);
-			if (!isNaN(transaction.date.getTime())) {
-				transaction.date = transaction.date.toISOString().substring(0, 10);
-			}
-			const entityOptions = {};
-			this.entities.forEach((value) => {
-				entityOptions[value.id] = value.name;
-			});
-
-			const fields = Transaction.fields();
-			const field = fields.find((fieldOptions) => {
-				return fieldOptions.name === 'entity';
-			});
-
-			field.options = entityOptions;
+			const value = Object.assign(Object.create(Object.getPrototypeOf(this.entry)), this.entry);
 
 			return {
-				value: transaction,
-				errors: transaction.errors,
-				fields
+				value,
+				errors: value.errors,
 			}
 		},
 
 		methods: {
-			capitalizeFirst(str) {
-				return str.charAt(0).toUpperCase() + str.slice(1);
-			},
 			submit() {
 				this.fields.forEach((field) => {
 					const name = field.name;
 					if (field.type === 'date') {
 						this.value[name] = new Date(this.value[name]);
-					} else if(field.type === 'number'){
+					} else if (field.type === 'number') {
 						this.value[name] = parseFloat(this.value[name]);
 					}
 				});

@@ -39,6 +39,7 @@
 			return {
 				icons: {
 					Accounting: 'file-invoice-dollar',
+					Entities: 'id-card',
 				},
 				routes: []
 			};
