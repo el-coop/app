@@ -1,7 +1,7 @@
 <template>
     <div class="container" :class="{'is-loading': loading}">
         <div class="background-content">
-            <TransactionsChart :transactions="transactions" :start-value="sumBefore"
+            <TransactionsChart :transactions="transactions" :start-value="sumBefore" :entities="entities"
                                :start-date="filters.startDate" :end-date="filters.endDate" @filter="filter"/>
         </div>
         <div class="foreground-content">
@@ -9,7 +9,7 @@
                 <AccountDisplay :total="total" :transactions="transactions"/>
             </div>
             <div>
-                <TransactionTable :transactions="transactions" @update="update" @delete="destroy"/>
+                <TransactionTable :transactions="transactions" @update="update" @delete="destroy" :entities="entities"/>
             </div>
         </div>
     </div>
@@ -22,6 +22,7 @@
 	import httpService from "../classes/HttpService";
 	import Transaction from "../classes/Transaction";
 	import TransactionsChart from "../components/Accounting/TransactionsChart";
+	import Entity from "../classes/Entity";
 
 	export default {
 		name: "Accounting",
@@ -50,12 +51,16 @@
 					startDate: monthAgo.toISOString().substring(0, 10),
 					endDate: today.toISOString().substring(0, 10),
 				},
+				entities: [],
 			}
 		},
 
 		methods: {
 			async load() {
 				this.loading = true;
+				if (!this.entities.length) {
+					this.entities = await Entity.list();
+				}
 				const response = await httpService.get(`/transactions?startDate=${this.filters.startDate}&endDate=${this.filters.endDate}`);
 				if (response.status > 199 && response.status < 300) {
 					const loadData = response.data;
@@ -86,7 +91,7 @@
 			},
 
 			update(transaction) {
-                if (transaction.date >= new Date(`${this.filters.startDate}T00:00:00+0000`) && transaction.date <= new Date(`${this.filters.endDate}T23:59:59+0000`)) {
+				if (transaction.date >= new Date(`${this.filters.startDate}T00:00:00+0000`) && transaction.date <= new Date(`${this.filters.endDate}T23:59:59+0000`)) {
 					this.updateById(this.transactions, transaction.id, transaction);
 				} else {
 					this.removeById(this.transactions, transaction.id);

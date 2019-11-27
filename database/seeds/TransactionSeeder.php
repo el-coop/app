@@ -11,6 +11,11 @@ class TransactionSeeder extends Seeder {
      */
     public function run() {
         
-        factory(Transaction::class, 40)->create();
+        $entities = \App\Models\Entity::all();
+        
+        factory(Transaction::class, 40)->make()->each(function ($transaction) use ($entities) {
+            $entity = $entities->random();
+            $entity->transactions()->save($transaction);
+        });
     }
 }

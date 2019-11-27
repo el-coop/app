@@ -20,6 +20,7 @@
 <script>
 	import Chart from '../../global/Chart';
 	import TextField from "../../global/Fields/TextField";
+	import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 	export default {
 		name: "TransactionsChart",
@@ -27,8 +28,13 @@
 			TextField,
 			Chart
 		},
+		mixins: [InteractsWithObjects],
 		props: {
 			transactions: {
+				type: Array,
+				required: true
+			},
+			entities: {
 				type: Array,
 				required: true
 			},
@@ -49,7 +55,7 @@
 		data() {
 			return {
 				start: this.startDate,
-                end: this.endDate,
+				end: this.endDate,
 				startDateError: null,
 				endDateError: null,
 			}
@@ -81,11 +87,12 @@
 				return transactions.sort((a, b) => {
 					return a.date - b.date;
 				}).reduce((grouped, transaction) => {
+					transaction.entityName = this.getById(this.entities, transaction.entity).name;
 					const index = grouped.findIndex((coordinate) => {
 						return coordinate.x.toDateString() === transaction.date.toDateString();
 					});
 					if (index > -1) {
-						grouped[index].y += transaction.amount;
+						grouped[index].y += (transaction.amount * transaction.rate);
 						grouped[index].transactions.push(transaction);
 					} else {
 						let amount;
@@ -95,7 +102,7 @@
 							amount = this.startValue;
 						}
 						grouped.push({
-							y: transaction.amount + amount,
+							y: (transaction.amount * transaction.rate) + amount,
 							x: transaction.date,
 							transactions: [transaction]
 						});

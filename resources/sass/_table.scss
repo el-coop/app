@@ -10,6 +10,38 @@
             border: none;
         }
 
+        &--details {
+            display: none;
+            position: relative;
+            background-color: var(--card-background-accent);
+
+            @include from($mobile){
+                background-color: transparent;
+                height: 3em;
+            }
+
+            &-content {
+                display: flex;
+                flex-direction: column;
+
+                @include from($mobile) {
+                    position: absolute;
+                    flex-direction: row;
+                }
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &--active {
+            + .table__row--details {
+                display: block;
+                @include from($mobile) {
+                    display: table-row;
+                }
+            }
+        }
+
         @include until($mobile) {
             &--responsive {
                 transition: background-color var(--speed);
@@ -46,7 +78,7 @@
                     display: none;
                 }
 
-                &--active {
+                &.table__row--active {
                     background-color: var(--card-background-accent);
 
                     #{$cell}:not(#{$cell}--important) {
@@ -69,6 +101,23 @@
 
     &__cell {
         padding: .5em 1em;
+        min-width: 30px;
+
+        &--details {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+
+            @include from($mobile){
+                width: auto;
+            }
+
+            &:before {
+                content: attr(data-label);
+                font-weight: var(--weight-bold);
+                padding-right: 1rem;
+            }
+        }
 
         &--header {
             font-weight: var(--weight-bold);
@@ -84,6 +133,14 @@
 
         &--centered {
             text-align: center !important;
+        }
+
+        &--success {
+            border-right: 2px solid var(--success-color);
+        }
+
+        &--danger {
+            border-right: 2px solid var(--danger-color);
         }
     }
 

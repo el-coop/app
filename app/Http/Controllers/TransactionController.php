@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller {
@@ -14,16 +15,16 @@ class TransactionController extends Controller {
         $startDate = Carbon::parse($request->get('startDate', '- 1 month'))->startOfDay();
         $endDate = Carbon::parse($request->get('endDate', 'today'))->endOfDay();
         
-        $transactions = Transaction::select('id','date','amount','payer','reason','comment')->whereBetween('date', [$startDate, $endDate])->orderByDesc('date')->get();
-        $sumBefore = Transaction::where('date', '<', $startDate)->sum('amount');
-        $total = $sumBefore + Transaction::where('date', '>=', $startDate)->sum('amount');
+        $transactions = Transaction::select('transactions.id', 'date', 'amount', 'currency', 'rate', DB::raw('entities.id as entity'), 'reason', 'comment')->whereBetween('date', [$startDate, $endDate])->join('entities','entities.id','transactions.entity_id')->orderByDesc('date')->get();
+        $sumBefore = Transaction::where('date', '<', $startDate)->sum(DB::raw('amount * rate'));
+        $total = $sumBefore + Transaction::where('date', '>=', $startDate)->sum(DB::raw('amount * rate'));
         
         return compact('transactions', 'total', 'sumBefore');
     }
     
     public function total() {
         return [
-            'total' => Transaction::sum('amount')
+            'total' => Transaction::sum(DB::raw('amount * rate'))
         ];
     }
     
@@ -31,7 +32,7 @@ class TransactionController extends Controller {
         return $request->commit();
     }
     
-    public function update(UpdateTransactionRequest $request, Transaction $transaction) {
+    public function update(StoreTransactionRequest $request, Transaction $transaction) {
         return $request->commit();
     }
     

@@ -1,5 +1,11 @@
 export default {
     methods: {
+        getById(array, id) {
+            return array.find((object) => {
+                return object.id === id;
+            });
+        },
+
         findById(array, id) {
             return array.findIndex((object) => {
                 return object.id === id;
@@ -22,4 +28,4 @@ export default {
             array.push(newValue);
         }
     }
-}
+};

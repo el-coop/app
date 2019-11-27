@@ -54,11 +54,11 @@
 				this.income = 0;
 				return this.transactions.reduce((sum, transaction) => {
 					if (transaction.amount > 0) {
-						this.income += transaction.amount;
+						this.income += (transaction.amount * transaction.rate);
 					} else {
-						this.expenditure += transaction.amount;
+						this.expenditure += (transaction.amount * transaction.rate);
 					}
-					return sum += transaction.amount;
+					return sum += (transaction.amount * transaction.rate);
 				}, 0);
 			}
 		},

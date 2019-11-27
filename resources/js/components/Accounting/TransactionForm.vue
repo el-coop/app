@@ -1,35 +1,23 @@
 <template>
     <div>
-        <TextField v-model="value.date" :options="{
-            label: 'Date',
-            type: 'date',
-            format: 'dd/mm/yyyy',
-        }" :error="errors.date ? errors.date[0] : ''"/>
-        <TextField v-model="value.payer" :options="{
-            label: 'Payer'
-        }" :error="errors.payer ? errors.payer[0] : ''"/>
-        <TextField v-model="value.reason" :options="{
-            label: 'Reason'
-        }" :error="errors.reason ? errors.reason[0] : ''"/>
-        <TextField v-model="value.amount" :options="{
-					type: 'number',
-					label: 'Amount (NIS)',
-					forceDecimal: 2,
-        }" :error="errors.amount ? errors.amount[0] : ''"/>
-        <TextareaField v-model="value.comment" :options="{
-            label: 'Comment'
-        }" :error="errors.comment ? errors.comment[0] : ''"/>
+        <template v-for="field in fields">
+            <component :is="field.component || 'TextField'" v-model="value[field.name]" :options="field"
+                       :error="errors[field.name] ? errors[field.name][0] : ''"></component>
+        </template>
         <button class="button is-success is-fullwidth" @click="submit">Save</button>
     </div>
 </template>
 
 <script>
 	import TextField from "../../global/Fields/TextField";
+	import SelectField from "../../global/Fields/SelectField";
 	import TextareaField from "../../global/Fields/TextareaField";
+	import Transaction from "../../classes/Transaction";
+	import Entity from "../../classes/Entity";
 
 	export default {
 		name: "TransactionForm",
-		components: {TextareaField, TextField},
+		components: {TextareaField, TextField, SelectField},
 		model: {
 			prop: 'transaction',
 			event: 'update'
@@ -40,6 +28,10 @@
 				required: true,
 				type: Object
 			},
+			entities: {
+				required: true,
+				type: Array
+			},
 		},
 
 		data() {
@@ -47,16 +39,38 @@
 			if (!isNaN(transaction.date.getTime())) {
 				transaction.date = transaction.date.toISOString().substring(0, 10);
 			}
+			const entityOptions = {};
+			this.entities.forEach((value) => {
+				entityOptions[value.id] = value.name;
+			});
+
+			const fields = Transaction.fields();
+			const field = fields.find((fieldOptions) => {
+				return fieldOptions.name === 'entity';
+			});
+
+			field.options = entityOptions;
+
 			return {
 				value: transaction,
-				errors: transaction.errors
+				errors: transaction.errors,
+				fields
 			}
 		},
 
 		methods: {
+			capitalizeFirst(str) {
+				return str.charAt(0).toUpperCase() + str.slice(1);
+			},
 			submit() {
-				this.value.date = new Date(this.value.date);
-				this.value.amount = parseFloat(this.value.amount);
+				this.fields.forEach((field) => {
+					const name = field.name;
+					if (field.type === 'date') {
+						this.value[name] = new Date(this.value[name]);
+					} else if(field.type === 'number'){
+						this.value[name] = parseFloat(this.value[name]);
+					}
+				});
 				this.$emit('update', this.value);
 			}
 		}

@@ -1,33 +1,76 @@
 import httpService from './HttpService';
 
-class Transaction {
-    static async get(page = 0, filters = '') {
-        try {
-            const response = await httpService.get(`/transactions?page=${page}&fitlers=${filters}`);
-            if (response.status > 199 || response.status < 300) {
-                const responseData = response.data;
-                responseData.data = responseData.data.map((transaction) => {
-                    return new Transaction(transaction);
-                });
-                return responseData;
+export default class Transaction {
+    static fields() {
+        return [{
+            name: 'date',
+            type: 'date',
+            label: 'Date',
+            format: 'dd/mm/yyyy',
+        }, {
+            name: 'entity',
+            label: 'To/From',
+            class: 'select--fullwidth',
+            component: 'SelectField',
+            type: "number"
+
+        }, {
+            name: 'reason',
+            label: 'Reason',
+        }, {
+            name: 'currency',
+            label: 'Currency',
+            width: 1 / 2,
+            class: 'select--fullwidth',
+            component: 'SelectField',
+            options: {
+                '₪': '₪',
+                '$': '$',
+                '€': '€'
             }
-        } catch (e) {
-        }
-        return {
-            status: 'error'
-        }
+        }, {
+            name: 'rate',
+            label: 'Rate (leave empty to auto calculate)',
+            type: 'number',
+            width: 1 / 2
+        }, {
+            name: 'amount',
+            label: 'Amount',
+            type: 'number'
+        }, {
+            name: 'comment',
+            label: 'Comment',
+            component: 'TextareaField'
+        }]
     }
 
     constructor(object = {}) {
         this.status = object.id ? 'saved' : 'new';
-        this.date = object.date ? new Date(object.date) : new Date();
-        this.payer = object.payer || '';
-        this.reason = object.reason || '';
-        this.amount = parseFloat(object.amount) || 0;
-        this.comment = object.comment || '';
         this.id = object.id || Date.now();
         this.dbId = object.id || null;
         this.errors = {};
+        Transaction.fields().forEach((field) => {
+            const propertyName = field.name;
+            if (object[propertyName]) {
+                this[propertyName] = object[propertyName];
+                if (field.type === 'date') {
+                    this[propertyName] = new Date(this[propertyName]);
+                } else if (field.type === 'number') {
+                    this[propertyName] = parseFloat(this[propertyName]);
+                }
+            } else {
+                switch (propertyName) {
+                    case 'date':
+                        this[propertyName] = new Date();
+                        break;
+                    case 'amount':
+                        this[propertyName] = 0;
+                        break;
+                    default:
+                        this[propertyName] = '';
+                }
+            }
+        });
     }
 
     async save() {
@@ -42,17 +85,12 @@ class Transaction {
                 url += `/${this.dbId}`;
             }
 
-            response = await httpService[method](url, {
-                date: this.date,
-                payer: this.payer,
-                reason: this.reason,
-                amount: this.amount,
-                comment: this.comment,
-            });
+            response = await httpService[method](url, this.postData());
 
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';
                 this.dbId = response.data.id;
+                this.rate = response.data.rate;
                 return response;
             }
 
@@ -78,6 +116,14 @@ class Transaction {
         this.status = 'saved';
         return false;
     }
-}
 
-export default Transaction;
+    postData() {
+        const result = {};
+        Transaction.fields().forEach((field) => {
+            const propertyName = field.name;
+            result[propertyName] = this[propertyName];
+        });
+        return result;
+    }
+
+}

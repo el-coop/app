@@ -13,14 +13,17 @@ class CreateTransactionsTable extends Migration {
     public function up() {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('entity_id')->unsigned();
             $table->date('date');
-            $table->float('amount');
-            $table->string('payer');
+            $table->decimal('amount');
             $table->string('reason');
+            $table->string('currency');
+            $table->decimal('rate');
             $table->text('comment')->nullable();
             $table->timestamps();
             
             $table->index('date');
+            $table->foreign('entity_id')->references('id')->on('entities');
         });
     }
     

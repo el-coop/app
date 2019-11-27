@@ -19,11 +19,18 @@
     margin-top: 0.35rem;
 }
 
-.field.field--marginless {
-    position: relative;
+.field {
+    &--is-half {
+        width: 50%;
+        display: inline-block;
+    }
 
-    .help {
-        position: absolute;
-        left: 0.5em;
+    &.field--marginless {
+        position: relative;
+
+        .help {
+            position: absolute;
+            left: 0.5em;
+        }
     }
 }

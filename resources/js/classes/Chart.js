@@ -47,13 +47,13 @@ class Chart {
                     const dayTransactions = chartData.json[data.index].transactions;
                     let transactionsTable = '';
                     dayTransactions.forEach((transaction) => {
-                        transactionsTable += `<tr><td class="name">${transaction.payer}</td><td class="value is-nis">${transaction.amount}</td></tr>`
+                        transactionsTable += `<tr><td class="name">${transaction.entityName}</td><td class="value is-nis">${(transaction.amount * transaction.rate).toFixed(2)}</td></tr>`
                     });
                     const dailyTotal = dayTransactions.reduce((sum, transaction) => {
-                        return sum += transaction.amount;
+                        return sum += (transaction.amount * transaction.rate);
                     }, 0);
 
-                    return `<table class="c3-tooltip"><tbody><tr><th colspan="2">${title}</th></tr><tr class="c3-tooltip-name--y"><td class="name">Total</td><td class="value is-nis">${data.value}</td></tr><tr><th colspan="2">Transactions</th></tr>${transactionsTable}<tr><th>Sum</th><th class="value is-nis">${dailyTotal}</th></tr></tbody></table>`;
+                    return `<table class="c3-tooltip"><tbody><tr><th colspan="2">${title}</th></tr><tr class="c3-tooltip-name--y"><td class="name">Total</td><td class="value is-nis">${data.value.toFixed(2)}</td></tr><tr><th colspan="2">Transactions</th></tr>${transactionsTable}<tr><th>Sum</th><th class="value is-nis">${dailyTotal.toFixed(2)}</th></tr></tbody></table>`;
                 },
             },
             onresized: params.onResized || null,
