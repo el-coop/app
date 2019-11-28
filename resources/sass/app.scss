@@ -4,7 +4,8 @@
 @import "mixins";
 // Packages
 @import 'bulma/bulma';
-@import '~izitoast/dist/css/iziToast.css';
+//@import '~izitoast/dist/css/iziToast.css';
+@import "izitoast";
 @import "chart/c3";
 
 ////c3
@@ -21,4 +22,5 @@
 @import "content";
 @import "table";
 @import "chart/chart";
+@import "dropdown";
 

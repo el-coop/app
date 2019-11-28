@@ -4,5 +4,16 @@ $alignments: ('centered': 'center', 'justified': 'justify', 'left': 'left', 'rig
     .has-text-#{$alignment} {
         text-align: #{$text-align} !important
     }
+}
 
+.is-hidden-tablet {
+    @include from($mobile){
+        display: none;
+    }
+}
+
+.is-hidden-only-mobile {
+    @include until($mobile){
+        display: none;
+    }
 }

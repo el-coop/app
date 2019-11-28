@@ -8,7 +8,8 @@ import {
     faExclamation,
     faTrash,
     faSearch,
-    faIdCard
+    faIdCard,
+    faCaretDown
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueIziToast from 'vue-izitoast';
@@ -18,7 +19,7 @@ Vue.use(VueIziToast);
 Vue.use(VueMeta);
 Vue.use(VueRouter);
 Vue.prototype.$bus = new Vue();
-library.add(faFileInvoiceDollar, faSignOutAlt, faEdit, faExclamation, faTrash, faSearch, faIdCard);
+library.add(faFileInvoiceDollar, faSignOutAlt, faEdit, faExclamation, faTrash, faSearch, faIdCard, faCaretDown);
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 

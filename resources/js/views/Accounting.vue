@@ -130,12 +130,6 @@
     }
 
     .foreground-content {
-        margin: 0;
-
-        @include from($mobile) {
-            margin: -20px;
-        }
-
 
         @include from($desktop) {
             display: grid;
