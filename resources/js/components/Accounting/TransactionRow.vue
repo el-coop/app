@@ -12,7 +12,7 @@
         <td class="table__cell table__cell--narrow " data-label="Date" v-text="transaction.date.toLocaleDateString('it-IT',{
             timeZone: 'UTC',
         })"></td>
-        <td class="table__cell table__cell--narrow table__cell--important" v-text="entityName"></td>
+        <td class="table__cell table__cell--important" v-text="entityName"></td>
         <div class="table__cell" data-label="Reason" v-text="transaction.reason"></div>
         <td class="table__cell is-nis table__cell--right table__cell--important"
             :class="{'table__cell--danger': transaction.amount < 0,'table__cell--success': transaction.amount > 0}"
