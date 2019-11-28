@@ -16,7 +16,7 @@
         <div class="table__cell" data-label="reason" v-text="transaction.reason"></div>
         <td class="table__cell is-nis table__cell--right table__cell--important"
             :class="{'table__cell--danger': transaction.amount < 0,'table__cell--success': transaction.amount > 0}"
-            v-text="(transaction.amount * transaction.rate).toFixed(2)"></td>
+            v-text="(transaction.amount * (transaction.rate || 1)).toFixed(2)"></td>
         <td class="table__cell table__cell--right table__cell--action">
             <button class="button is-small is-danger" :class="{ 'is-loading': transaction.status === 'deleting'}"
                     @click.stop="$emit('delete')">

@@ -64,6 +64,7 @@ export default class Model {
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';
                 this.dbId = response.data.id;
+                this.id = response.data.id;
                 this.constructor.updateCallback(this);
                 return response;
             }
