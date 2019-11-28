@@ -13,7 +13,7 @@
             timeZone: 'UTC',
         })"></td>
         <td class="table__cell table__cell--narrow table__cell--important" v-text="entityName"></td>
-        <div class="table__cell" data-label="reason" v-text="transaction.reason"></div>
+        <div class="table__cell" data-label="Reason" v-text="transaction.reason"></div>
         <td class="table__cell is-nis table__cell--right table__cell--important"
             :class="{'table__cell--danger': transaction.amount < 0,'table__cell--success': transaction.amount > 0}"
             v-text="(transaction.amount * (transaction.rate || 1)).toFixed(2)"></td>
