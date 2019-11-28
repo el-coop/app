@@ -6,16 +6,19 @@ use App\Http\Requests\StoreEntityRequest;
 use App\Models\Entity;
 use Illuminate\Http\Request;
 
-class EntityController extends Controller
-{
+class EntityController extends Controller {
     
     public function index() {
         return [
-            'entities' => Entity::select('id','name')->get()
+            'entities' => Entity::select('id', 'name')->get()
         ];
     }
     
     public function store(StoreEntityRequest $request) {
+        return $request->commit();
+    }
+    
+    public function update(StoreEntityRequest $request, Entity $entity) {
         return $request->commit();
     }
 }
