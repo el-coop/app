@@ -12,7 +12,7 @@ export default class Model {
             }
         } catch (e) {
         }
-        return [];
+        return null;
     }
 
     static updateCallback(){};

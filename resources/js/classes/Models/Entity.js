@@ -24,7 +24,7 @@ export default class Entity extends Model {
             entityList = await Entity.get();
         }
 
-        return entityList;
+        return entityList || [];
     }
 
     static updateCallback(entity) {

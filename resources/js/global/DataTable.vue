@@ -7,10 +7,13 @@
                  label:'Per page',
                 name: 'per-page',
                 options: {
-                5: '5',
-                10: '10',
-                20: '20',
+                    5: '5',
+                    10: '10',
+                    20: '20',
                 }
+                }"/>
+                <TextField v-model="filter" :options="{
+                    label: 'Filter'
                 }"/>
             </div>
             <div>
@@ -46,68 +49,87 @@
 </template>
 
 <script>
-	import SelectField from "./Fields/SelectField";
+    import SelectField from "./Fields/SelectField";
+    import TextField from "./Fields/TextField";
 
-	export default {
-		name: "DataTable",
-		components: {SelectField},
+    export default {
+        name: "DataTable",
+        components: {TextField, SelectField},
 
-		props: {
-			title: {
-				type: String,
-				required: true
-			},
-			tableData: {
-				type: Array,
-				required: true
-			},
-			headers: {
-				type: Array,
-				required: true
-			},
-			onlyTable: {
-				type: Boolean,
-				default: false
-			}
-		},
+        props: {
+            title: {
+                type: String,
+                required: true
+            },
+            tableData: {
+                type: Array,
+                required: true
+            },
+            headers: {
+                type: Array,
+                required: true
+            },
+            onlyTable: {
+                type: Boolean,
+                default: false
+            }
+        },
 
-		data() {
-			return {
-				perPage: localStorage.getItem(`${this.title}-per-page`) || 5,
-				page: 0,
-			}
-		},
+        data() {
+            return {
+                perPage: localStorage.getItem(`${this.title}-per-page`) || 5,
+                page: 0,
+                filter: ''
+            }
+        },
 
-		computed: {
-			showData() {
-				return this.tableData.slice(this.pageStart, this.pageEnd);
-			},
-			pageStart() {
-				return this.page * this.perPage;
-			},
+        computed: {
+            filteredData(){
+                let data = this.tableData;
+                if (this.filter) {
+                    data = data.filter((entry) => {
+                        for (let prop in this.headers) {
+                            const header = this.headers[prop];
+                            if (header.filterable) {
+                                if (entry[header.name].toLowerCase().indexOf(this.filter.toLowerCase()) > -1) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    });
+                }
+                return data;
+            },
+            showData() {
+                return this.filteredData.slice(this.pageStart, this.pageEnd);
+            },
+            pageStart() {
+                return this.page * this.perPage;
+            },
 
-			pageEnd() {
-				return Math.min(this.page * this.perPage + this.perPage, this.totalEntries);
-			},
+            pageEnd() {
+                return Math.min(this.page * this.perPage + this.perPage, this.totalEntries);
+            },
 
-			pages() {
-				return Math.ceil(this.totalEntries / this.perPage);
-			},
+            pages() {
+                return Math.ceil(this.totalEntries / this.perPage);
+            },
 
-			totalEntries() {
-				return this.tableData.length;
-			},
+            totalEntries() {
+                return this.filteredData.length;
+            },
 
-			paginationText() {
-				return `Showing ${this.pageStart + 1} to ${this.pageEnd} of ${this.totalEntries} entries`;
-			}
-		},
+            paginationText() {
+                return `Showing ${this.pageStart + 1} to ${this.pageEnd} of ${this.totalEntries} entries`;
+            }
+        },
 
-		watch: {
-			perPage(value) {
-				this.page = 0;
-				localStorage.setItem(`${this.title}-per-page`, value);
-			}
-		}
-	}
+        watch: {
+            perPage(value) {
+                this.page = 0;
+                localStorage.setItem(`${this.title}-per-page`, value);
+            }
+        }
+    }
 </script>

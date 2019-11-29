@@ -73,6 +73,10 @@
                     width: auto !important;
                     flex: 1;
 
+                    &:before {
+                        display: none;
+                    }
+
                     > .button {
                         width: 100%;
                     }
