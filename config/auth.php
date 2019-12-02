@@ -2,6 +2,8 @@
 
 return [
 
+    'duration' => env('LOGIN_DURATION', 4320),
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
