@@ -77,7 +77,7 @@
 
         data() {
             return {
-                perPage: localStorage.getItem(`${this.title}-per-page`) || 5,
+                perPage: parseInt(localStorage.getItem(`${this.title}-per-page`)) || 5,
                 page: 0,
                 filter: ''
             }
