@@ -8,4 +8,8 @@ class Entity extends Model {
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }
+
+    public function projects() {
+        return $this->hasMany(Project::class);
+    }
 }

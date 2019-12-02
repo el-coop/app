@@ -55,3 +55,12 @@
         z-index: 40;
     }
 }
+
+.close {
+    @extend %delete;
+    background: none;
+
+    &:before, &:after {
+        background-color: var(--font-color);
+    }
+}

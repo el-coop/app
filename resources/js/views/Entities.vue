@@ -1,50 +1,80 @@
 <template>
     <div class="container" :class="{'is-loading': loading}">
-        <div class="background-content">
-            <EntityTable :entities="entities" @update="update">
-            </EntityTable>
+        <div class="background-content" ref="backgroundContent" :class="{'background-content--small': selectedEntity}"
+             :style="{height: backgroundContentHeight}">
+            <transition name="fade">
+                <EntityTable v-show="!selectedEntity" :entities="entities" @update="update" @select="viewProjects"/>
+            </transition>
+        </div>
+        <div class="foreground-content">
+            <transition name="fade">
+                <ProjectTable v-if="selectedEntity" :entity="selectedEntity" @close="selectedEntity = null"/>
+            </transition>
         </div>
     </div>
 </template>
 
 <script>
-	import Entity from "../classes/Models/Entity";
-	import EntityTable from "../components/Entities/EntityTable";
-	import InteractsWithObjects from "../mixins/InteractsWithObjects";
+    import Entity from "../classes/Models/Entity";
+    import EntityTable from "../components/Entities/EntityTable";
+    import InteractsWithObjects from "../mixins/InteractsWithObjects";
+    import ProjectTable from "../components/Entities/ProjectTable";
+    import EntityRow from "../components/Entities/EntityRow";
 
-	export default {
-		name: "Entities",
-		components: {EntityTable},
+    export default {
+        name: "Entities",
+        components: {ProjectTable, EntityTable},
         mixins: [InteractsWithObjects],
-		metaInfo: {
-			title: 'Entities'
-		},
+        metaInfo: {
+            title: 'Entities'
+        },
 
-		created() {
-			this.load();
-		},
+        created() {
+            this.load();
+        },
 
-		data() {
-			return {
-				entities: [],
-				loading: false
-			}
-		},
+        data() {
+            return {
+                entities: [],
+                loading: false,
+                selectedEntity: null,
+                backgroundContentHeight: 'auto',
+            }
+        },
 
-		methods: {
-			async load() {
-				this.loading = true;
-				if (!this.entities.length) {
-					this.entities = await Entity.list();
-				}
-				this.loading = false;
+        mounted() {
+            this.$refs.backgroundContent.addEventListener('transitionend', this.backgroundTransitionListener);
+        },
 
-			},
-			update(entity) {
-				this.updateById(this.entities, entity.id, entity);
-			},
-		}
-	}
+        beforeDestroy() {
+            this.$refs.backgroundContent.removeEventListener('transitionend', this.backgroundTransitionListener);
+        },
+
+        methods: {
+            async load() {
+                this.loading = true;
+                if (!this.entities.length) {
+                    this.entities = await Entity.list();
+                }
+                this.loading = false;
+
+            },
+            update(entity) {
+                this.updateById(this.entities, entity.id, entity);
+            },
+            async viewProjects(entity) {
+                this.backgroundContentHeight = this.$refs.backgroundContent.clientHeight + 'px';
+                await this.$nextTick;
+                this.selectedEntity = entity;
+            },
+
+            backgroundTransitionListener(event) {
+                if (event.propertyName === 'height' && !this.selectedEntity) {
+                    this.backgroundContentHeight = 'auto';
+                }
+            }
+        }
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -60,6 +90,16 @@
 
         @include from($mobile) {
             display: block;
+        }
+    }
+
+    .background-content {
+        will-change: height;
+        transition: height 1s;
+        overflow: hidden;
+
+        &--small {
+            height: 60px !important;
         }
     }
 </style>
