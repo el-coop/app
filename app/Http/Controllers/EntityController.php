@@ -10,7 +10,9 @@ class EntityController extends Controller {
 
     public function index() {
         return [
-            'entities' => Entity::select('id', 'name')->with('projects')->get()
+            'entities' => Entity::select('id', 'name')->with(['projects' => function ($query) {
+                $query->select('id', 'entity_id','name', 'token');
+            }])->get()
         ];
     }
 

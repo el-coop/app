@@ -64,8 +64,10 @@
             },
             async viewProjects(entity) {
                 this.backgroundContentHeight = this.$refs.backgroundContent.clientHeight + 'px';
-                await this.$nextTick;
-                this.selectedEntity = entity;
+                await this.nextTick;
+                setTimeout(() => {
+                    this.selectedEntity = entity;
+                },100);
             },
 
             backgroundTransitionListener(event) {
@@ -94,12 +96,19 @@
     }
 
     .background-content {
-        will-change: height;
-        transition: height 1s;
-        overflow: hidden;
-
         &--small {
-            height: 60px !important;
+            display: none;
+        }
+
+        @include from($mobile) {
+            display: block;
+            will-change: height;
+            transition: height 1s;
+            overflow: hidden;
+
+            &--small {
+                height: 60px !important;
+            }
         }
     }
 </style>

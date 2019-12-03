@@ -4,18 +4,27 @@
             <h1 class="title is-1" v-text="entity.name"/>
             <button class="close is-large" @click="$emit('close')"/>
         </div>
-        <EditTable :table-data="entity.projects" title="Projects" :row-component="rowComponent" :headers="headers"/>
+        <EditTable :table-data="entity.projects" title="Projects"
+                   :headers="headers" :entry-class="entryClass"
+                   :extra-data="{entity: entity.id}" @update="update" @delete="destroy">
+            <template #default="{entry, editEntry, deleteEntry}">
+                <ProjectRow :project="entry" :key="`project_${entry.id}`" @edit="editEntry(entry)"
+                            @delete="deleteEntry(entry)"/>
+            </template>
+        </EditTable>
     </div>
 </template>
 
 <script>
     import EditTable from "../../global/Table/EditTable";
     import ProjectRow from "./ProjectRow";
-
+    import Project from "../../classes/Models/Project";
+    import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
     export default {
         name: "ProjectTable",
-        components: {EditTable},
+        components: {ProjectRow, EditTable},
+        mixins: [InteractsWithObjects],
         props: {
             entity: {
                 type: Object,
@@ -34,8 +43,18 @@
                     name: 'name',
                     filterable: true
                 }],
-                rowComponent: ProjectRow
+                entryClass: Project
             }
+        },
+
+        methods: {
+            update(project) {
+                this.updateById(this.entity.projects, project.id, project);
+            },
+
+            destroy(project) {
+                this.removeById(this.entity.projects, project.id);
+            },
         }
     }
 </script>

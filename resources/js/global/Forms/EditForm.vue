@@ -2,7 +2,7 @@
     <div>
         <template v-for="field in fields">
             <component :is="field.component || 'TextField'" v-model="value[field.name]" :options="field"
-                       :error="errors[field.name] ? errors[field.name][0] : ''"></component>
+                       :error="errors[field.name] ? errors[field.name][0] : ''"/>
         </template>
         <button class="button is-success is-fullwidth" @click="submit">Save</button>
     </div>

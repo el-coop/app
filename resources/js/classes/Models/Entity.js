@@ -43,6 +43,7 @@ export default class Entity extends Model {
         this.projects = [];
         if(object.projects){
             object.projects.forEach((project) => {
+                project.entity = this.dbId;
                 this.projects.push(new Project(project));
             })
         }

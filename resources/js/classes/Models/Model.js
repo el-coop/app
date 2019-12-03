@@ -15,7 +15,8 @@ export default class Model {
         return null;
     }
 
-    static updateCallback(){};
+    static updateCallback() {
+    };
 
     constructor(object = {}) {
         this.status = object.id ? 'saved' : 'new';
@@ -47,25 +48,39 @@ export default class Model {
         });
     }
 
+    get url() {
+        return this.constructor.url;
+    }
+
+    get postData() {
+        const result = {};
+        this.constructor.fields().forEach((field) => {
+            const propertyName = field.name;
+            result[propertyName] = this[propertyName];
+        });
+        return result;
+    }
+
+
     async save() {
         this.status = 'uploading';
         let response;
         try {
             this.errors = {};
             let method = 'post';
-            let url = this.constructor.url;
+            let url = this.url;
             if (this.dbId) {
                 method = 'patch';
                 url += `/${this.dbId}`;
             }
 
-            response = await httpService[method](url, this.postData());
+            response = await httpService[method](url, this.postData);
 
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';
                 this.dbId = response.data.id;
                 this.id = response.data.id;
-                this.constructor.updateCallback(this);
+                this.constructor.updateCallback(this, response);
                 return response;
             }
 
@@ -78,13 +93,17 @@ export default class Model {
         return response;
     }
 
-    postData() {
-        const result = {};
-        this.constructor.fields().forEach((field) => {
-            const propertyName = field.name;
-            result[propertyName] = this[propertyName];
-        });
-        return result;
-    }
+    async delete() {
+        this.status = 'deleting';
 
+        try {
+            const response = await httpService.delete(`${this.url}/${this.dbId}`);
+            if (response.status > 199 && response.status < 300) {
+                return true;
+            }
+        } catch (error) {
+        }
+        this.status = 'saved';
+        return false;
+    }
 }
