@@ -1,12 +1,13 @@
 <template>
-    <div @click="hidden = ! hidden">
+    <div @click="hidden = ! hidden" class="json">
         {
-        <span v-if="hidden">...</span>
-        <template v-else>
+        <span v-if="hidden && Object.values(json).length">...</span>
+        <template v-if="!hidden">
             <div v-for="(value, key) in json" @click.stop>
                 <b v-text="`${key}:`"/>
-                <span v-if="typeof value !== 'object'" v-text="value || 'Null'"/>
-                <JsonViewer v-else :json="value" class="inner-json"/>
+                <span v-if="typeof value !== 'object'" class="json__value" v-text="value"/>
+                <JsonViewer v-else-if="value && Object.values(value).length" :json="value" class="json__inner"/>
+                <span v-else>{ }</span>
             </div>
         </template>
         }
@@ -35,8 +36,16 @@
         }
     }
 </script>
-<style scoped>
-    .inner-json {
-        margin-left: var(--size-7);
+<style lang="scss" scoped>
+    .json {
+        &__inner {
+            margin-left: var(--size-7);
+        }
+
+        &__value {
+            white-space: pre;
+        }
+
+        overflow-x: auto;
     }
 </style>
