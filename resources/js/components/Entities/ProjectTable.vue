@@ -1,17 +1,26 @@
 <template>
     <div class="card">
-        <div class="card__header">
-            <h1 class="title is-1" v-text="entity.name"/>
-            <button class="close is-large" @click="$emit('close')"/>
-        </div>
-        <EditTable :table-data="entity.projects" title="Projects"
-                   :headers="headers" :entry-class="entryClass"
-                   :extra-data="{entity: entity.id}" @update="update" @delete="destroy">
-            <template #default="{entry, editEntry, deleteEntry}">
-                <ProjectRow :project="entry" :key="`project_${entry.id}`" @edit="editEntry(entry)"
-                            @delete="deleteEntry(entry)"/>
-            </template>
-        </EditTable>
+        <transition name="fade" mode="out-in">
+            <ErrorTable key="errors_table" v-if="selectedProject" :project="selectedProject"
+                        @close="selectedProject = null"/>
+            <div key="projects_table" v-else>
+                <div class="card__header">
+                    <h1 class="title is-1" v-text="entity.name"/>
+                    <button class="close is-large" @click="$emit('close')"/>
+                </div>
+                <EditTable :table-data="entity.projects" title="Projects"
+                           :headers="headers" :entry-class="entryClass"
+                           :extra-data="{entity: entity.id}" @update="update" @delete="destroy">
+                    <template #default="{entry, index, editEntry, deleteEntry, toggleActive, active}">
+                        <ProjectRow :project="entry" :key="`project_${entry.id}`" @edit="editEntry(entry)"
+                                    :class="{'table__row--active': active}"
+                                    @view="selectedProject = entry"
+                                    @toggle="toggleActive(index)"
+                                    @delete="deleteEntry(entry)"/>
+                    </template>
+                </EditTable>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -20,10 +29,12 @@
     import ProjectRow from "./ProjectRow";
     import Project from "../../classes/Models/Project";
     import InteractsWithObjects from "../../mixins/InteractsWithObjects";
+    import Modal from "../../global/Modal";
+    import ErrorTable from "./ErrorTable";
 
     export default {
         name: "ProjectTable",
-        components: {ProjectRow, EditTable},
+        components: {ErrorTable, ProjectRow, EditTable, Modal},
         mixins: [InteractsWithObjects],
         props: {
             entity: {
@@ -36,14 +47,15 @@
             return {
                 headers: [{
                     title: 'Action',
-                    class: 'table__cell--narrow table__cell--important'
+                    class: 'table__cell--narrow'
                 }, {
                     title: 'Name',
                     class: 'table__cell--important',
                     name: 'name',
                     filterable: true
                 }],
-                entryClass: Project
+                entryClass: Project,
+                selectedProject: null,
             }
         },
 

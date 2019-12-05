@@ -33,7 +33,9 @@ class StoreProjectRequest extends FormRequest {
 
         $project->name = $this->get('name');
         $project->entity_id = $entity->id;
-        $project->token = Str::random(80);
+        if (!$project->token) {
+            $project->token = Str::random(80);
+        }
         $project->save();
 
         return $project;

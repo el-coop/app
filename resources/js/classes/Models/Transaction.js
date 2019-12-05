@@ -44,7 +44,7 @@ export default class Transaction extends Model{
         }]
     }
 
-    static get url(){
+    static get endpoint(){
         return '/transactions';
     }
 }

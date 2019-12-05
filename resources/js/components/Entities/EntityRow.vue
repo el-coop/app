@@ -1,5 +1,5 @@
 <template>
-    <tr class="table__row  table__row--responsive" @click="$emit('select')">
+    <tr class="table__row  table__row--responsive">
         <td class="table__cell table__cell--centered table__cell--narrow table__cell--important"
             :class="{'is-loading': entity.status === 'uploading'}">
             <SplitActionButtons v-if="withDelete" :entry="entity" @delete="$emit('delete')" @edit="$emit('edit')"/>
@@ -10,7 +10,8 @@
                 <FontAwesomeIcon :icon="icon" fixed-width/>
             </button>
         </td>
-        <td v-text="entity.name" class="table__cell table__cell--important"></td>
+        <td class="table__cell table__cell--important table__cell--clickable" v-text="entity.name"
+            @click="$emit('select')"/>
     </tr>
 </template>
 

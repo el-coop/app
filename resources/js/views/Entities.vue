@@ -96,6 +96,8 @@
     }
 
     .background-content {
+        padding-left: 2em;
+
         &--small {
             display: none;
         }

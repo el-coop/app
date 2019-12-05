@@ -4,7 +4,7 @@
             :class="{'is-loading': transaction.status === 'uploading'}">
             <SplitActionButtons :entry="transaction" @edit="$emit('edit')" @delete="$emit('delete')"/>
         </td>
-        <td class="table__cell table__cell--narrow " data-label="Date" v-text="transaction.date.toLocaleDateString('fr-FR',{
+        <td class="table__cell table__cell--narrow " data-label="Date" v-text="transaction.date.toLocaleDateString('en-GB',{
             timeZone: 'UTC',
         })"/>
         <td class="table__cell table__cell--important" v-text="entityName"/>
@@ -60,23 +60,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    @import "~bulma/sass/utilities/initial-variables";
-    @import "~bulma/sass/utilities/functions";
-    @import "~bulma/sass/utilities/derived-variables";
-    @import "~bulma/sass/utilities/mixins";
-    @import "../../../sass/variables";
-
-    .split-buttons {
-        width: 100%;
-
-        @include until($mobile) {
-            &__button {
-                width: 100%;
-                border-radius: var(--radius);
-            }
-        }
-    }
-
-</style>

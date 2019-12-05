@@ -3,11 +3,11 @@ import httpService from "../HttpService";
 export default class Model {
     static async get() {
         try {
-            const response = await httpService.get(this.url);
+            const response = await httpService.get(this.endpoint);
             if (response.status > 199 || response.status < 300) {
                 const responseData = response.data;
-                return responseData[this.url].map((entity) => {
-                    return new this(entity);
+                return responseData[this.endpoint].map((entry) => {
+                    return new this(entry);
                 });
             }
         } catch (e) {
@@ -48,8 +48,8 @@ export default class Model {
         });
     }
 
-    get url() {
-        return this.constructor.url;
+    get endpoint() {
+        return this.constructor.endpoint;
     }
 
     get postData() {
@@ -68,13 +68,13 @@ export default class Model {
         try {
             this.errors = {};
             let method = 'post';
-            let url = this.url;
+            let endpoint = this.endpoint;
             if (this.dbId) {
                 method = 'patch';
-                url += `/${this.dbId}`;
+                endpoint += `/${this.dbId}`;
             }
 
-            response = await httpService[method](url, this.postData);
+            response = await httpService[method](endpoint, this.postData);
 
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';
@@ -97,7 +97,7 @@ export default class Model {
         this.status = 'deleting';
 
         try {
-            const response = await httpService.delete(`${this.url}/${this.dbId}`);
+            const response = await httpService.delete(`${this.endpoint}/${this.dbId}`);
             if (response.status > 199 && response.status < 300) {
                 return true;
             }

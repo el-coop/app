@@ -16,7 +16,7 @@ export default class Entity extends Model {
         }]
     }
 
-    static get url() {
+    static get endpoint() {
         return 'entities';
     }
 

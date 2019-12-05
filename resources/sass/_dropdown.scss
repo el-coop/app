@@ -8,11 +8,15 @@
         top: 100%;
         right: 0;
         z-index: 20;
+
+        &-button {
+            width: 100%;
+        }
     }
 
     &:hover, &:active, &:focus, &:focus-within {
 
-        #{$self}__content{
+        #{$self}__content {
             display: block;
         }
     }

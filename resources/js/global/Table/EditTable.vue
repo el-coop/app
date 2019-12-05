@@ -4,7 +4,8 @@
             <DataTable :title="tableIndex ? `${title}_pending` : title" :table-data="currentData" :headers="headers"
                        :only-table="!! tableIndex" @add="editEntry()">
                 <template #default="{entry, index}">
-                    <slot :entry="entry" :index="index" :editEntry="editEntry" :deleteEntry="deleteEntry"/>
+                    <slot :entry="entry" :index="index" :editEntry="editEntry" :deleteEntry="deleteEntry"
+                          :active="active === index" :toggleActive="toggleActive"/>
                 </template>
             </DataTable>
         </template>
@@ -56,7 +57,8 @@
             return {
                 pending: [],
                 form: false,
-                selectedEntry: null
+                selectedEntry: null,
+                active: null
             }
         },
 
@@ -67,6 +69,13 @@
         },
 
         methods: {
+            toggleActive(index) {
+                if (this.active === index) {
+                    return this.active = null;
+                }
+                this.active = index;
+            },
+
             editEntry(entry) {
                 if (!entry) {
                     entry = new this.entryClass(this.extraData);
