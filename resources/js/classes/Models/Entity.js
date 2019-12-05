@@ -1,4 +1,5 @@
 import Model from "./Model";
+import Project from "./Project";
 
 function findById(array, id) {
     return array.findIndex((object) => {
@@ -15,7 +16,7 @@ export default class Entity extends Model {
         }]
     }
 
-    static get url() {
+    static get endpoint() {
         return 'entities';
     }
 
@@ -35,5 +36,16 @@ export default class Entity extends Model {
         }
 
         entityList.push(entity);
+    }
+
+    constructor(object = {}) {
+        super(object);
+        this.projects = [];
+        if(object.projects){
+            object.projects.forEach((project) => {
+                project.entity = this.dbId;
+                this.projects.push(new Project(project));
+            })
+        }
     }
 }

@@ -3,6 +3,7 @@ $modal-z: 40;
 $modal-background-background-color: rgba($scheme-invert, 0.86);
 
 $modal-content-width: 640px;
+$modal-content-width-wide: 800px;
 $modal-content-margin-mobile: 20px;
 $modal-content-spacing-mobile: 160px;
 $modal-content-spacing-tablet: 40px;
@@ -59,6 +60,10 @@ $modal-card-body-padding: 20px;
         margin: 0 auto;
         max-height: calc(100vh - #{$modal-content-spacing-tablet});
         width: $modal-content-width;
+
+        &--wide {
+            width: $modal-content-width-wide;
+        }
 
     }
 }

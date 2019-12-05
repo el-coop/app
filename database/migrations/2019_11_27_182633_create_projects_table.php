@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('entity_id')->unsigned();
             $table->string('name');
+            $table->string('token',80)->unique();
             $table->timestamps();
 
             $table->foreign('entity_id')->references('id')->on('entities');

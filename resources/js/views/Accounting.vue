@@ -20,7 +20,7 @@
 	import InteractsWithObjects from "../mixins/InteractsWithObjects";
 	import AccountDisplay from "../components/Accounting/AccountDisplay";
 	import httpService from "../classes/HttpService";
-	import Transaction from "../classes/Transaction";
+	import Transaction from "../classes/Models/Transaction";
 	import TransactionsChart from "../components/Accounting/TransactionsChart";
 	import Entity from "../classes/Models/Entity";
 

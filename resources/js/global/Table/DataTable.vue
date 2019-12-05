@@ -49,8 +49,8 @@
 </template>
 
 <script>
-    import SelectField from "./Fields/SelectField";
-    import TextField from "./Fields/TextField";
+    import SelectField from "../Fields/SelectField";
+    import TextField from "../Fields/TextField";
 
     export default {
         name: "DataTable",
