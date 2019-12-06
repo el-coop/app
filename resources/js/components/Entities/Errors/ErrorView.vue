@@ -2,6 +2,7 @@
     <div>
         <div class="card__header">
             <h3 class="title is-3" v-text="errorEntry.message"/>
+            <span v-text="`(${entryIndex+1}/${this.errorEntry.entries.length})`"/>
         </div>
         <div class="carousel">
             <button class="button carousel__arrow carousel__arrow--prev" @click="changeEntry(-1)">
