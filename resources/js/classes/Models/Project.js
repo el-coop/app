@@ -34,6 +34,7 @@ export default class Project extends Model {
         const response = await httpService.get(`projects/${this.id}/errors`);
         if (response.status > 199 && response.status < 300) {
             this.projectErrors = response.data.map((error) => {
+                error.project_id = this.id;
                 return new ProjectError(error);
             });
         } else if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {

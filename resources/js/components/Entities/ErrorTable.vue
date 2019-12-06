@@ -6,7 +6,7 @@
         </div>
         <DataTable :table-data="project.projectErrors" :headers="headers" title="Errors">
             <template #default="{entry, index}">
-                <ErrorRow :key="`error_${index}`" :entry="entry" @view="view(entry)"/>
+                <ErrorRow :key="`error_${index}`" :entry="entry" @view="view(entry)" @delete="deleteEntry(entry)"/>
             </template>
         </DataTable>
         <Modal :active.sync="viewModal" @update:active="viewed=null" :wide="true">
@@ -16,14 +16,16 @@
 </template>
 
 <script>
-    import DataTable from "../../global/Table/DataTable";
     import Modal from "../../global/Modal";
     import ErrorRow from "./Errors/ErrorRow";
     import ErrorView from "./Errors/ErrorView";
+    import InteractsWithObjects from "../../mixins/InteractsWithObjects";
+    import DataTable from "../../global/Table/DataTable";
 
     export default {
         name: "ErrorTable",
-        components: {ErrorRow, Modal, DataTable, ErrorView},
+        components: {ErrorRow, Modal, ErrorView, DataTable},
+        mixins: [InteractsWithObjects],
 
         props: {
             project: {
@@ -71,6 +73,16 @@
             view(entry) {
                 this.viewed = entry;
                 this.viewModal = true;
+            },
+            async deleteEntry(entry) {
+                const response = await entry.delete();
+
+                if (response) {
+                    this.removeById(this.project.projectErrors, entry.id);
+                    this.$toast.success(' ', 'Entry deleted');
+                    return;
+                }
+                this.$toast.error('Please try again', 'Entry delete error');
             }
         }
     }
