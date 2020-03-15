@@ -20,16 +20,18 @@ export default {
             state.user = true;
         },
         logout(state) {
-            localStorage.removeItem('authenticated');
-            state.user = false;
-            router.push('/login');
+            if (state.user) {
+                localStorage.removeItem('authenticated');
+                state.user = false;
+                router.push('/login');
+            }
         }
     },
     actions: {
         async login({commit}, data) {
             const response = await httpService.post('/login', data);
             if (response.status < 200 || response.status > 299) {
-                throw new Error('Login Failes');
+                throw new Error('Login Fails');
             }
             commit('login');
         },

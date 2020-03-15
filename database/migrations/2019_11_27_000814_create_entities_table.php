@@ -14,11 +14,11 @@ class CreateEntitiesTable extends Migration
     public function up()
     {
         Schema::create('entities', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('user_id')->unsigned()->nullable()->default(null);
             $table->string('name')->unique();
             $table->timestamps();
-            
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }

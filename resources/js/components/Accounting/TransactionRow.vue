@@ -1,7 +1,7 @@
 <template>
     <tr class="table__row  table__row--responsive" @click="$emit('toggle')">
         <td class="table__cell table__cell--centered table__cell--narrow no-loading-overlay table__cell--action"
-            :class="{'is-loading': transaction.status === 'uploading'}">
+            :class="{'is-loading': transaction.status === 'uploading' || transaction.status === 'deleting'}">
             <SplitActionButtons :entry="transaction" @edit="$emit('edit')" @delete="$emit('delete')"/>
         </td>
         <td class="table__cell table__cell--narrow " data-label="Date" v-text="transaction.date.toLocaleDateString('en-GB',{

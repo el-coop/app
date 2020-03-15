@@ -12,7 +12,7 @@ class CreateProjectErrorsTable extends Migration {
      */
     public function up() {
         Schema::create('project_errors', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->bigInteger('project_id')->unsigned();
             $table->enum('type', ['serverSide', 'clientSide']);
             $table->string('url');

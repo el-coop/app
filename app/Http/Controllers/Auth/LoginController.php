@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Auth;
 use Carbon\Carbon;
 use Cookie;
@@ -28,7 +29,7 @@ class LoginController extends Controller {
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -57,8 +58,8 @@ class LoginController extends Controller {
         $cookieJar = $this->guard()->getCookieJar();
 
         $cookieValue = $cookieJar->queued($rememberTokenName)->getValue();
-        $cookieJar->queue($rememberTokenName, $cookieValue,config('auth.duration') );
-        $cookieJar->queue("{$rememberTokenName}_expiry", Carbon::now()->addMinutes(config('auth.duration') ), config('auth.duration') );
+        $cookieJar->queue($rememberTokenName, $cookieValue, config('auth.duration'));
+        $cookieJar->queue("{$rememberTokenName}_expiry", Carbon::now()->addMinutes(config('auth.duration')), config('auth.duration'));
 
         $request->session()->regenerate();
 

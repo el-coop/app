@@ -1,7 +1,7 @@
 <template>
     <tr class="table__row  table__row--responsive">
         <td class="table__cell table__cell--centered table__cell--narrow table__cell--action"
-            :class="{'is-loading': project.status === 'uploading'}">
+            :class="{'is-loading': project.status === 'uploading' || project.status === 'deleting'}">
             <SplitActionButtons :entry="project" @edit="$emit('edit')" @delete="$emit('delete')">
                 <button class="button is-small is-info dropdown__content-button" @click.stop="$emit('view')">
                     <FontAwesomeIcon icon="list" class="button__icon" fixed-width/>
