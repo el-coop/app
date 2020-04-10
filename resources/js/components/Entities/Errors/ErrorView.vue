@@ -12,7 +12,7 @@
                 <div v-for="(value, label) in selectedEntry" class="field">
                     <label class="label" v-text="label.charAt(0).toUpperCase() + label.substring(1).replace('_',' ')"/>
                     <div v-if="typeof value !== 'object'" class="code" v-text="value"/>
-                    <JsonViewer v-else class="code" :json="value"/>
+                    <JsonViewer v-else class="code" :json="value || []"/>
                 </div>
             </div>
             <button class="button carousel__arrow carousel__arrow--next" @click="changeEntry(+1)">

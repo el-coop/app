@@ -1,6 +1,8 @@
 <?php
 
 Route::prefix('projects/{project}')->middleware('auth')->group(function () {
-    Route::get('errors', 'ProjectErrorController@index');
-    Route::delete('errors/{projectError}', 'ProjectErrorController@destroy');
+    Route::prefix('errors')->group(function () {
+        Route::get('/', 'ProjectErrorController@index');
+        Route::delete('{projectError}', 'ProjectErrorController@destroy');
+    });
 });
