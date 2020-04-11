@@ -51,7 +51,4 @@ class DatabaseBackupTest extends TestCase {
         $this->actingAs($developer)->get(action('DatabaseBackupController@backup'))->assertHeader('content-disposition', "attachment; filename=\"elcoop_db_backup - {$time}.sql\"");
     }
 
-    public function () {
-
-    }
 }
