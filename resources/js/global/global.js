@@ -11,7 +11,7 @@ import {
     faIdCard,
     faCaretDown,
     faList,
-    faEye
+    faEye, faDatabase
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueIziToast from 'vue-izitoast';
@@ -21,7 +21,7 @@ Vue.use(VueIziToast);
 Vue.use(VueMeta);
 Vue.use(VueRouter);
 Vue.prototype.$bus = new Vue();
-library.add(faFileInvoiceDollar, faSignOutAlt, faEdit, faExclamation, faTrash, faSearch, faIdCard, faCaretDown, faList, faEye);
+library.add(faFileInvoiceDollar, faSignOutAlt, faEdit, faExclamation, faTrash, faSearch, faIdCard, faCaretDown, faList, faEye, faDatabase);
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 

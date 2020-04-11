@@ -34,3 +34,13 @@ html, body, #app {
 .logo {
     font-family: mestizos-unidos;
 }
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+
+    &:hover {
+        color: var(--link-hover-color);
+        text-decoration: underline;
+    }
+}

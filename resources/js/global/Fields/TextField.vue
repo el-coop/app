@@ -1,6 +1,6 @@
 <template>
     <div class="field" :class="{'field--is-half': options.width === 0.5}">
-        <label class="label" v-if="options.label" :for="id" v-text="options.label"/>
+        <label class="label" v-if="options.label" :for="id" v-html="options.label"/>
         <input :type="options.type" :id="id" class="input" v-model="val" :placeholder="options.placeholder || ''"
                :step="options.step || 0.1"
                :name="options.name || ''" :format="options.format || 'dd/mm/yyyy'" :readonly="options.readonly || false">

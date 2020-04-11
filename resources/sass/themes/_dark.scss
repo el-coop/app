@@ -28,6 +28,9 @@
     --chart-legend-weight: #{$weight-bold};
     --chart-legend-color: rgba(255, 255, 255, 0.4);
 
+    --link-color: #adadff;
+    --link-hover-color: #6161ff;
+
     @each $name, $color in $dark-colors {
         @include shades($name, $color);
     }

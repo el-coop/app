@@ -8,7 +8,7 @@
             <ThemePicker class="navbar__menu-item"/>
             <RouterLink v-for="route in routes" :to="route.path" class="navbar__menu-item"
                         :key="route.name">
-                <FontAwesomeIcon class="navbar__menu-item-icon" v-if="icons[route.name]" :icon="icons[route.name]" fixed-width/>
+                <FontAwesomeIcon class="navbar__menu-item-icon" v-if="route.meta && route.meta.icon" :icon="route.meta.icon" fixed-width/>
                 <span class="navbar__menu-item-text" v-text="route.name"/>
             </RouterLink>
             <a class="navbar__menu-item navbar__menu-item--danger" @click="logout">
@@ -37,10 +37,6 @@
 
 		data() {
 			return {
-				icons: {
-					Accounting: 'file-invoice-dollar',
-					Entities: 'id-card',
-				},
 				routes: []
 			};
 		},
