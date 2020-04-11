@@ -11,4 +11,8 @@ class HomeController extends Controller {
             'token' => csrf_token()
         ];
     }
+
+    public function any() {
+        return view('spa');
+    }
 }

@@ -25,6 +25,4 @@ Route::middleware(['spa'])->group(function () {
     }
 });
 
-Route::get('/{any}', function () {
-    return view('spa');
-})->where('any', '.*');
+Route::get('/{any}','HomeController@any')->where('any', '.*');
