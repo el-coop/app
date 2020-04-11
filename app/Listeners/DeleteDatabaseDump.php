@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Storage;
 
-class DeleteDatabaseDump {
+class DeleteDatabaseDump implements ShouldQueue {
     /**
      * Create the event listener.
      *
