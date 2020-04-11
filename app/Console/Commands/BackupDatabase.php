@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\DatabaseBackupEmail;
+use App\Services\Database\DatabaseDumperContract;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
@@ -23,14 +24,19 @@ class BackupDatabase extends Command {
      * @var string
      */
     protected $description = 'Backs up the database and mails it to given email';
+    /**
+     * @var DatabaseDumperContract
+     */
+    protected DatabaseDumperContract $dumper;
 
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param DatabaseDumperContract $dumper
      */
-    public function __construct() {
+    public function __construct(DatabaseDumperContract $dumper) {
         parent::__construct();
+        $this->dumper = $dumper;
     }
 
     /**
@@ -43,15 +49,7 @@ class BackupDatabase extends Command {
         $filename = "backups/mysql-backup.sql";
 
         if (!Storage::exists($filename)) {
-            MySql::create()
-                ->setDumpBinaryPath(config('database.connections.mysql.dumper_path'))
-                ->setDbName(config('database.connections.mysql.database'))
-                ->setUserName(config('database.connections.mysql.username'))
-                ->setPassword(config('database.connections.mysql.password'))
-                ->doNotCreateTables()
-                ->excludeTables('migrations')
-                ->addExtraOption('--complete-insert')
-                ->dumpToFile(storage_path("app/{$filename}"));
+            $this->dumper->dump($filename);
         }
 
         $date = Carbon::now()->format("d-m-Y h:i");

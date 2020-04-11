@@ -167,6 +167,7 @@ return [
          */
 
         \App\Providers\CurrencyConverterProvider::class,
+        \App\Providers\DatabaseDumperProvider::class,
 
         /*
          * Application Service Providers...

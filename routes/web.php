@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
-Route::get('database/backup',"DatabaseBackupController@backup");
+Route::middleware('auth')->get('database/backup',"DatabaseBackupController@backup");
 
 Route::middleware(['spa'])->group(function () {
     foreach (\File::allFiles(__DIR__ . "/web") as $routeFile) {
