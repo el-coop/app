@@ -57,10 +57,11 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
-			'engine' => 'InnoDB',
-			'options' => extension_loaded('pdo_mysql') ? array_filter([
+            'engine' => 'InnoDB',
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dumper_path' => env('MYSQL_DUMPER_PATH', '/')
         ],
 
         'pgsql' => [
@@ -123,7 +124,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_').'_database_',
+            'prefix' => Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_',
         ],
 
         'default' => [

@@ -32,6 +32,9 @@ $light-font-color: #363636;
     --chart-legend-weight: #{$weight-bold};
     --chart-legend-color: rgba(0,0,0,0.4);
 
+    --link-color: #4040c8;
+    --link-hover-color: #2a2a92;
+
     @each $name, $color in $light-colors {
         @include shades($name, $color);
     }

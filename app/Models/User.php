@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Backupable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable {
     use Notifiable;
-    
+    use Backupable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +19,7 @@ class User extends Authenticatable {
     protected $fillable = [
         'name', 'email', 'password',
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -26,7 +28,7 @@ class User extends Authenticatable {
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -35,8 +37,16 @@ class User extends Authenticatable {
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
+    protected $with = [
+      'scheduledActions'
+    ];
+
     public function user() {
         return $this->morphTo();
+    }
+
+    public function scheduledActions() {
+        return $this->hasMany(ScheduledAction::class);
     }
 }

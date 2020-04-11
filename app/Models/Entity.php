@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Backupable;
 use Illuminate\Database\Eloquent\Model;
 
 class Entity extends Model {
+    use Backupable;
+
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }

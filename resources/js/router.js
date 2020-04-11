@@ -3,6 +3,7 @@ import AuthMiddleware from "./middleware/AuthMiddleware";
 
 const Accounting = () => import('./views/Accounting' /* webpackChunkName: "js/Accounting" */);
 const Entities = () => import('./views/Entities' /* webpackChunkName: "js/Entities" */);
+const Database = () => import('./views/Database' /* webpackChunkName: "js/Database" */);
 const Login = () => import('./views/Auth/Login' /* webpackChunkName: "js/Login" */);
 const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "js/PageNotFound" */);
 
@@ -29,12 +30,26 @@ const router = new Router({
             path: '/accounting',
             name: 'Accounting',
             component: Accounting,
-            beforeEnter: AuthMiddleware.auth
-        },{
+            beforeEnter: AuthMiddleware.auth,
+            meta: {
+                icon: 'file-invoice-dollar',
+            }
+        }, {
             path: '/entities',
             name: 'Entities',
             component: Entities,
-            beforeEnter: AuthMiddleware.auth
+            beforeEnter: AuthMiddleware.auth,
+            meta: {
+                icon: 'id-card',
+            }
+        }, {
+            path: '/database',
+            name: 'Database',
+            component: Database,
+            beforeEnter: AuthMiddleware.auth,
+            meta: {
+                icon: 'database',
+            }
         },
         {
             path: '/*',
