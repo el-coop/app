@@ -13,7 +13,7 @@ class DestroyTransactionRequest extends FormRequest {
     public function authorize() {
         return true;
     }
-    
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,11 +24,12 @@ class DestroyTransactionRequest extends FormRequest {
             //
         ];
     }
-    
+
     public function commit() {
         $transaction = $this->route('transaction');
+        $transaction->attachments->each->delete();
         $transaction->delete();
-        
+
         return true;
     }
 }

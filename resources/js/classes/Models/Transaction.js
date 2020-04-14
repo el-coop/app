@@ -1,6 +1,18 @@
 import Model from "./Model";
 
-export default class Transaction extends Model{
+export default class Transaction extends Model {
+    static updateCallback(transaction, response) {
+        transaction.files = [];
+        transaction.attachments = [];
+        response.data.attachments.forEach((attachment) => {
+            transaction.attachments.push({
+                id: attachment.id,
+                name: attachment.name,
+                checked: true
+            });
+        });
+    }
+
     static fields() {
         return [{
             name: 'date',
@@ -13,7 +25,6 @@ export default class Transaction extends Model{
             class: 'select--fullwidth',
             component: 'SelectField',
             type: "number"
-
         }, {
             name: 'reason',
             label: 'Reason',
@@ -41,10 +52,20 @@ export default class Transaction extends Model{
             name: 'comment',
             label: 'Comment',
             component: 'TextareaField'
+        }, {
+            name: 'attachments',
+            type: 'array',
+            label: 'Current files',
+            component: 'FileArrayField'
+        }, {
+            name: 'files',
+            type: 'array',
+            label: 'Attach files',
+            component: 'MultiFileField'
         }]
     }
 
-    static get endpoint(){
+    static get endpoint() {
         return '/transactions';
     }
 }

@@ -20,7 +20,6 @@ class ProjectyErrorApiTest extends TestCase {
     }
 
     public function test_can_save_error_with_correct_credentials() {
-        $this->withoutExceptionHandling();
         $project = factory(Project::class)->create([
             'entity_id' => factory(Entity::class)->create()->id
         ]);
@@ -39,7 +38,6 @@ class ProjectyErrorApiTest extends TestCase {
             'type' => 'serverSide',
             'url' => 'https://test.test',
             'message' => 'message',
-            'exception' => json_encode(["exception" => "bla"]),
             'user' => null,
             'extra_data' => null,
         ]);

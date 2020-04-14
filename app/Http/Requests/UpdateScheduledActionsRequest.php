@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\ScheduledAction;
+use App\Rules\CronStatement;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateScheduledActionsRequest extends FormRequest {
@@ -23,7 +24,7 @@ class UpdateScheduledActionsRequest extends FormRequest {
     public function rules() {
         return [
             'action' => 'required|in:backupDatabase',
-            'frequency' => 'nullable|string|cron'
+            'frequency' => ['nullable', 'string', new CronStatement]
         ];
     }
 

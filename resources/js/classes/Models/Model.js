@@ -1,5 +1,21 @@
 import httpService from "../HttpService";
 
+function serializeData(formData, name, value) {
+    if (value !== null) {
+        if (value instanceof Date) {
+            formData.append(name, value.toUTCString());
+        } else if (value instanceof File) {
+            formData.append(name, value);
+        } else if (Array.isArray(value) || (typeof value === 'object')) {
+            for (let val in value) {
+                serializeData(formData, `${name}[${val}]`, value[val]);
+            }
+        } else {
+            formData.append(name, value);
+        }
+    }
+};
+
 export default class Model {
     static async get() {
         try {
@@ -28,17 +44,29 @@ export default class Model {
             const propertyName = field.name;
             if (object[propertyName]) {
                 this[propertyName] = object[propertyName];
-                if (field.type === 'date') {
-                    this[propertyName] = new Date(this[propertyName]);
-                } else if (field.type === 'number') {
-                    this[propertyName] = parseFloat(this[propertyName]);
+                switch (field.type) {
+                    case 'date':
+                        this[propertyName] = new Date(this[propertyName]);
+                        break;
+                    case 'number':
+                        this[propertyName] = parseFloat(this[propertyName]);
+                        break;
+                    case 'array':
+                        this[propertyName] = JSON.parse(this[propertyName]).map((entry) => {
+                            entry.checked = true;
+                            return entry;
+                        });
+                        break;
                 }
             } else {
-                switch (propertyName) {
+                switch (field.type) {
                     case 'date':
                         this[propertyName] = new Date();
                         break;
-                    case 'amount':
+                    case 'array':
+                        this[propertyName] = [];
+                        break;
+                    case 'number':
                         this[propertyName] = 0;
                         break;
                     default:
@@ -53,12 +81,14 @@ export default class Model {
     }
 
     get postData() {
-        const result = {};
+        const formData = new FormData;
+
         this.constructor.fields().forEach((field) => {
             const propertyName = field.name;
-            result[propertyName] = this[propertyName];
+            const value = this[propertyName] || null;
+            serializeData(formData, propertyName, value);
         });
-        return result;
+        return formData;
     }
 
 
@@ -66,15 +96,15 @@ export default class Model {
         this.status = 'uploading';
         let response;
         try {
+            const data = this.postData;
             this.errors = {};
-            let method = 'post';
             let endpoint = this.endpoint;
             if (this.dbId) {
-                method = 'patch';
+                data.append('_method', 'patch');
                 endpoint += `/${this.dbId}`;
             }
 
-            response = await httpService[method](endpoint, this.postData);
+            response = await httpService.post(endpoint, data);
 
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';

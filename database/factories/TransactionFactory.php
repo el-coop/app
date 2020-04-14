@@ -13,6 +13,7 @@ $factory->define(Transaction::class, function (Faker $faker) {
         $rate = $faker->randomFloat(2, 3, 5);
     }
     return [
+        'entity_id' => factory(\App\Models\Entity::class),
         'date' => $faker->dateTimeBetween('-2 months'),
         'reason' => $faker->sentence(),
         'amount' => $faker->numberBetween(-1000, 1000),
