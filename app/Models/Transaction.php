@@ -11,4 +11,8 @@ class Transaction extends Model {
     public function entity() {
         $this->belongsTo(Entity::class);
     }
+
+    public function attachments() {
+        return $this->hasMany(TransactionAttachment::class);
+    }
 }

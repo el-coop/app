@@ -9,50 +9,52 @@
 </template>
 
 <script>
-	import TextField from "../../global/Fields/TextField";
-	import SelectField from "../../global/Fields/SelectField";
-	import TextareaField from "../../global/Fields/TextareaField";
+    import TextField from "../../global/Fields/TextField";
+    import SelectField from "../../global/Fields/SelectField";
+    import TextareaField from "../../global/Fields/TextareaField";
+    import MultiFileField from "../Fields/MultiFileField";
+    import FileArrayField from "../Fields/FileArrayField";
 
-	export default {
-		name: "EditForm",
-		components: {TextareaField, TextField, SelectField},
-		model: {
-			prop: 'entry',
-			event: 'update'
-		},
+    export default {
+        name: "EditForm",
+        components: {TextareaField, TextField, SelectField, MultiFileField, FileArrayField},
+        model: {
+            prop: 'entry',
+            event: 'update'
+        },
 
-		props: {
-			entry: {
-				required: true,
-				type: Object
-			},
-			fields: {
-				required: true,
-				type: Array
-			},
-		},
+        props: {
+            entry: {
+                required: true,
+                type: Object
+            },
+            fields: {
+                required: true,
+                type: Array
+            },
+        },
 
-		data() {
-			const value = Object.assign(Object.create(Object.getPrototypeOf(this.entry)), this.entry);
+        data() {
+            const value = Object.assign(Object.create(Object.getPrototypeOf(this.entry)), this.entry);
 
-			return {
-				value,
-				errors: value.errors,
-			}
-		},
+            return {
+                value,
+                errors: value.errors,
+            }
+        },
 
-		methods: {
-			submit() {
-				this.fields.forEach((field) => {
-					const name = field.name;
-					if (field.type === 'date') {
-						this.value[name] = new Date(this.value[name]);
-					} else if (field.type === 'number') {
-						this.value[name] = parseFloat(this.value[name]);
-					}
-				});
-				this.$emit('update', this.value);
-			}
-		}
-	}
+        methods: {
+            submit() {
+                this.fields.forEach((field) => {
+                    const name = field.name;
+                    if (field.type === 'date') {
+                        this.value[name] = new Date(this.value[name]);
+                    } else if (field.type === 'number') {
+                        this.value[name] = parseFloat(this.value[name]);
+                    }
+                });
+                this.$emit('update', this.value);
+            }
+        }
+    }
 </script>

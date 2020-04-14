@@ -3,8 +3,7 @@
         <button class="button is-small split-buttons__button split-buttons__button--first"
                 @click.stop="$emit('edit')"
                 :class="{'is-success': entry.status === 'saved', 'is-danger': entry.status === 'error'}"
-                :disabled="entry.status === 'deleting'"
-                v-if="entry.status !== 'uploading'">
+                :disabled="entry.status === 'deleting' || entry.status === 'uploading'">
             <FontAwesomeIcon :icon="icon" fixed-width/>
         </button>
         <div class="dropdown is-hidden-only-mobile">

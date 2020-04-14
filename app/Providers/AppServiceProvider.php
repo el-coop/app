@@ -21,8 +21,6 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        \Validator::extend('cron', function ($attribute, $value, $parameters, $validator) {
-            return CronExpression::isValidExpression($value);
-        });
+
     }
 }

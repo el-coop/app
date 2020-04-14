@@ -41,7 +41,7 @@ class TransactionViewTest extends TestCase {
 
         $transactions->each(fn($transaction) => $response->assertJsonFragment([
             'id' => $transaction->id,
-            'entity' => "{$this->entity->id}"
+            'entity' => $this->entity->id
         ]));
         $this->assertCount($transactions->count(), $response->json('transactions'));
     }
@@ -59,7 +59,7 @@ class TransactionViewTest extends TestCase {
 
         $transactions->each(fn($transaction) => $response->assertJsonFragment([
             'id' => $transaction->id,
-            'entity' => "{$this->entity->id}"
+            'entity' => $this->entity->id
         ]));
 
         $this->assertCount($transactions->count(), $response->json('transactions'));

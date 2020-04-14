@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 
-Route::middleware('auth')->get('database/backup',"DatabaseBackupController@backup");
+Route::middleware('auth')->group(function () {
+    Route::get('transactions/attachment/{attachment}', 'TransactionController@showAttachment');
+    Route::get('database/backup', "DatabaseBackupController@backup");
+});
 
 Route::middleware(['spa'])->group(function () {
     foreach (\File::allFiles(__DIR__ . "/web") as $routeFile) {
@@ -25,4 +28,4 @@ Route::middleware(['spa'])->group(function () {
     }
 });
 
-Route::get('/{any}','HomeController@any')->where('any', '.*');
+Route::get('{any}', 'HomeController@any')->where('any', '.*');
