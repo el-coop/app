@@ -199,4 +199,7 @@ return [
      | To override default domain, specify it as a non-empty value.
      */
     'route_domain' => null,
+
+
+    'theme' => 'dark'
 ];

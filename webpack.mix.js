@@ -19,12 +19,12 @@ mix.js('resources/js/app.js', 'public/js')
     .webpackConfig({
         plugins: [
             new WorkboxPlugin.InjectManifest({
-                swSrc: 'resources/js/serviceWorker/serviceWorker.js',
+                swSrc: './resources/js/serviceWorker/serviceWorker.js',
                 swDest: 'serviceWorker.js'
             })
         ],
         output: {
-            
+
             publicPath: ''
         }
     }).then(
