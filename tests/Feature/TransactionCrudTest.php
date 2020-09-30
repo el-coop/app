@@ -28,8 +28,8 @@ class TransactionCrudTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->developer = $this->getDeveloper();
-        $this->entity = factory(Entity::class)->create();
-        $this->transaction = factory(Transaction::class)->create([
+        $this->entity = Entity::factory()->create();
+        $this->transaction = Transaction::factory()->create([
             'entity_id' => $this->entity
         ]);
     }
@@ -78,7 +78,7 @@ class TransactionCrudTest extends TestCase {
     }
 
     public function test_automatically_calculates_rate_on_create_if_not_given() {
-        $this->mock(CurrencyConverter::class, function ($mock) {
+        $this->mock(CurrencyConverter::class, function($mock) {
             $mock->shouldReceive('getRate')->once()->with('€')->andReturn(3.6);
         });
 
@@ -124,22 +124,22 @@ class TransactionCrudTest extends TestCase {
 
     public function test_developer_can_edit_transaction() {
         Storage::fake();
-        Storage::put('transactionAttachments/file1',' ');
-        Storage::put('transactionAttachments/file2',' ');
-        Storage::put('transactionAttachments/file3',' ');
+        Storage::put('transactionAttachments/file1', ' ');
+        Storage::put('transactionAttachments/file2', ' ');
+        Storage::put('transactionAttachments/file3', ' ');
         $file = UploadedFile::fake()->image('file.doc');
 
-        $attachment1 = factory(TransactionAttachment::class)->create([
+        $attachment1 = TransactionAttachment::factory()->create([
             'transaction_id' => $this->transaction->id,
             'path' => 'file1'
         ]);
-        $attachment2 = factory(TransactionAttachment::class)->create([
+        $attachment2 = TransactionAttachment::factory()->create([
             'transaction_id' => $this->transaction->id,
             'path' => 'file2'
         ]);
 
 
-        $attachment3 = factory(TransactionAttachment::class)->create([
+        $attachment3 = TransactionAttachment::factory()->create([
             'path' => 'file2'
         ]);
 
@@ -177,21 +177,21 @@ class TransactionCrudTest extends TestCase {
             'comment' => 'payment',
         ]);
 
-        $this->assertDatabaseHas('transaction_attachments',[
+        $this->assertDatabaseHas('transaction_attachments', [
             'transaction_id' => $this->transaction->id,
             'name' => $file->getClientOriginalName()
         ]);
 
-        $this->assertDatabaseHas('transaction_attachments',[
+        $this->assertDatabaseHas('transaction_attachments', [
             'id' => $attachment1->id,
         ]);
 
-        $this->assertDatabaseHas('transaction_attachments',[
+        $this->assertDatabaseHas('transaction_attachments', [
             'id' => $attachment3->id,
         ]);
 
 
-        $this->assertDatabaseMissing('transaction_attachments',[
+        $this->assertDatabaseMissing('transaction_attachments', [
             'transaction_id' => $this->transaction->id,
             'id' => $attachment2
         ]);
@@ -202,7 +202,7 @@ class TransactionCrudTest extends TestCase {
     }
 
     public function test_automatically_calculates_rate_on_edit_if_not_given() {
-        $this->mock(CurrencyConverter::class, function ($mock) {
+        $this->mock(CurrencyConverter::class, function($mock) {
             $mock->shouldReceive('getRate')->once()->with('€')->andReturn(3.6);
         });
 
@@ -249,14 +249,14 @@ class TransactionCrudTest extends TestCase {
 
     public function test_developer_can_delete_transaction() {
         Storage::fake();
-        Storage::put('transactionAttachments/file1',' ');
-        Storage::put('transactionAttachments/file2',' ');
+        Storage::put('transactionAttachments/file1', ' ');
+        Storage::put('transactionAttachments/file2', ' ');
 
-        $attachment1 = factory(TransactionAttachment::class)->create([
+        $attachment1 = TransactionAttachment::factory()->create([
             'transaction_id' => $this->transaction->id,
             'path' => 'file1'
         ]);
-        $attachment2 = factory(TransactionAttachment::class)->create([
+        $attachment2 = TransactionAttachment::factory()->create([
             'transaction_id' => $this->transaction->id,
             'path' => 'file2'
         ]);

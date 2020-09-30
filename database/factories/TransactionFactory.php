@@ -1,24 +1,39 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
+use App\Models\Entity;
 use App\Models\Transaction;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Transaction::class, function (Faker $faker) {
-    $currency = $faker->randomElement(['₪', '$', '€']);
-    if ($currency == '₪') {
-        $rate = 1;
-    } else {
-        $rate = $faker->randomFloat(2, 3, 5);
+class TransactionFactory extends Factory {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Transaction::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition() {
+        $currency = $this->faker->randomElement(['₪', '$', '€']);
+        if ($currency == '₪') {
+            $rate = 1;
+        } else {
+            $rate = $this->faker->randomFloat(2, 3, 5);
+        }
+        return [
+            'entity_id' => Entity::factory(),
+            'date' => $this->faker->dateTimeBetween('-2 months'),
+            'reason' => $this->faker->sentence(),
+            'amount' => $this->faker->numberBetween(-1000, 1000),
+            'currency' => $currency,
+            'rate' => $rate,
+            'comment' => $this->faker->paragraph()
+        ];
     }
-    return [
-        'entity_id' => factory(\App\Models\Entity::class),
-        'date' => $faker->dateTimeBetween('-2 months'),
-        'reason' => $faker->sentence(),
-        'amount' => $faker->numberBetween(-1000, 1000),
-        'currency' => $currency,
-        'rate' => $rate,
-        'comment' => $faker->paragraph()
-    ];
-});
+}

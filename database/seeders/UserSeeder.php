@@ -1,18 +1,19 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run() {
-        $user = factory(\App\Models\User::class)->make([
+        $user = User::factory()->developer()->create([
             'email' => 'admin@elcoop.test'
         ]);
-        
-        factory(\App\Models\Developer::class)->create()->user()->save($user);
     }
 }

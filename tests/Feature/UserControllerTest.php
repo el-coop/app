@@ -29,7 +29,7 @@ class UserControllerTest extends TestCase {
     }
 
     public function test_developer_get_own_data() {
-        $action = factory(ScheduledAction::class)->create([
+        $action = ScheduledAction::factory()->create([
             'user_id' => $this->developer->id
         ]);
         $this->actingAs($this->developer)->ajaxGet(action('UserController@show'))->assertJson([
@@ -44,7 +44,7 @@ class UserControllerTest extends TestCase {
     }
 
     public function test_developer_can_delete_schedule_action() {
-        factory(ScheduledAction::class)->create([
+        ScheduledAction::factory()->create([
             'user_id' => $this->developer->id
         ]);
 
@@ -59,7 +59,7 @@ class UserControllerTest extends TestCase {
     }
 
     public function test_developer_can_update_schedule_action() {
-        factory(ScheduledAction::class)->create([
+        ScheduledAction::factory()->create([
             'user_id' => $this->developer->id
         ]);
 

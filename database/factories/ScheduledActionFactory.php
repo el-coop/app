@@ -1,14 +1,31 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\ScheduledAction;
-use Faker\Generator as Faker;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(ScheduledAction::class, function (Faker $faker) {
-    return [
-        'user_id' => factory(\App\Models\User::class),
-        'action' => $faker->randomElement(['backupDatabase']),
-        'frequency' => '* * * * *'
-    ];
-});
+class ScheduledActionFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = ScheduledAction::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'user_id' => User::factory(),
+            'action' => $this->faker->randomElement(['backupDatabase']),
+            'frequency' => '* * * * *'
+        ];
+    }
+}

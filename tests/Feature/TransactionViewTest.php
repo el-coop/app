@@ -23,8 +23,8 @@ class TransactionViewTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->developer = $this->getDeveloper();
-        $this->entity = factory(Entity::class)->create();
-        $this->transactions = factory(Transaction::class, 10)->create([
+        $this->entity = Entity::factory()->create();
+        $this->transactions = Transaction::factory( )->count(10)->create([
             'entity_id' => $this->entity->id
         ]);
     }

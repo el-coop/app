@@ -20,8 +20,8 @@ class ProjectyErrorApiTest extends TestCase {
     }
 
     public function test_can_save_error_with_correct_credentials() {
-        $project = factory(Project::class)->create([
-            'entity_id' => factory(Entity::class)->create()->id
+        $project = Project::factory()->create([
+            'entity_id' => Entity::factory()->create()->id
         ]);
 
         $this->post(action('Api\ProjectErrorController@store', $project->token), [
