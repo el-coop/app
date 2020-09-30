@@ -1,13 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
+use App\Models\Transaction;
 use App\Models\TransactionAttachment;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(TransactionAttachment::class, function (Faker $faker) {
-    return [
-        'transaction_id' => factory(\App\Models\Transaction::class),
-        'name' => $faker->name,
-    ];
-});
+class TransactionAttachmentFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = TransactionAttachment::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'transaction_id' => Transaction::factory(),
+            'name' => $this->faker->name,
+        ];
+    }
+}

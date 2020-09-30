@@ -1,16 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
 use App\Models\ProjectError;
-use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(ProjectError::class, function (Faker $faker) {
-    return [
-        'type' => $faker->randomElement(['serverSide', 'clientSide']),
-        'url' => 'http://demo.test',
-        'message' => 'test message',
-        'exception' => 'Exception',
-        'extra_data' => [],
-    ];
-});
+class ProjectErrorFactory extends Factory {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = ProjectError::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition() {
+        return [
+            'type' => $this->faker->randomElement(['serverSide', 'clientSide']),
+            'url' => 'http://demo.test',
+            'message' => 'test message',
+            'exception' => 'Exception',
+            'extra_data' => [],
+        ];
+    }
+}

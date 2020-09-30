@@ -1,19 +1,22 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\Entity;
 use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 
 class TransactionSeeder extends Seeder {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run() {
 
-        $entities = \App\Models\Entity::all();
+        $entities = Entity::all();
 
-        factory(Transaction::class, 60)->make()->each(function ($transaction) use ($entities) {
+        Transaction::factory()->count(60)->make()->each(function ($transaction) use ($entities) {
             $entity = $entities->random();
             $entity->transactions()->save($transaction);
         });

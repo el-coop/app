@@ -24,10 +24,10 @@ class ProjectErrorsCrudTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->developer = $this->getDeveloper();
-        $this->entity = factory(Entity::class)->create();
-        $this->project = factory(Project::class)->make();
+        $this->entity = Entity::factory()->create();
+        $this->project = Project::factory()->make();
         $this->entity->projects()->save($this->project);
-        $this->projectError = factory(ProjectError::class)->create([
+        $this->projectError = ProjectError::factory()->create([
             'project_id' => $this->project->id
         ]);
     }
@@ -38,7 +38,7 @@ class ProjectErrorsCrudTest extends TestCase {
 
     public function test_developer_can_see_errors() {
 
-        $errors = factory(ProjectError::class,8)->create([
+        $errors = ProjectError::factory()->count(8)->create([
             'project_id' => $this->project->id
         ]);
 

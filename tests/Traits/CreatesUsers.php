@@ -10,6 +10,6 @@ trait CreatesUsers {
     use RefreshDatabase;
 
     public function getDeveloper($data = []) {
-        return factory(User::class, $data)->state('developer')->create();
+        return User::factory()->developer()->create($data);
     }
 }

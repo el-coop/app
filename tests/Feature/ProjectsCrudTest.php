@@ -23,8 +23,8 @@ class ProjectsCrudTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->developer = $this->getDeveloper();
-        $this->entity = factory(Entity::class)->create();
-        $this->project = factory(Project::class)->make();
+        $this->entity = Entity::factory()->create();
+        $this->project = Project::factory()->make();
         $this->entity->projects()->save($this->project);
     }
 

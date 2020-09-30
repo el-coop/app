@@ -1,16 +1,19 @@
 <?php
 
+namespace Database\Seeders;
+
+use App\Models\Entity;
 use Illuminate\Database\Seeder;
 
 class EntitySeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */
     public function run()
     {
-        factory(\App\Models\Entity::class,5)->create();
+        Entity::factory()->count(5)->create();
     }
 }
