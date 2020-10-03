@@ -15,6 +15,7 @@ class AjaxOrSpaMiddlewareTest extends TestCase {
 
     public function test_returns_spa_vue_when_not_ajax() {
 
+        $this->withoutExceptionHandling();
         $developer = $this->getDeveloper();
 
         $this->actingAs($developer)->get('/')

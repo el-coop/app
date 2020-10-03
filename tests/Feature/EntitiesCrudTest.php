@@ -19,7 +19,7 @@ class EntitiesCrudTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->developer = $this->getDeveloper();
-        $this->entity = factory(Entity::class)->create();
+        $this->entity = Entity::factory()->create();
     }
 
     public function test_guest_cant_see_entity_index() {
@@ -27,7 +27,7 @@ class EntitiesCrudTest extends TestCase {
     }
 
     public function test_developer_can_see_entity_index() {
-        $entities = factory(Entity::class, 10)->create();
+        $entities = Entity::factory()->count(10)->create();
 
         $response = $this->actingAs($this->developer)->ajaxGet(action('EntityController@index'))->assertSuccessful();
 
