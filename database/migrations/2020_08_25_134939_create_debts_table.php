@@ -11,12 +11,16 @@ class CreateDebtsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('debts', function (Blueprint $table) {
+        Schema::create('debts', function(Blueprint $table) {
             $table->id();
             $table->bigInteger('entity_id')->unsigned();
             $table->bigInteger('project_id')->unsigned()->nullable()->default(null);
+            $table->date('date')->nullable();
+            $table->string('currency');
+            $table->enum('type', ['fixed', 'hourly']);
             $table->decimal('amount');
-            $table->string('reason');
+            $table->boolean('invoiced')->default(false);
+            $table->string('comment')->nullable();
             $table->timestamps();
 
 
