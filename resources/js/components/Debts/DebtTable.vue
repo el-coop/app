@@ -10,7 +10,7 @@
 <script>
 
 import DebtRow from "./DebtRow";
-import Entity from "../../classes/Models/Entity";
+import Entity from "../../classes/Models/Debt";
 import EditTable from "../../global/Table/EditTable";
 
 export default {
