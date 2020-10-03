@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entity;
-use Illuminate\Http\Request;
+use App\Models\Debt;
 
 class DebtController extends Controller {
     public function index() {
         return [
-            'debts' => Entity::select('id', 'name')->with('debts')->get()
+            'debts' => Debt::select('id','entity_id','project_id','date','currency','type','amount','invoiced','comment')
+                ->with('entity','project')->get()
         ];
 
     }

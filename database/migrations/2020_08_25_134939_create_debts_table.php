@@ -19,7 +19,7 @@ class CreateDebtsTable extends Migration {
             $table->string('currency');
             $table->enum('type', ['fixed', 'hourly']);
             $table->decimal('amount');
-            $table->boolean('invoiced')->default(false);
+            $table->timestamp('invoiced')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
 
