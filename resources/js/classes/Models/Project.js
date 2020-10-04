@@ -2,6 +2,8 @@ import Model from "./Model";
 import ProjectError from "./ProjectError";
 import httpService from "../HttpService";
 
+let projectList = null;
+
 export default class Project extends Model {
 
     static get endpoint() {
@@ -41,5 +43,13 @@ export default class Project extends Model {
             return false
         }
         return true;
+    }
+
+    static async list() {
+        if (!projectList) {
+            projectList = await Project.get();
+        }
+
+        return projectList || [];
     }
 }

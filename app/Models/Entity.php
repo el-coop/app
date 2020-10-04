@@ -17,4 +17,8 @@ class Entity extends Model {
     public function projects() {
         return $this->hasMany(Project::class);
     }
+
+    public function debts() {
+        return $this->hasMany(Debt::class);
+    }
 }

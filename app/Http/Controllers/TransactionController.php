@@ -17,9 +17,8 @@ class TransactionController extends Controller {
         $startDate = Carbon::parse($request->get('startDate', '- 1 month'))->startOfDay();
         $endDate = Carbon::parse($request->get('endDate', 'today'))->endOfDay();
 
-        $transactions = Transaction::select('transactions.id', 'date', 'amount', 'currency', 'rate', DB::raw('entities.id as entity'), 'reason', 'comment', DB::raw('CAST(CONCAT("[",GROUP_CONCAT(CONCAT("{\"id\": ",transaction_attachments.id, ",\"name\":\"", transaction_attachments.name,"\"}")),"]") AS JSON) as attachments'))
+        $transactions = Transaction::select('transactions.id', 'date', 'amount', 'currency', 'rate', 'entity_id as entity', 'reason', 'comment', DB::raw('CAST(CONCAT("[",GROUP_CONCAT(CONCAT("{\"id\": ",transaction_attachments.id, ",\"name\":\"", transaction_attachments.name,"\"}")),"]") AS JSON) as attachments'))
             ->whereBetween('date', [$startDate, $endDate])
-            ->join('entities', 'entities.id', 'transactions.entity_id')
             ->leftJoin('transaction_attachments', 'transaction_attachments.transaction_id', 'transactions.id')
             ->orderByDesc('date')
             ->groupBy('transactions.id')

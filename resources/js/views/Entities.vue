@@ -19,7 +19,6 @@
     import EntityTable from "../components/Entities/EntityTable";
     import InteractsWithObjects from "../mixins/InteractsWithObjects";
     import ProjectTable from "../components/Entities/ProjectTable";
-    import EntityRow from "../components/Entities/EntityRow";
 
     export default {
         name: "Entities",

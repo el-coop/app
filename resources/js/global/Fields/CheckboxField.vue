@@ -4,6 +4,7 @@
             <input type="checkbox" :readonly="options.readonly || false" v-model="val">
             <span v-if="options.label" v-text="options.label"/>
         </label>
+        <p class="help is-info" v-if="options.help" v-text="options.help"/>
         <p class="help is-danger" v-if="error" v-text="error"/>
     </div>
 </template>

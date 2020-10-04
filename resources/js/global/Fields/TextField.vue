@@ -4,6 +4,7 @@
         <input :type="options.type" :id="id" class="input" v-model="val" :placeholder="options.placeholder || ''"
                :step="options.step || 0.1"
                :name="options.name || ''" :format="options.format || 'dd/mm/yyyy'" :readonly="options.readonly || false">
+        <p class="help is-muted" v-if="options.help" v-text="options.help"/>
         <p class="help is-danger" v-if="error" v-text="error"/>
     </div>
 </template>
