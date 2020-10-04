@@ -3,7 +3,7 @@
         <label class="label" v-if="options.label" :for="id" v-text="options.label"/>
         <div class="select" :class="options.class">
             <select :id="id" :name="options.name" v-model="val">
-                <option v-for="(option, key) in options.options" :value="key"
+                <option v-for="(option, key) in options.options" :value="key.trim()"
                         v-text="option"/>
             </select>
         </div>

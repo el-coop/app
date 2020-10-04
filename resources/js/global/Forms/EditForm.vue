@@ -1,60 +1,96 @@
 <template>
     <div>
-        <template v-for="field in fields">
+        <template v-for="field in computedFields">
             <component :is="field.component || 'TextField'" v-model="value[field.name]" :options="field"
-                       :error="errors[field.name] ? errors[field.name][0] : ''"/>
+                       :error="errors[field.name] ? errors[field.name][0] : ''" v-show="show(field)"/>
         </template>
         <button class="button is-success is-fullwidth" @click="submit">Save</button>
     </div>
 </template>
 
 <script>
-    import TextField from "../../global/Fields/TextField";
-    import SelectField from "../../global/Fields/SelectField";
-    import TextareaField from "../../global/Fields/TextareaField";
-    import MultiFileField from "../Fields/MultiFileField";
-    import FileArrayField from "../Fields/FileArrayField";
+import TextField from "../../global/Fields/TextField";
+import SelectField from "../../global/Fields/SelectField";
+import TextareaField from "../../global/Fields/TextareaField";
+import MultiFileField from "../Fields/MultiFileField";
+import FileArrayField from "../Fields/FileArrayField";
 
-    export default {
-        name: "EditForm",
-        components: {TextareaField, TextField, SelectField, MultiFileField, FileArrayField},
-        model: {
-            prop: 'entry',
-            event: 'update'
+export default {
+    name: "EditForm",
+    components: {TextareaField, TextField, SelectField, MultiFileField, FileArrayField},
+    model: {
+        prop: 'entry',
+        event: 'update'
+    },
+
+    props: {
+        entry: {
+            required: true,
+            type: Object
         },
-
-        props: {
-            entry: {
-                required: true,
-                type: Object
-            },
-            fields: {
-                required: true,
-                type: Array
-            },
+        fields: {
+            required: true,
+            type: Array
         },
+    },
 
-        data() {
-            const value = Object.assign(Object.create(Object.getPrototypeOf(this.entry)), this.entry);
+    data() {
+        const value = Object.assign(Object.create(Object.getPrototypeOf(this.entry)), this.entry);
 
-            return {
-                value,
-                errors: value.errors,
+        return {
+            value,
+            errors: value.errors,
+            computedFields: {},
+            hasFunctions: true
+        }
+    },
+
+    methods: {
+        show(field) {
+            if (!field.show) {
+                return true;
             }
+            return field.show(this.value);
         },
+        submit() {
+            this.fields.forEach((field) => {
+                const name = field.name;
+                if (field.type === 'date') {
+                    this.value[name] = new Date(this.value[name]);
+                } else if (field.type === 'number') {
+                    this.value[name] = parseFloat(this.value[name]);
+                }
+            });
+            this.$emit('update', this.value);
+        }
+    },
 
-        methods: {
-            submit() {
-                this.fields.forEach((field) => {
-                    const name = field.name;
-                    if (field.type === 'date') {
-                        this.value[name] = new Date(this.value[name]);
-                    } else if (field.type === 'number') {
-                        this.value[name] = parseFloat(this.value[name]);
+    watch: {
+        value: {
+            handler() {
+                if (!this.hasFunctions) {
+                    return this.fields;
+                }
+
+                this.hasFunctions = false;
+                this.computedFields = this.fields.map((field) => {
+                    const result = {};
+                    Object.assign(result, field);
+                    for (let key in field) {
+
+                        const option = field[key];
+                        if (key !== 'show' && option instanceof Function) {
+                            this.hasFunctions = true;
+                            result[key] = option(field, this.value, this);
+                        }
                     }
+
+                    return result;
                 });
-                this.$emit('update', this.value);
-            }
+            },
+            deep: true,
+            immediate: true
         }
     }
+}
 </script>

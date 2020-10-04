@@ -1,8 +1,12 @@
 <template>
-    <EditTable :table-data="debts" title="Debts" :headers="headers" :entry-class="entryClass" @update="update">
+    <EditTable :table-data="sortedDebts" title="Debts" :headers="headers" :entry-class="entryClass" @update="update"
+               @delete="destroy"
+               :form-fields="fields">
         <template #default="{entry, editEntry, deleteEntry}">
-            <DebtRow :entity="entry" :key="`entity_${entry.id}`" @edit="editEntry(entry)"
-                       @select="showEntityProjects(entry)" @delete="deleteEntry(entry)"/>
+            <DebtRow :debt="entry" :key="`entity_${entry.id}`" :with-delete="true"
+                     @edit="editEntry(entry)"
+                     @delete="deleteEntry(entry)"
+                     :entities="entities"/>
         </template>
     </EditTable>
 </template>
@@ -10,15 +14,23 @@
 <script>
 
 import DebtRow from "./DebtRow";
-import Entity from "../../classes/Models/Debt";
+import Debt from "../../classes/Models/Debt";
 import EditTable from "../../global/Table/EditTable";
 
 export default {
-    name: "EntityTable",
+    name: "DebtTable",
     components: {DebtRow, EditTable},
     props: {
         debts: {
             type: Array,
+            required: true
+        },
+        entities: {
+            type: Array,
+            required: true
+        },
+        groupedProjects: {
+            type: Object,
             required: true
         }
     },
@@ -27,14 +39,49 @@ export default {
         return {
             headers: [{
                 title: 'Action',
-                class: 'table__cell--narrow table__cell--important'
+                class: 'table__cell--narrow'
             }, {
-                title: 'Name',
+                title: 'Date',
+                class: 'table__cell--narrow'
+            }, {
+                title: 'From',
                 class: 'table__cell--important',
-                name: 'name',
+                name: 'entityName',
                 filterable: true
+            }, {
+                title: 'Amount',
+                class: 'table__cell--right table__cell--important'
             }],
-            entryClass: Entity
+            entryClass: Debt
+        }
+    },
+
+    computed: {
+        sortedDebts() {
+            return this.debts.sort((a, b) => {
+                return b.date - a.date;
+            });
+        },
+        fields() {
+            const entityOptions = {};
+            this.entities.forEach((value) => {
+                entityOptions[`${value.id} `] = value.name;
+            });
+
+            const fields = Debt.fields();
+            const entityField = fields.find((fieldOptions) => {
+                return fieldOptions.name === 'entity';
+            });
+
+            entityField.options = entityOptions;
+
+            const projectField = fields.find((fieldOptions) => {
+                return fieldOptions.name === 'project';
+            });
+
+            projectField.groupedProjects = this.groupedProjects;
+
+            return fields;
         }
     },
 
@@ -43,9 +90,10 @@ export default {
             this.$emit('update', entity);
         },
 
-        showEntityProjects(entity) {
-            this.$emit('select', entity);
-        }
+        destroy(transaction) {
+            this.$emit('delete', transaction);
+        },
+
     }
 }
 </script>
