@@ -7,7 +7,7 @@
         <td class="table__cell table__cell--narrow " data-label="Date" v-text="debt.date.toLocaleDateString('en-GB',{
             timeZone: 'UTC',
         })"/>
-        <td class="table__cell table__cell--important" v-text="entityName"/>
+        <td class="table__cell table__cell--important" v-text="debt.entityName"/>
         <td class="table__cell table__cell--right table__cell--important table__cell--success"
             v-text="amount"></td>
     </tr>
@@ -38,10 +38,6 @@ export default {
     },
 
     computed: {
-        entityName() {
-            const entity = this.getById(this.entities, this.debt.entity);
-            return entity ? entity.name : '';
-        },
         icon() {
             if (this.entity.status === 'error') {
                 return 'exclamation';
