@@ -2,10 +2,8 @@
     <div class="container" :class="{'is-loading': loading}">
         <div class="background-content" ref="backgroundContent" :class="{'background-content--small': selectedEntity}"
              :style="{height: backgroundContentHeight}">
-            <transition name="fade">
-                <DebtTable :debts="debts" :entities="entities" @update="update" @delete="destroy"
-                           :grouped-projects="groupedProjects"/>
-            </transition>
+            <DebtTable :debts="debts" :entities="entities" @update="update" @delete="destroy"
+                       :grouped-projects="groupedProjects"/>
         </div>
     </div>
 </template>
@@ -44,14 +42,18 @@ export default {
     methods: {
         async load() {
             this.loading = true;
-            if (!this.debts.length) {
-                this.debts = await Debt.list();
-            }
             if (!this.entities.length) {
                 this.entities = await Entity.list();
                 this.groupedProjects = {};
                 this.entities.forEach((entity) => {
                     this.groupedProjects[entity.id] = entity['projects'];
+                });
+            }
+            if (!this.debts.length) {
+                this.debts = await Debt.list();
+                this.debts.forEach((debt) => {
+                    const entity = this.getById(this.entities, debt.entity);
+                    debt.entityName = entity ? entity.name : '';
                 });
             }
 
