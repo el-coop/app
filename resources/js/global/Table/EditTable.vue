@@ -7,6 +7,9 @@
                     <slot :entry="entry" :index="index" :editEntry="editEntry" :deleteEntry="deleteEntry"
                           :active="active === index" :toggleActive="toggleActive"/>
                 </template>
+                <template #filters v-if="tableIndex === 0">
+                    <slot name="filters"/>
+                </template>
             </DataTable>
         </template>
         <Modal :active.sync="form" @update:active="selectedEntry=null">

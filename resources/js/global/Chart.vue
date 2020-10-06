@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="chart__filters" v-if="$slots.filters">
-                <slot name="filters"></slot>
+                <slot name="filters"/>
             </div>
 
         </div>

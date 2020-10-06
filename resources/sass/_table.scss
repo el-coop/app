@@ -5,6 +5,17 @@
         @extend .card__header
     }
 
+    &__filter {
+        margin-right: 15px;
+
+        &-wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+
+
     &__row {
         $self: &;
 
@@ -19,7 +30,7 @@
             position: relative;
             background-color: var(--card-background-accent);
 
-            @include from($mobile){
+            @include from($mobile) {
                 background-color: transparent;
                 height: 3em;
             }
@@ -117,7 +128,7 @@
             width: 100%;
             justify-content: space-between;
 
-            @include from($mobile){
+            @include from($mobile) {
                 width: auto;
             }
 
