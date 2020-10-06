@@ -44,6 +44,10 @@ export default {
                 title: 'Date',
                 class: 'table__cell--narrow'
             }, {
+                title: 'Billed',
+                class: 'table__cell--narrow',
+                name: 'invoiced',
+            }, {
                 title: 'From',
                 class: 'table__cell--important',
                 name: 'entityName',
