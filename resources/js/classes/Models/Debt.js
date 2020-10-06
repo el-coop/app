@@ -68,6 +68,15 @@ export default class Debt extends Model {
                 '€': '€'
             }
         }, {
+            name: 'invoiced',
+            label: 'Billed',
+            component: 'SelectField',
+            class: 'select--fullwidth',
+            type: 'number',
+            options: {
+                0: 'No', 1: 'Yes'
+            }
+        }, {
             name: 'comment',
             label: 'Comment',
             component: 'TextareaField'

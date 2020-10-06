@@ -8,6 +8,12 @@
     }
 }
 
+@each $name, $color in $light-colors {
+    .is-#{$name} {
+        color: var(--#{$name}-color);
+    }
+}
+
 @for $i from 1 through 7 {
     .is-size-#{$i} {
         font-size: var(--size-#{$i}) !important;

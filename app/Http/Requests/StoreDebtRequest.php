@@ -31,6 +31,7 @@ class StoreDebtRequest extends FormRequest {
             'rate' => 'nullable|numeric|min:0',
             'currency' => 'required|in:₪,$,€',
             'comment' => 'string|nullable',
+            'invoiced' => 'boolean',
         ];
     }
 
@@ -44,6 +45,10 @@ class StoreDebtRequest extends FormRequest {
         $debt->rate = $this->get('rate');
         $debt->currency = $this->get('currency');
         $debt->comment = $this->get('comment');
+        $debt->invoiced = null;
+        if ($this->get('invoiced', false)) {
+            $debt->invoiced = Carbon::now();
+        }
 
         $debt->save();
 
