@@ -10,9 +10,6 @@ class EntitiesCrudTest extends TestCase {
 
     use CreatesUsers;
 
-    /**
-     * @var \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
-     */
     protected $developer;
     protected $entity;
 
