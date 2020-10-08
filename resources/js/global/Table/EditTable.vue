@@ -53,6 +53,9 @@
             },
             formFields: {
                 type: Array
+            },
+            processEntry:{
+                type: Function,
             }
         },
 
@@ -90,6 +93,11 @@
 
             async updateEntry() {
                 const entry = this.selectedEntry;
+
+                if(this.processEntry){
+                    this.processEntry(entry);
+                }
+
                 this.updateById(this.pending, entry.id, entry);
                 this.selectedEntry = null;
                 this.form = false;

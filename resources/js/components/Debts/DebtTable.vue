@@ -1,6 +1,7 @@
 <template>
     <EditTable :table-data="sortedDebts" title="Debts" :headers="headers" :entry-class="entryClass" @update="update"
                @delete="destroy"
+               :process-entry="setEntityName"
                :form-fields="fields">
         <template #filters>
             <div class="chart__filters">
@@ -30,10 +31,12 @@ import DebtRow from "./DebtRow";
 import Debt from "../../classes/Models/Debt";
 import EditTable from "../../global/Table/EditTable";
 import TextField from "../../global/Fields/TextField";
+import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {
     name: "DebtTable",
     components: {DebtRow, EditTable, TextField},
+    mixins: [InteractsWithObjects],
     props: {
         debts: {
             type: Array,
@@ -124,20 +127,18 @@ export default {
     },
 
     methods: {
-        update(entity) {
-            this.$emit('update', entity);
+        setEntityName(debt) {
+            const entity = this.getById(this.entities, debt.entity);
+            debt.entityName = entity ? entity.name : '';
+        },
+        update(debt) {
+            this.$emit('update', debt);
         },
 
-        destroy(transaction) {
-            this.$emit('delete', transaction);
+        destroy(debt) {
+            this.$emit('delete', debt);
         },
 
     }
 }
 </script>
-
-<style scoped>
-.wrapper {
-    margin-left: 1em;
-}
-</style>
