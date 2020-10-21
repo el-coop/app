@@ -47,8 +47,12 @@ export default {
 
     methods: {
         show(field) {
-            if (!field.show) {
+
+            if (! field.hasOwnProperty('show')) {
                 return true;
+            }
+            if(typeof field.show !== "function"){
+                return field.show;
             }
             return field.show(this.value);
         },

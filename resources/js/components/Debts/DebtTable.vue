@@ -15,6 +15,9 @@
                 format: 'dd/mm/yyyy'
              }" :error="endDateError" v-model="end"/>
             </div>
+            <CheckboxField class="table__filter-field" :options="{
+                label: 'Show billed?'
+            }" v-model="showBilled"/>
         </template>
         <template #default="{entry, editEntry, deleteEntry}">
             <DebtRow :debt="entry" :key="`entity_${entry.id}`" :with-delete="true"
@@ -32,10 +35,12 @@ import Debt from "../../classes/Models/Debt";
 import EditTable from "../../global/Table/EditTable";
 import TextField from "../../global/Fields/TextField";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
+import SelectField from "../../global/Fields/SelectField";
+import CheckboxField from "../../global/Fields/CheckboxField";
 
 export default {
     name: "DebtTable",
-    components: {DebtRow, EditTable, TextField},
+    components: {CheckboxField, SelectField, DebtRow, EditTable, TextField},
     mixins: [InteractsWithObjects],
     props: {
         debts: {
@@ -77,7 +82,8 @@ export default {
             endDateError: null,
             start: null,
             end: null,
-            entryClass: Debt
+            entryClass: Debt,
+            showBilled: false
         }
     },
 
@@ -99,6 +105,11 @@ export default {
                 const end = new Date(this.end);
                 debts = debts.filter((debt) => {
                     return debt.date <= end;
+                });
+            }
+            if(! this.showBilled){
+                debts = debts.filter((debt) => {
+                    return ! debt.invoiced;
                 });
             }
             return debts;

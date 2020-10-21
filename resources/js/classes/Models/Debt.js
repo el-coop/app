@@ -80,6 +80,10 @@ export default class Debt extends Model {
             name: 'comment',
             label: 'Comment',
             component: 'TextareaField'
+        }, {
+            name: 'nisAmount',
+            type: "number",
+            show: false
         }]
     }
 

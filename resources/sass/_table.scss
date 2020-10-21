@@ -8,6 +8,16 @@
     &__filter {
         margin-right: 15px;
 
+        &-field {
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: end;
+
+            > .checkbox {
+                margin-bottom: 0.5rem;
+            }
+        }
+
         &-wrapper {
             display: flex;
             flex-direction: row;

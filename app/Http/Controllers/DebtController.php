@@ -13,7 +13,7 @@ class DebtController extends Controller {
             'debts' => Debt::select('debts.id', 'entity_id as entity', 'project_id as project', 'date', 'currency', 'type', 'amount', 'rate', 'comment',
                 DB::raw('IF(invoiced IS NOT NULL, 1, 0) as invoiced'))
                 ->orderByDesc('date')
-                ->get()
+                ->get()->append('nisAmount')
         ];
     }
 
