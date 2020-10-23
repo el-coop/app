@@ -98,4 +98,8 @@ export default class Debt extends Model {
 
         return debtList || [];
     }
+
+    static updateCallback(debt, response) {
+        debt.nisAmount = response.data.nisAmount;
+    }
 }

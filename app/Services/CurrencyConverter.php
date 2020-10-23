@@ -14,11 +14,14 @@ class CurrencyConverter {
 
     public function getRate($currency) {
         switch ($currency) {
+            case '₪':
+                return 1;
             case '€':
                 $currency = 'EUR';
                 break;
             default:
                 $currency = 'USD';
+                break;
         }
 
         if (!isset($this->rates->{$currency})) {

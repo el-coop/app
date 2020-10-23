@@ -52,6 +52,6 @@ class StoreDebtRequest extends FormRequest {
 
         $debt->save();
 
-        return $debt;
+        return $debt->append('nisAmount');
     }
 }
