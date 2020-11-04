@@ -102,4 +102,13 @@ export default class Debt extends Model {
     static updateCallback(debt, response) {
         debt.nisAmount = response.data.nisAmount;
     }
+
+    get totalAmount() {
+        if (this.type === 'hourly') {
+            return this.amount * this.rate;
+        }
+
+        return this.amount;
+    }
+
 }

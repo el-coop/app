@@ -18,11 +18,19 @@ class Debt extends Model {
         return $this->belongsTo(Project::class);
     }
 
+    public function getTotalAmountAttribute() {
+        if($this->type == 'hourly'){
+            return $this->amount * $this->rate;
+        }
+
+        return $this->amount;
+    }
+
     public function getNisAmountAttribute() {
 
         $rate = App::make(CurrencyConverter::class)->getRate($this->currency);
 
-        return $this->amount * $rate;
+        return $this->totalAmount * $rate;
 
     }
 }

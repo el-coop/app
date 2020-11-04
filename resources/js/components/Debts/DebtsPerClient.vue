@@ -40,17 +40,19 @@ export default {
         groupedDebts() {
             const debts = {};
             this.debts.forEach((debt) => {
-                if (!debts[debt.entityName]) {
-                    debts[debt.entityName] = {};
+                if (!debt.invoiced) {
+                    if (!debts[debt.entityName]) {
+                        debts[debt.entityName] = {};
+                    }
+                    if (! debts[debt.entityName][debt.currency]) {
+                        debts[debt.entityName][debt.currency] = 0;
+                    }
+                    if (! debts[debt.entityName]['nisAmount']) {
+                        debts[debt.entityName]['nisAmount'] = 0;
+                    }
+                    debts[debt.entityName][debt.currency] += debt.totalAmount;
+                    debts[debt.entityName]['nisAmount'] += debt.nisAmount;
                 }
-                if (!debts[debt.entityName][debt.currency]) {
-                    debts[debt.entityName][debt.currency] = 0;
-                }
-                if (!debts[debt.entityName]['nisAmount']) {
-                    debts[debt.entityName]['nisAmount'] = 0;
-                }
-                debts[debt.entityName][debt.currency] += debt.amount;
-                debts[debt.entityName]['nisAmount'] += debt.nisAmount;
             });
 
             return debts;

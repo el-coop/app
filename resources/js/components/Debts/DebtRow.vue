@@ -12,7 +12,7 @@
         </td>
         <td class="table__cell table__cell--important" v-text="debt.entityName"/>
         <td class="table__cell table__cell--right table__cell--important table__cell--success"
-            v-text="amount"></td>
+            v-text="`${debt.currency}${debt.totalAmount}`"></td>
     </tr>
 </template>
 
@@ -50,14 +50,6 @@ export default {
             return 'edit'
         },
 
-        amount() {
-            let amount = this.debt.amount;
-            if (this.debt.type === 'hourly') {
-                amount = amount * this.debt.rate;
-            }
-
-            return this.debt.currency + amount;
-        }
     }
 }
 </script>

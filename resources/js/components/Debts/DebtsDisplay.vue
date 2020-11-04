@@ -35,18 +35,10 @@ export default {
     },
 
     methods: {
-        calcTotal(debts,inNis = false) {
+        calcTotal(debts, inNis = false) {
             return debts.reduce((total, debt) => {
                 if (!debt.invoiced) {
-                    let amount = debt.amount;
-                    if(inNis){
-                        amount = debt.nisAmount;
-                    }
-                    if (debt.type === 'hourly') {
-                        amount = amount * debt.rate;
-                    }
-
-                    total += amount;
+                    total += (inNis ? debt.nisAmount : debt.totalAmount);
                 }
 
                 return total;
@@ -59,14 +51,14 @@ export default {
             return this.calcTotal(this.debts, true);
         },
 
-        euroTotal(){
+        euroTotal() {
             const debts = this.debts.filter((debt) => {
                 return debt.currency === '€';
             });
 
             return this.calcTotal(debts);
         },
-        usdTotal(){
+        usdTotal() {
             const debts = this.debts.filter((debt) => {
                 return debt.currency === '$';
             });
@@ -74,7 +66,7 @@ export default {
             return this.calcTotal(debts);
         },
 
-        nisTotal(){
+        nisTotal() {
             const debts = this.debts.filter((debt) => {
                 return debt.currency === '₪';
             });
