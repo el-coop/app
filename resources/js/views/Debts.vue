@@ -9,6 +9,9 @@
             <div>
                 <DebtsDisplay :debts="debts"/>
             </div>
+            <div>
+                <DebtsPerClient :debts="debts"/>
+            </div>
         </div>
     </div>
 </template>
@@ -19,11 +22,12 @@ import DebtTable from "../components/Debts/DebtTable";
 import Debt from "../classes/Models/Debt";
 import Entity from "../classes/Models/Entity";
 import InteractsWithObjects from "../mixins/InteractsWithObjects";
-import DebtsDisplay from "./DebtsDisplay";
+import DebtsDisplay from "../components/Debts/DebtsDisplay";
+import DebtsPerClient from "../components/Debts/DebtsPerClient";
 
 export default {
     name: "Debts",
-    components: {DebtsDisplay, DebtTable},
+    components: {DebtsDisplay, DebtTable, DebtsPerClient},
     mixins: [InteractsWithObjects],
 
     metaInfo: {
