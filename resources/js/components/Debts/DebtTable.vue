@@ -1,5 +1,6 @@
 <template>
     <EditTable :table-data="sortedDebts" title="Debts" :headers="headers" :entry-class="entryClass" @update="update"
+               ref="table"
                @delete="destroy"
                :process-entry="setEntityName"
                :form-fields="fields">
@@ -23,6 +24,7 @@
             <DebtRow :debt="entry" :key="`entity_${entry.id}`" :with-delete="true"
                      @edit="editEntry(entry)"
                      @delete="deleteEntry(entry)"
+                     @toggle-billed="toggleBilled(entry)"
                      :entities="entities"/>
         </template>
     </EditTable>
@@ -75,6 +77,9 @@ export default {
                 name: 'entityName',
                 filterable: true
             }, {
+                title: 'Comment',
+                name: 'comment'
+            }, {
                 title: 'Amount',
                 class: 'table__cell--right table__cell--important'
             }],
@@ -107,9 +112,9 @@ export default {
                     return debt.date <= end;
                 });
             }
-            if(! this.showBilled){
+            if (!this.showBilled) {
                 debts = debts.filter((debt) => {
-                    return ! debt.invoiced;
+                    return !debt.invoiced;
                 });
             }
             return debts;
@@ -134,7 +139,7 @@ export default {
             projectField.groupedProjects = this.groupedProjects;
 
             return fields;
-        }
+        },
     },
 
     methods: {
@@ -149,6 +154,15 @@ export default {
         destroy(debt) {
             this.$emit('delete', debt);
         },
+        toggleBilled(entry) {
+            if(! entry.invoiced){
+                entry.invoiced = 1;
+            } else {
+                entry.invoiced = 0;
+            }
+            this.$refs.table.selectedEntry = entry;
+            this.$refs.table.updateEntry(entry);
+        }
 
     }
 }
