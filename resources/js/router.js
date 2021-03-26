@@ -7,6 +7,8 @@ const Database = () => import('./views/Database' /* webpackChunkName: "js/Databa
 const Login = () => import('./views/Auth/Login' /* webpackChunkName: "js/Login" */);
 const Debts = () => import('./views/Debts' /* webpackChunkName: "js/Debts" */);
 const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "js/PageNotFound" */);
+const Notes = () => import( "./views/Notes"  /* webpackChunkName: "js/notes" */);
+
 
 const router = new Router({
     mode: 'history',
@@ -44,6 +46,14 @@ const router = new Router({
                 icon: 'id-card',
             }
         }, {
+            path: '/debts',
+            name: 'Debts',
+            component: Debts,
+            beforeEnter: AuthMiddleware.auth,
+            meta: {
+                icon: 'money-check-alt',
+            }
+        }, {
             path: '/database',
             name: 'Database',
             component: Database,
@@ -51,13 +61,13 @@ const router = new Router({
             meta: {
                 icon: 'database',
             }
-        },{
-            path: '/debts',
-            name: 'Debts',
-            component: Debts,
+        }, {
+            path: '/notes/:entity',
+            name: 'Notes',
+            component: Notes,
             beforeEnter: AuthMiddleware.auth,
             meta: {
-                icon: 'money-check-alt',
+                hide: true
             }
         },
         {
