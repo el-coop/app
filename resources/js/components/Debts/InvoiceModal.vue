@@ -95,11 +95,11 @@ export default {
 
     methods: {
         async generateInvoice() {
-            this.generatinginvoice = true;
+            this.generatingInvoice = true;
 
             const response = await this.invoice.generate();
 
-            this.generatinginvoice = false;
+            this.generatingInvoice = false;
 
             if (response.status > 199 && response.status < 300) {
                 const blobURL = window.URL.createObjectURL(response.data);
@@ -112,8 +112,25 @@ export default {
                 tempLink.click();
                 document.body.removeChild(tempLink);
                 window.URL.revokeObjectURL(blobURL);
+
+                if (this.invoice.markBilled) {
+                    this.markBilled();
+                    this.open = false;
+                }
             }
 
+        },
+
+        markBilled() {
+            const debts = this.invoice.items.reduce((debts, item) => {
+                if (item.debts) {
+                    item.debts.forEach((debt) => {
+                        debts.push(debt);
+                    })
+                }
+                return debts;
+            }, []);
+            this.$emit('markBilled', debts);
         },
 
         async generateSmartechEmail() {
@@ -125,15 +142,7 @@ export default {
             if (success) {
                 this.$toast.success('Check your ELCOOP email', 'Email sent');
                 if (this.invoice.markBilled) {
-                    const debts = this.invoice.items.reduce((debts, item) => {
-                        if (item.debts) {
-                            item.debts.forEach((debt) => {
-                                debts.push(debt);
-                            })
-                        }
-                        return debts;
-                    }, []);
-                    this.$emit('markBilled', debts);
+                    this.markBilled();
                     this.open = false;
                 }
             } else {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Debt;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Http;
@@ -50,9 +51,21 @@ class GenerateInvoiceRequest extends FormRequest {
             ];
         });
 
+        switch ($this->get('currency')) {
+            case '$':
+                $currency = 'USD';
+                break;
+            case '€':
+                $currency = 'EUR';
+                break;
+            default:
+                $currency = 'ILS';
+        }
+
         $invoice = Http::post('https://invoice-generator.com', [
             'from' => $this->get('from'),
             'to' => $this->get('to'),
+            'currency' => $currency,
             'number' => $this->get('invoiceNumber'),
             'date' => Carbon::parse($this->get('date'))->format('M d, Y'),
             'due_date' => Carbon::parse($this->get('due_date'))->format('M d, Y'),
@@ -60,6 +73,21 @@ class GenerateInvoiceRequest extends FormRequest {
             'items' => $items
         ]);
 
+        if ($this->get('markBilled')) {
+            $this->markBilled($this->get('items'));
+        }
+
         return $invoice->body();
+    }
+
+    private function markBilled($items) {
+        $debts = [];
+        foreach ($items as $item) {
+            array_push($debts, ...($item['debts'] ?? []));
+        }
+
+        if (count($debts)) {
+            Debt::whereIn('id', $debts)->update(['invoiced' => Carbon::now()]);
+        }
     }
 }
