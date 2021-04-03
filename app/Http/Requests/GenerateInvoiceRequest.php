@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Http;
+use Storage;
 
 class GenerateInvoiceRequest extends FormRequest {
     /**
@@ -27,7 +30,7 @@ class GenerateInvoiceRequest extends FormRequest {
             'to' => 'required|string|min:1',
             'invoiceNumber' => 'required|numeric|min:1',
             'date' => 'required|date',
-            'dueDate' => 'required|date|gte:date',
+            'dueDate' => 'nullable|date|gte:date',
             'notes' => 'nullable|string',
             'items' => 'required|array',
             'items.*.amount' => 'required|numeric|min:0',
@@ -39,6 +42,24 @@ class GenerateInvoiceRequest extends FormRequest {
     }
 
     public function commit() {
+        $items = collect($this->get('items'))->map(function($item) {
+            return [
+                'name' => $item['comment'],
+                'quantity' => $item['amount'],
+                'unit_cost' => $item['rate']
+            ];
+        });
 
+        $invoice = Http::post('https://invoice-generator.com', [
+            'from' => $this->get('from'),
+            'to' => $this->get('to'),
+            'number' => $this->get('invoiceNumber'),
+            'date' => Carbon::parse($this->get('date'))->format('M d, Y'),
+            'due_date' => Carbon::parse($this->get('due_date'))->format('M d, Y'),
+            'notes' => $this->get('notes'),
+            'items' => $items
+        ]);
+
+        return $invoice->body();
     }
 }

@@ -52,10 +52,13 @@
                 <CheckboxField :options="{
                 label: 'Mark as billed'
             }" v-model="invoice.markBilled" :error="invoice.errors.markBilled ? invoice.errors.markBilled[0] : ''"/>
-                <button class="button is-success" @click="generateInvoice" :class="{'is-loading': generatingInvoice}">
+                <button class="button is-success" @click="generateInvoice" :class="{'is-loading': generatingInvoice}"
+                        :disabled="generatingSmartechEmail">
                     Generate Invoice
                 </button>
-                <button class="button is-info-inverted" :disabled="generatingInvoice">Send Smartech Email</button>
+                <button class="button is-info-inverted" :class="{'is-loading': generatingSmartechEmail}"
+                        :disabled="generatingInvoice" @click="generateSmartechEmail">Send Smartech Email
+                </button>
             </div>
         </div>
     </modal>
@@ -85,7 +88,8 @@ export default {
         return {
             open: false,
             generatingInvoice: false,
-            invoice: null
+            invoice: null,
+            generatingSmartechEmail: false
         };
     },
 
@@ -93,11 +97,49 @@ export default {
         async generateInvoice() {
             this.generatinginvoice = true;
 
-            await this.invoice.generate();
+            const response = await this.invoice.generate();
 
             this.generatinginvoice = false;
 
+            if (response.status > 199 && response.status < 300) {
+                const blobURL = window.URL.createObjectURL(response.data);
+                const tempLink = document.createElement('a');
+                tempLink.style.display = 'none';
+                tempLink.href = blobURL;
+                tempLink.setAttribute('download', 'invoice.pdf');
+
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+                window.URL.revokeObjectURL(blobURL);
+            }
+
         },
+
+        async generateSmartechEmail() {
+            this.generatingSmartechEmail = true;
+
+            const success = await this.invoice.generateSmartechEmail();
+
+            this.generatingSmartechEmail = false;
+            if (success) {
+                this.$toast.success('Check your ELCOOP email', 'Email sent');
+                if (this.invoice.markBilled) {
+                    const debts = this.invoice.items.reduce((debts, item) => {
+                        if (item.debts) {
+                            item.debts.forEach((debt) => {
+                                debts.push(debt);
+                            })
+                        }
+                        return debts;
+                    }, []);
+                    this.$emit('markBilled', debts);
+                    this.open = false;
+                }
+            } else {
+                this.$toast.error('Please try again', 'Email failed')
+            }
+        }
 
     },
 

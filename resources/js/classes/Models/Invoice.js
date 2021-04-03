@@ -18,11 +18,29 @@ export default class Invoice {
         this.errors = {};
     }
 
-    async generate() {
+    async generateSmartechEmail() {
+        const response = await this.generate(true);
+        if (response.status > 199 && response.status < 300) {
+            return true;
+        }
+
+        return false;
+    }
+
+    async generate(generateEmail = false) {
+        let url = '/invoice/generate';
+        let config = {
+            responseType: 'blob'
+        };
+        if (generateEmail) {
+            url = 'invoice/smartechEmail';
+            config = {};
+        }
+
         let response;
         this.errors = {};
         try {
-            response = await httpService.post('/invoice/generate', {
+            response = await httpService.post(url, {
                 items: this.items,
                 markBilled: this.markBilled,
                 currency: this.currency,
@@ -32,7 +50,7 @@ export default class Invoice {
                 date: this.date,
                 dueDate: this.dueDate,
                 notes: this.notes
-            });
+            }, {}, config);
 
             if (response.status > 199 && response.status < 300) {
                 return response;
@@ -76,7 +94,8 @@ export default class Invoice {
                     comment: item.comment,
                     amount: item.type === 'hourly' ? parseFloat(item.amount) : 1,
                     rate: item.type === 'hourly' ? item.rate : parseFloat(item.amount),
-                    debts: [item.id]
+                    debts: [item.id],
+                    currency: item.currency
                 };
             } else {
                 if (item.type === 'hourly') {

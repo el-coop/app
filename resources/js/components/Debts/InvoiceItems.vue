@@ -10,6 +10,7 @@
                 <td class="table__cell table__cell--header table__cell--narrow">Rate</td>
                 <td class="table__cell table__cell--header table__cell--narrow table__cell--important">Total
                 </td>
+                <td class="table__cell table__cell--header table__cell--narrow "/>
             </tr>
             </thead>
             <tbody>
@@ -30,6 +31,10 @@
                 </td>
                 <td class="table__cell table__cell--narrow table__cell--important"
                     v-text="currency + ((item.rate || 0) * (item.amount || 0))"/>
+                <td class="table__cell table__cell--narrow" title="Item currency not same as invoice currency"
+                    v-if="item.currency && item.currency !== currency">
+                    <font-awesome-icon class="is-danger" icon="exclamation"/>
+                </td>
             </tr>
             <tr>
                 <td class="table__cell table__cell--narrow table__cell--centered">

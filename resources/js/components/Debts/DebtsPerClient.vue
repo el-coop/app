@@ -10,7 +10,9 @@
                 <th class="table__cell table__cell--header  table__cell--important">Client</th>
                 <td class="table__cell table__cell--narrow table__cell--right"
                     v-for="currency in ['Dollar','Euro','NIS']" v-text="currency"/>
-                <th class="table__cell table__cell--header table__cell--right table__cell--important table__cell--narrow">Total</th>
+                <th class="table__cell table__cell--header table__cell--right table__cell--important table__cell--narrow">
+                    Total
+                </th>
             </tr>
             <tr v-for="(debt, client) in groupedDebts" class="table__row">
                 <td class="table__cell table__cell--important table__cell--narrow">
@@ -29,11 +31,12 @@
             </tr>
             </tbody>
         </table>
-        <InvoiceModal :debt-list="invoicingDebts" @close-invoicing="invoicingDebts = null"/>
+        <InvoiceModal :debt-list="invoicingDebts" @close-invoicing="invoicingDebts = null" @markBilled="markBilled"/>
     </div>
 </template>
 <script>
 import InvoiceModal from "./InvoiceModal";
+
 export default {
     name: 'DebtsPerClient',
     components: {InvoiceModal},
@@ -44,15 +47,18 @@ export default {
         }
     },
 
-    data(){
+    data() {
         return {
             invoicingDebts: null
         }
     },
 
     methods: {
-        invoice(debts){
+        invoice(debts) {
             this.invoicingDebts = debts;
+        },
+        markBilled(debts) {
+            this.$emit('markBilled', debts);
         }
     },
 

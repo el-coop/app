@@ -15,7 +15,9 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            redirect: '/accounting',
+            redirect() {
+                return localStorage.getItem('last-visited-route') || 'accounting';
+            },
             meta: {
                 hide: true
             }
@@ -88,6 +90,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
     router.app.loader = false;
+    localStorage.setItem('last-visited-route', to.fullPath);
 });
 
 export default router;
