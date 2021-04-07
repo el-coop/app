@@ -10,7 +10,7 @@
                 <DebtsDisplay :debts="debts"/>
             </div>
             <div>
-                <DebtsPerClient :debts="debts"/>
+                <DebtsPerClient :debts="debts" @markBilled="markBilled"/>
             </div>
         </div>
     </div>
@@ -68,6 +68,14 @@ export default {
             }
 
             this.loading = false;
+        },
+
+        markBilled(debts) {
+            debts.forEach((debt) => {
+                debt = this.getById(this.debts, debt);
+                debt.invoiced = 1;
+                this.update(debt);
+            });
         },
 
         update(debt) {

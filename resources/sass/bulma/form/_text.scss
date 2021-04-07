@@ -1,6 +1,7 @@
 .input, .textarea {
     @extend %control;
     max-width: 100%;
+    min-width: 100px;
     width: 100%;
     box-shadow: none;
     background-color: transparent;
@@ -13,10 +14,22 @@
     &:focus {
         border-color: var(--focus-color);
     }
+
+    &--border-left {
+        border-bottom: none;
+        border-left: 1px solid var(--input-border-color);
+
+    }
 }
 
 .textarea {
     max-height: 40em;
     min-height: 8em;
     resize: vertical;
+
+    &--small {
+        height: 4em;
+        max-height: 4em;
+        min-height: 4em;
+    }
 }

@@ -54,10 +54,23 @@
         }
     }
 
+    &.is-round {
+        border-radius: var(--radius-rounded);
+    }
+
+    &.is-borderless {
+        border: none;
+    }
+
     @each $name, $color in $colors {
         &.is-#{$name} {
             border-color: transparent;
             @include statusColors($name);
+
+            &-inverted {
+                @include statusColorsInvenrted($name);
+
+            }
         }
     }
 

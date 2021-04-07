@@ -4,6 +4,7 @@ $modal-background-background-color: rgba($scheme-invert, 0.86);
 
 $modal-content-width: 640px;
 $modal-content-width-wide: 800px;
+$modal-content-width-widest: calc(100vw - 200px);
 $modal-content-margin-mobile: 20px;
 $modal-content-spacing-mobile: 160px;
 $modal-content-spacing-tablet: 40px;
@@ -63,6 +64,11 @@ $modal-card-body-padding: 20px;
 
         &--wide {
             width: $modal-content-width-wide;
+        }
+
+        &--widest {
+            width: $modal-content-width-widest;
+            max-width: 1200px;
         }
 
     }

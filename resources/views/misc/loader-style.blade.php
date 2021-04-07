@@ -2,6 +2,7 @@
     .spa-loader {
         display: flex;
         height: 100%;
+        grid-area: content;
         justify-content: center;
         align-items: center;
     }
