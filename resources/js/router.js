@@ -90,7 +90,9 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from) => {
     router.app.loader = false;
-    localStorage.setItem('last-visited-route', to.fullPath);
+    if (to.fullPath !== '/login') {
+        localStorage.setItem('last-visited-route', to.fullPath);
+    }
 });
 
 export default router;

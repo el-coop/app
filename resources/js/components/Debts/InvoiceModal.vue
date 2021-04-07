@@ -102,7 +102,8 @@ export default {
             this.generatingInvoice = false;
 
             if (response.status > 199 && response.status < 300) {
-                const blobURL = window.URL.createObjectURL(response.data);
+                const blob = new Blob([response.data], {type: 'application/pdf'});
+                const blobURL = window.URL.createObjectURL(blob);
                 const tempLink = document.createElement('a');
                 tempLink.style.display = 'none';
                 tempLink.href = blobURL;
@@ -117,6 +118,8 @@ export default {
                     this.markBilled();
                     this.open = false;
                 }
+            } else {
+                this.$toast.error('Please try again', 'Invoice generation failed')
             }
 
         },

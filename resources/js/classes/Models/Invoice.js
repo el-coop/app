@@ -30,7 +30,7 @@ export default class Invoice {
     async generate(generateEmail = false) {
         let url = '/invoice/generate';
         let config = {
-            responseType: 'blob'
+            responseType: 'arraybuffer'
         };
         if (generateEmail) {
             url = 'invoice/smartechEmail';
@@ -56,7 +56,10 @@ export default class Invoice {
                 return response;
             }
 
-            this.errors = response.data.errors || {};
+            if (response.status === 422) {
+                this.errors = JSON.parse(Buffer.from(response.data).toString('utf8')).errors;
+            }
+
         } catch (error) {
             response = error.response;
         }

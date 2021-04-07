@@ -73,9 +73,15 @@ class GenerateInvoiceRequest extends FormRequest {
             'items' => $items
         ]);
 
+        if(! $invoice->successful()){
+            abort(500,'Invoice Generator Error');
+        }
+
+
         if ($this->get('markBilled')) {
             $this->markBilled($this->get('items'));
         }
+
 
         return $invoice->body();
     }
