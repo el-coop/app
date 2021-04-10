@@ -6,15 +6,7 @@
                :form-fields="fields">
         <template #filters>
             <div class="chart__filters">
-                <TextField class="field--marginless" :options="{
-                type: 'date',
-                format: 'dd/mm/yyyy',
-            }" :error="startDateError" v-model="start"/>
-                <span> - </span>
-                <TextField class="field--marginless" :options="{
-                type: 'date',
-                format: 'dd/mm/yyyy'
-             }" :error="endDateError" v-model="end"/>
+                <DateRangeField v-model="range"/>
             </div>
             <CheckboxField class="table__filter-field" :options="{
                 label: 'Show billed?'
@@ -35,14 +27,14 @@
 import DebtRow from "./DebtRow";
 import Debt from "../../classes/Models/Debt";
 import EditTable from "../../global/Table/EditTable";
-import TextField from "../../global/Fields/TextField";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 import SelectField from "../../global/Fields/SelectField";
 import CheckboxField from "../../global/Fields/CheckboxField";
+import DateRangeField from "../../global/Fields/DateRangeField";
 
 export default {
     name: "DebtTable",
-    components: {CheckboxField, SelectField, DebtRow, EditTable, TextField},
+    components: {DateRangeField, CheckboxField, SelectField, DebtRow, EditTable},
     mixins: [InteractsWithObjects],
     props: {
         debts: {
@@ -83,10 +75,10 @@ export default {
                 title: 'Amount',
                 class: 'table__cell--right table__cell--important'
             }],
-            startDateError: null,
-            endDateError: null,
-            start: null,
-            end: null,
+            range: {
+                start: null,
+                end: null,
+            },
             entryClass: Debt,
             showBilled: false
         }
@@ -100,14 +92,14 @@ export default {
         },
         filteredDebts() {
             let debts = this.debts;
-            if (this.start) {
-                const start = new Date(this.start);
+            if (this.range.start) {
+                const start = new Date(this.range.start);
                 debts = debts.filter((debt) => {
                     return debt.date >= start;
                 });
             }
-            if (this.end) {
-                const end = new Date(this.end);
+            if (this.range.end) {
+                const end = new Date(this.range.end);
                 debts = debts.filter((debt) => {
                     return debt.date <= end;
                 });
@@ -155,7 +147,7 @@ export default {
             this.$emit('delete', debt);
         },
         toggleBilled(entry) {
-            if(! entry.invoiced){
+            if (!entry.invoiced) {
                 entry.invoiced = 1;
             } else {
                 entry.invoiced = 0;
