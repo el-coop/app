@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Debt;
+use App\Rules\Currency;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,7 +30,7 @@ class StoreDebtRequest extends FormRequest {
             'type' => 'required|in:fixed,hourly',
             'amount' => 'required|numeric',
             'rate' => 'nullable|numeric|min:0',
-            'currency' => 'required|in:₪,$,€',
+            'currency' => ['required', new Currency],
             'comment' => 'string|nullable',
             'invoiced' => 'boolean',
         ];

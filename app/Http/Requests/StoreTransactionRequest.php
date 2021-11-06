@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App;
 use App\Models\Transaction;
 use App\Models\TransactionAttachment;
+use App\Rules\Currency;
 use App\Services\CurrencyConverter;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,7 +31,7 @@ class StoreTransactionRequest extends FormRequest {
             'reason' => 'required|string',
             'date' => 'required|date',
             'amount' => 'required|numeric',
-            'currency' => 'required|in:₪,$,€',
+            'currency' => ['required', new Currency],
             'rate' => 'nullable|numeric|min:0',
             'comment' => 'string|nullable',
             'attachments' => 'array',

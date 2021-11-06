@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Debt;
+use App\Rules\Currency;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Http;
@@ -25,7 +26,7 @@ class GenerateInvoiceRequest extends FormRequest {
      */
     public function rules() {
         return [
-            'currency' => 'required|in:₪,$,€',
+            'currency' => ['required', new Currency],
             'markBilled' => 'required|boolean',
             'from' => 'required|string|min:1',
             'to' => 'required|string|min:1',

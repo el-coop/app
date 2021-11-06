@@ -40,10 +40,6 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = [
-      'scheduledActions'
-    ];
-
     public function user() {
         return $this->morphTo();
     }
