@@ -13,7 +13,5 @@ import {
     faCheck,
     faEye, faDatabase, faUpload, faTimesCircle, faFile, faMoneyCheckAlt
 } from '@fortawesome/free-solid-svg-icons'
-// import VueIziToast from 'vue-izitoast';
 
-// Vue.use(VueIziToast); TODO - replace IZITOAST
 library.add(faCheck,faFileInvoiceDollar, faSignOutAlt, faEdit, faExclamation, faTrash, faSearch, faIdCard, faCaretDown, faList, faEye, faDatabase, faUpload, faTimesCircle, faFile, faMoneyCheckAlt);
