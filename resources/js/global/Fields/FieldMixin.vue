@@ -2,7 +2,7 @@
     export default {
         name: "FieldMixin",
         props: {
-            value: {
+            modelValue: {
                 default: ''
             },
             error: {
@@ -23,13 +23,13 @@
         computed: {
             val: {
                 get() {
-                    if (this.value instanceof Date) {
-                        return this.value.toISOString().split('T')[0];
+                    if (this.modelValue instanceof Date) {
+                        return this.modelValue.toISOString().split('T')[0];
                     }
-                    return this.value;
+                    return this.modelValue;
                 },
                 set(value) {
-                    this.$emit('input', value);
+                    this.$emit('update:modelValue', value);
                 }
             }
         }

@@ -13,19 +13,25 @@ const fs = require('fs');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').vue()
-    .sass('resources/sass/app.scss', 'public/css')
+mix.js('resources/js/app.js', 'public/js').vue().sass('resources/sass/app.scss', 'public/css')
     .version()
-    .webpackConfig({
-        plugins: [
-            new WorkboxPlugin.InjectManifest({
-                swSrc: './resources/js/serviceWorker/serviceWorker.js',
-                swDest: 'serviceWorker.js'
-            })
-        ],
-        output: {
-
-            publicPath: ''
+    .webpackConfig(() => {
+        return {
+            resolve: {
+                alias: {
+                    vue: "@vue/compat",
+                    "@vue/composition-api": "@vue/compat",
+                }
+            },
+            plugins: [
+                new WorkboxPlugin.InjectManifest({
+                    swSrc: './resources/js/serviceWorker/serviceWorker.js',
+                    swDest: 'serviceWorker.js'
+                })
+            ],
+            output: {
+                publicPath: ''
+            }
         }
     }).then(
     ({compilation}) => {

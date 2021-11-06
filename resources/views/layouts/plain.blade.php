@@ -15,7 +15,7 @@
     @stack('head')
 </head>
 <body>
-<div id="app" :class="`theme-${theme}`">
+<div id="app">
 	@yield('body')
 
 </div>

@@ -12,8 +12,8 @@
                 </template>
             </DataTable>
         </template>
-        <Modal :active.sync="form" @update:active="selectedEntry=null">
-            <EditForm v-if="selectedEntry" v-model="selectedEntry" :fields="fields" @update="updateEntry"/>
+        <Modal v-model:active="form" @update:active="selectedEntry=null">
+            <EditForm v-if="selectedEntry" v-model:entry="selectedEntry" :fields="fields" @update:entry="updateEntry"/>
         </Modal>
     </div>
 </template>

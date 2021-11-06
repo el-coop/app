@@ -1,5 +1,5 @@
 <template>
-    <modal :active.sync="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
+    <modal v-model:active="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
         <div class="invoice-form" v-if="invoice">
             <div class="invoice-form__column">
                 <textareaField :small="true" :options="{
@@ -156,11 +156,14 @@ export default {
     },
 
     watch: {
-        debtList() {
-            if (this.debtList) {
-                this.open = true;
-                this.invoice = new Invoice(this.debtList.items);
-            }
+        debtList: {
+            handler() {
+                if (this.debtList) {
+                    this.open = true;
+                    this.invoice = new Invoice(this.debtList.items);
+                }
+            },
+            deep: true
         }
     }
 }

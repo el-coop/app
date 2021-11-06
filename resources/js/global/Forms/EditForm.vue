@@ -18,10 +18,6 @@ import FileArrayField from "../Fields/FileArrayField";
 export default {
     name: "EditForm",
     components: {TextareaField, TextField, SelectField, MultiFileField, FileArrayField},
-    model: {
-        prop: 'entry',
-        event: 'update'
-    },
 
     props: {
         entry: {
@@ -65,7 +61,7 @@ export default {
                     this.value[name] = parseFloat(this.value[name]);
                 }
             });
-            this.$emit('update', this.value);
+            this.$emit('update:entry', this.value);
         }
     },
 

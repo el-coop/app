@@ -22,7 +22,7 @@ export default {
         TextField
     },
     props: {
-        value: {
+        modelValue: {
             default() {
                 return {
                     start: '',
@@ -44,28 +44,28 @@ export default {
     computed: {
         start: {
             get() {
-                if (this.value.start instanceof Date) {
-                    return this.value.start.toISOString().split('T')[0];
+                if (this.modelValue.start instanceof Date) {
+                    return this.modelValue.start.toISOString().split('T')[0];
                 }
-                return this.value.start;
+                return this.modelValue.start;
             },
             set(value) {
-                this.$emit('input', {
+                this.$emit('update:modelValue', {
                     start: value,
-                    end: this.value.end
+                    end: this.modelValue.end
                 });
             }
         },
         end: {
             get() {
-                if (this.value.end instanceof Date) {
-                    return this.value.start.toISOString().split('T')[0];
+                if (this.modelValue.end instanceof Date) {
+                    return this.modelValue.start.toISOString().split('T')[0];
                 }
-                return this.value.end;
+                return this.modelValue.end;
             },
             set(value) {
-                this.$emit('input', {
-                    start: this.value.start,
+                this.$emit('update:modelValue', {
+                    start: this.modelValue.start,
                     end: value
                 });
             }
@@ -78,5 +78,6 @@ export default {
 <style scoped>
 .date-range {
     display: flex;
+    align-items: center;
 }
 </style>

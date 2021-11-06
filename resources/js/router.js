@@ -1,4 +1,4 @@
-import Router from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 import AuthMiddleware from "./middleware/AuthMiddleware";
 
 const Accounting = () => import('./views/Accounting' /* webpackChunkName: "js/Accounting" */);
@@ -10,8 +10,8 @@ const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "j
 const Notes = () => import( "./views/Notes"  /* webpackChunkName: "js/notes" */);
 
 
-const router = new Router({
-    mode: 'history',
+const router = createRouter({
+    history: createWebHistory(),
     routes: [
         {
             path: '/',
@@ -73,7 +73,7 @@ const router = new Router({
             }
         },
         {
-            path: '/*',
+            path: '/:pathMatch(.*)*',
             name: '404',
             component: PageNotFound,
             meta: {

@@ -4,11 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Vue from 'vue';
+import {createApp} from 'vue'
+import {configureCompat} from 'vue'
+import {createMetaManager, plugin as vueMetaPlugin } from 'vue-meta'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import VueIzitoast from './classes/VueIzitoast';
+import Navbar from './global/Navbar';
 
 
 require('./bootstrap');
-window.Vue = Vue;
 
 // Load vue components and libraries
 
@@ -23,35 +27,21 @@ require('./global/global');
 
 import router from './router';
 import store from "./store";
+import Root from "./components/Root";
 
-
-const app = new Vue({
-    el: '#app',
-    router,
-    store,
-    metaInfo: {
-        // if no subcomponents specify a metaInfo.title, this title will be used
-        title: 'Loading',
-        // all titles will be injected into this template
-        titleTemplate: '%s | El-Coop'
-    },
-    data() {
-        return {
-            loader: false,
-        }
-    },
-    beforeCreate() {
-        this.$store.dispatch('init');
-    },
-
-
-    computed: {
-        theme() {
-            return this.$store.state.theme;
-        }
-    },
-
-    beforeDestroy() {
-        this.$bus.$off('theme-switch');
-    }
+configureCompat({
+    MODE: 3,
 });
+
+const app = createApp(Root)
+    .use(router)
+    .use(createMetaManager())
+    .use(vueMetaPlugin)
+    .use(store)
+    .use(VueIzitoast)
+    .component('FontAwesomeIcon', FontAwesomeIcon)
+    .component('Navbar', Navbar);
+
+router.app = app;
+
+router.isReady().then(() => app.mount('#app'));

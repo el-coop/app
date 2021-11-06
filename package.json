@@ -10,6 +10,8 @@
 		"production": "mix --production"
 	},
 	"devDependencies": {
+		"@vue/compat": "^3.2.21",
+		"@vue/compiler-sfc": "^3.2.21",
 		"axios": "^0.21.1",
 		"browser-sync": "^2.27.7",
 		"browser-sync-webpack-plugin": "^2.3.0",
@@ -18,9 +20,8 @@
 		"resolve-url-loader": "^4.0.0",
 		"sass": "^1.43.4",
 		"sass-loader": "^12.3.0",
-		"vue": "^2.6.12",
-		"vue-loader": "^15.9.8",
-		"vue-template-compiler": "^2.6.12",
+		"vue": "^3.2.21",
+		"vue-loader": "^16.8.3",
 		"webpack": "^5.62.1",
 		"webpack-cli": "^4.9.1",
 		"workbox-webpack-plugin": "^6.3.0"
@@ -28,13 +29,13 @@
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^1.2.36",
 		"@fortawesome/free-solid-svg-icons": "^5.15.4",
-		"@fortawesome/vue-fontawesome": "^2.0.6",
+		"@fortawesome/vue-fontawesome": "^3.0.0-5",
 		"bulma": "^0.9.3",
 		"c3": "^0.7.20",
+		"izitoast": "^1.4.0",
 		"register-service-worker": "^1.7.2",
-		"vue-izitoast": "^1.2.1",
-		"vue-meta": "^2.4.0",
-		"vue-router": "^3.4.7",
-		"vuex": "^3.5.1"
+		"vue-meta": "^3.0.0-alpha.9",
+		"vue-router": "^4.0.12",
+		"vuex": "^4.0.2"
 	}
 }

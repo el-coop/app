@@ -45,7 +45,7 @@
             this.$refs.backgroundContent.addEventListener('transitionend', this.backgroundTransitionListener);
         },
 
-        beforeDestroy() {
+        beforeUnmount() {
             this.$refs.backgroundContent.removeEventListener('transitionend', this.backgroundTransitionListener);
         },
 

@@ -2,7 +2,7 @@
     <div class="field">
         <label class="label" v-if="options.label" :for="id" v-html="options.label"/>
         <ul>
-            <li v-for="file in value" :key="file.id" class="table__row" :class="{ 'is-opaque' : ! file.checked}">
+            <li v-for="file in modelValue" :key="file.id" class="table__row" :class="{ 'is-opaque' : ! file.checked}">
                 <div class="table__cell">
                     <label class="switch">
                         <input type="checkbox" class="switch__input" v-model="file.checked">
@@ -25,7 +25,7 @@
         mixins: [FieldMixin],
 
         props: {
-            value: {
+            modelValue: {
                 type: Array,
                 default() {
                     return [];
@@ -83,7 +83,7 @@
             &:before {
                 position: absolute;
                 content: "";
-                height: calc(var(--size-6) * 0.9);
+                height: calc(var(--size-6) * 0.85);
                 width: calc(var(--size-6) * 1.5);
                 left: calc(var(--size-6) * 0.05);
                 bottom: calc(var(--size-6) * 0.05);

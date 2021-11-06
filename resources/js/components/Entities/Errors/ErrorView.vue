@@ -6,7 +6,7 @@
         </div>
         <div class="carousel">
             <button class="button carousel__arrow carousel__arrow--prev" @click="changeEntry(-1)">
-                <
+                &lt;
             </button>
             <div class="carousel__content">
                 <div v-for="(value, label) in selectedEntry" class="field">

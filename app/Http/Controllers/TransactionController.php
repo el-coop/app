@@ -51,6 +51,6 @@ class TransactionController extends Controller {
     }
 
     public function showAttachment(TransactionAttachment $attachment) {
-        return Storage::download("transactionAttachments/{$attachment->path}",$attachment->name);
+        return Storage::response("transactionAttachments/{$attachment->path}",$attachment->name);
     }
 }
