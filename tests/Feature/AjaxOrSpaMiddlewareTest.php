@@ -20,7 +20,7 @@ class AjaxOrSpaMiddlewareTest extends TestCase {
 
         $this->actingAs($developer)->get('/')
             ->assertStatus(200)
-            ->assertSee('<div id="app" :class="`theme-${theme}`">', false);
+            ->assertSee('<div id="app">', false);
     }
 
     public function test_returns_answer_when_ajax_call() {

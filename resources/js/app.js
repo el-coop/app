@@ -5,7 +5,6 @@
  */
 
 import {createApp} from 'vue'
-import {configureCompat} from 'vue'
 import {createMetaManager, plugin as vueMetaPlugin } from 'vue-meta'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import VueIzitoast from './classes/VueIzitoast';
@@ -28,10 +27,6 @@ require('./global/global');
 import router from './router';
 import store from "./store";
 import Root from "./components/Root";
-
-configureCompat({
-    MODE: 3,
-});
 
 const app = createApp(Root)
     .use(router)
