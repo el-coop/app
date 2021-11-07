@@ -55,7 +55,7 @@
                 <button class="button is-success" @click="generateInvoice" :class="{'is-loading': generatingInvoice}"
                         :disabled="generatingSmartechEmail">
                     Generate Invoice
-                </button>
+                </button>&nbsp;
                 <button class="button is-info-inverted" :class="{'is-loading': generatingSmartechEmail}"
                         :disabled="generatingInvoice" @click="generateSmartechEmail">Send Smartech Email
                 </button>

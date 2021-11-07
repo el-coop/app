@@ -1,7 +1,7 @@
 <template>
     <div class="field">
         <label class="checkbox">
-            <input type="checkbox" :readonly="options.readonly || false" v-model="val">
+            <input type="checkbox" class="checkbox__input" :readonly="options.readonly || false" v-model="val">
             <span v-if="options.label" v-text="options.label"/>
         </label>
         <p class="help is-info" v-if="options.help" v-text="options.help"/>
