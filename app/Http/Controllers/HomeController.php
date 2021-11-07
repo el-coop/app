@@ -8,7 +8,7 @@ class HomeController extends Controller {
 
     public function csrf() {
         return [
-            'token' => csrf_token()
+            'csrfToken' => csrf_token()
         ];
     }
 
