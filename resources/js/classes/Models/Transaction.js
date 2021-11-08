@@ -11,6 +11,7 @@ export default class Transaction extends Model {
                 checked: true
             });
         });
+        transaction.rate = response.data.rate;
     }
 
     static fields() {

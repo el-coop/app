@@ -22,7 +22,8 @@ export default {
         updateById(array, id, newValue) {
             const index = this.findById(array, id);
             if (index > -1) {
-                return this.$set(array, index, newValue);
+                return array[index] = newValue;
+
             }
 
             array.push(newValue);

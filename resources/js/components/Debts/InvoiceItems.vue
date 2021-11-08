@@ -14,7 +14,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="table__row table__row--responsive" v-for="(item, key) in value">
+            <tr class="table__row table__row--responsive" v-for="(item, key) in modelValue">
                 <td class="table__cell table__cell--narrow table__cell--centered">
                     <button class="button is-danger-inverted" @click="removeItem(key)">
                         <FontAwesomeIcon icon="times-circle"/>
@@ -65,7 +65,7 @@ export default {
     },
 
     props: {
-        value: {
+        modelValue: {
             type: Array,
             default() {
                 return [];
@@ -79,16 +79,16 @@ export default {
 
     methods: {
         addItem() {
-            this.value.push({});
+            this.modelValue.push({});
         },
         removeItem(key) {
-            this.value.splice(key, 1);
+            this.modelValue.splice(key, 1);
         }
     },
 
     computed: {
         itemsTotal() {
-            return this.value.reduce((sum, item) => {
+            return this.modelValue.reduce((sum, item) => {
                 return sum + ((item.rate || 0) * (item.amount || 0));
             }, 0);
         },

@@ -1,26 +1,26 @@
 <template>
     <div class="field">
-        <label class="dropzone" :class="{'dropzone--empty': ! Object.keys(value).length, 'is-loading': loading}">
+        <label class="dropzone" :class="{'dropzone--empty': ! Object.keys(modelValue).length, 'is-loading': loading}">
             <input class="dropzone__input" type="file" @change="fileAdded" :multiple="limit > 1"
-                   accept="image/*">
-            <template v-if="Object.keys(value).length">
-                <div v-for="(file,key) in value" :key="key" class="dropzone__preview" @click.prevent="removeFile(key)">
-					<span class="dropzone__icon">
+                   :accept="accept">
+            <template v-if="Object.keys(modelValue).length">
+                <div v-for="(file,key) in modelValue" :key="key" class="dropzone__preview" @click.prevent="removeFile(key)">
+					<span class="">
 						<FontAwesomeIcon icon="file"/>
                     </span>
-                    <span v-text="file.name"/>
+                    <span v-text="file.name" class="dropzone__preview-text"/>
                     <div class="dropzone__preview-label is-danger">
                         <FontAwesomeIcon icon="times-circle"/>
                         (click to remove)
                     </div>
                 </div>
-                <div class="dropzone__preview" v-if="Object.keys(value).length < this.limit">
+                <div class="dropzone__preview" v-if="Object.keys(modelValue).length < this.limit">
 					<span class="dropzone__icon">
 						<FontAwesomeIcon icon="upload"/>
 					</span>
                     <span>
 						Add files<br>
-						<span v-text="`${this.limit - Object.keys(value).length} Left`"/>
+						<span v-text="`${this.limit - Object.keys(modelValue).length} Left`"/>
 					</span>
                 </div>
             </template>
@@ -44,7 +44,7 @@
         name: "MultiFileField",
 
         props: {
-            value: {
+            modelValue: {
                 type: Array,
                 default() {
                     return [];
@@ -60,6 +60,10 @@
             },
             options: {
                 required: false
+            },
+            accept: {
+                default: '',
+                type:String
             }
 
         },
@@ -72,21 +76,21 @@
 
         methods: {
             async fileAdded(event) {
-                const filesObject = this.value;
+                const filesObject = this.modelValue;
                 const files = event.target.files;
                 this.loading = true;
                 for (let i = 0; i < files.length && Object.values(filesObject).length < this.limit; i++) {
                     const file = files[i];
                     filesObject.push(file);
                 }
-                this.$emit('input', filesObject);
+                this.$emit('update:modelValue', filesObject);
                 this.loading = false;
             },
 
             removeFile(key) {
-                const filesObject = this.value;
-                delete filesObject[key];
-                this.$emit('input', filesObject);
+                const filesObject = this.modelValue;
+                filesObject.splice(key,1);
+                this.$emit('update:modelValue', filesObject);
             }
         },
     }
@@ -145,18 +149,14 @@
 
             z-index: 10;
 
+            &-text {
+                word-break: break-word;
+            }
+
             &-label {
                 font-size: var(--size-7);
                 width: 100%;
                 padding: 0 2.5%;
-
-                &-text:only-child {
-                    margin: auto;
-                }
-
-                &-icon {
-                    margin-right: 0.5em;
-                }
             }
 
             &-image {

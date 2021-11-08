@@ -1,17 +1,17 @@
-import Router from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 import AuthMiddleware from "./middleware/AuthMiddleware";
 
-const Accounting = () => import('./views/Accounting' /* webpackChunkName: "js/Accounting" */);
-const Entities = () => import('./views/Entities' /* webpackChunkName: "js/Entities" */);
-const Database = () => import('./views/Database' /* webpackChunkName: "js/Database" */);
-const Login = () => import('./views/Auth/Login' /* webpackChunkName: "js/Login" */);
-const Debts = () => import('./views/Debts' /* webpackChunkName: "js/Debts" */);
-const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "js/PageNotFound" */);
-const Notes = () => import( "./views/Notes"  /* webpackChunkName: "js/notes" */);
+const Accounting = () => import('./views/Accounting' /* webpackChunkName: "Accounting" */);
+const Entities = () => import('./views/Entities' /* webpackChunkName: "Entities" */);
+const Database = () => import('./views/Database' /* webpackChunkName: "Database" */);
+const Login = () => import('./views/Auth/Login' /* webpackChunkName: "Login" */);
+const Debts = () => import('./views/Debts' /* webpackChunkName: "Debts" */);
+const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "PageNotFound" */);
+const Notes = () => import( "./views/Notes"  /* webpackChunkName: "notes" */);
 
 
-const router = new Router({
-    mode: 'history',
+const router = createRouter({
+    history: createWebHistory(),
     routes: [
         {
             path: '/',
@@ -73,7 +73,7 @@ const router = new Router({
             }
         },
         {
-            path: '/*',
+            path: '/:pathMatch(.*)*',
             name: '404',
             component: PageNotFound,
             meta: {

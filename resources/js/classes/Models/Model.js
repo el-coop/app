@@ -1,4 +1,5 @@
 import httpService from "../HttpService";
+import {reactive} from "vue";
 
 function serializeData(formData, name, value) {
     if (value !== null) {
@@ -22,9 +23,9 @@ export default class Model {
             const response = await httpService.get(this.endpoint);
             if (response.status > 199 || response.status < 300) {
                 const responseData = response.data;
-                return responseData[this.endpoint].map((entry) => {
+                return reactive(responseData[this.endpoint].map((entry) => {
                     return new this(entry);
-                });
+                }));
             }
         } catch (e) {
         }
@@ -99,12 +100,13 @@ export default class Model {
             const data = this.postData;
             this.errors = {};
             let endpoint = this.endpoint;
+            let method = 'post';
             if (this.dbId) {
-                data.append('_method', 'patch');
+                method = 'patch';
                 endpoint += `/${this.dbId}`;
             }
 
-            response = await httpService.post(endpoint, data);
+            response = await httpService[method](endpoint, data);
 
             if (response.status > 199 && response.status < 300) {
                 this.status = 'saved';

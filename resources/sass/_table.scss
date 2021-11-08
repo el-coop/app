@@ -37,7 +37,6 @@
 
         &--details {
             display: none;
-            position: relative;
             background-color: var(--card-background-accent);
 
             @include from($mobile) {

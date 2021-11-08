@@ -1,5 +1,5 @@
 <template>
-    <modal :active.sync="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
+    <modal v-model:active="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
         <div class="invoice-form" v-if="invoice">
             <div class="invoice-form__column">
                 <textareaField :small="true" :options="{
@@ -55,7 +55,7 @@
                 <button class="button is-success" @click="generateInvoice" :class="{'is-loading': generatingInvoice}"
                         :disabled="generatingSmartechEmail">
                     Generate Invoice
-                </button>
+                </button>&nbsp;
                 <button class="button is-info-inverted" :class="{'is-loading': generatingSmartechEmail}"
                         :disabled="generatingInvoice" @click="generateSmartechEmail">Send Smartech Email
                 </button>
@@ -156,11 +156,14 @@ export default {
     },
 
     watch: {
-        debtList() {
-            if (this.debtList) {
-                this.open = true;
-                this.invoice = new Invoice(this.debtList.items);
-            }
+        debtList: {
+            handler() {
+                if (this.debtList) {
+                    this.open = true;
+                    this.invoice = new Invoice(this.debtList.items);
+                }
+            },
+            deep: true
         }
     }
 }

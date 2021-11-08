@@ -12,9 +12,9 @@
         z-index: 4;
     }
 
-    & > select {
+    &__input {
         @extend %input;
-        background-color: var(--card-background);
+        background-color: transparent;
         border: none;
         border-bottom: 1px solid var(--input-border-color);
         color: var(--input-text-color);
@@ -31,9 +31,12 @@
         }
 
         &:focus, &:hover {
+
             border-color: var(--focus-color);
         }
-
+        &:focus {
+            background-color: var(--card-background);
+        }
     }
 
     &--fullwidth {
@@ -42,5 +45,9 @@
         & > select {
             width: 100%;
         }
+    }
+
+    &__option {
+        background-color: var(--card-background);
     }
 }

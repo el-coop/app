@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Cookie;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller {
     /*
@@ -53,6 +54,7 @@ class LoginController extends Controller {
     }
 
     protected function sendLoginResponse(Request $request) {
+
         $rememberTokenName = Auth::getRecallerName();
 
         $cookieJar = $this->guard()->getCookieJar();

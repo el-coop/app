@@ -9,7 +9,7 @@
                 <ErrorRow :key="`error_${index}`" :entry="entry" @view="view(entry)" @delete="deleteEntry(entry)"/>
             </template>
         </DataTable>
-        <Modal :active.sync="viewModal" @update:active="viewed=null" :wide="true">
+        <Modal v-model:active="viewModal" @update:active="viewed=null" :wide="true">
             <ErrorView v-if="viewed" :error-entry="viewed"/>
         </Modal>
     </div>
