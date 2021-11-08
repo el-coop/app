@@ -1,9 +1,8 @@
 <template>
-    <Chart :chartData="chartData" title="Financial report" :names="{y: 'Total'}">
+    <Chart :chartData="chartData" title="Financial report" :names="{y: 'Total'}" :x-format="xFormat">
         <template #filters>
             <SelectField v-model="groupView" class="field--marginless" :options="{options:{
                 'daily': 'Daily',
-                'weekly': 'Weekly',
                 'monthly': 'Monthly',
                 'yearly': 'Yearly'
             }}"/>
@@ -17,7 +16,6 @@
 
 <script>
 import Chart from '../../global/Chart';
-import TextField from "../../global/Fields/TextField";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 import DateRangeField from "../../global/Fields/DateRangeField";
 import SelectField from "../../global/Fields/SelectField";
@@ -61,7 +59,13 @@ export default {
             },
             startDateError: null,
             endDateError: null,
-            groupView: 'daily'
+            groupView: 'daily',
+            xFormat: '%d/%m/%y',
+            xFormats: {
+                'daily': '%d/%m/%y',
+                'monthly': '%m/%Y',
+                'yearly': '%Y',
+            }
         }
     },
 
@@ -82,18 +86,43 @@ export default {
             if (!this.range.end) {
                 this.endDateError = 'Field is required';
             }
+        },
+        dailyIndexFinder(coordinate, transaction) {
+            return coordinate.x.toDateString() === transaction.date.toDateString();
+        },
+        dailyXLabel(transaction) {
+            return transaction.date;
+        },
+        monthlyIndexFinder(coordinate, transaction) {
+            return coordinate.x.toDateString() === this.getFirstDayOfMonth(transaction.date).toDateString();
+        },
+        monthlyXLabel(transaction) {
+            return this.getFirstDayOfMonth(transaction.date);
+        },
+        getFirstDayOfMonth(date){
+            return new Date(Date.UTC(date.getFullYear(), date.getMonth(), 1));
+        },
+        yearlyIndexFinder(coordinate, transaction) {
+            return coordinate.x.toDateString() === this.getFirstDayOfYear(transaction.date).toDateString();
+        },
+        yearlyXLabel(transaction) {
+            return this.getFirstDayOfYear(transaction.date);
+        },
+        getFirstDayOfYear(date){
+            return new Date(Date.UTC(date.getFullYear(), 1, 1));
         }
     },
 
     computed: {
         chartData() {
+            this.xFormat = this.xFormats[this.groupView];
             const transactions = this.transactions.slice(0);
             return transactions.sort((a, b) => {
                 return a.date - b.date;
             }).reduce((grouped, transaction) => {
                 transaction.entityName = this.getById(this.entities, transaction.entity).name;
                 const index = grouped.findIndex((coordinate) => {
-                    return coordinate.x.toDateString() === transaction.date.toDateString();
+                    return this[`${this.groupView}IndexFinder`](coordinate, transaction);
                 });
                 if (index > -1) {
                     grouped[index].y += (transaction.amount * transaction.rate);
@@ -107,7 +136,7 @@ export default {
                     }
                     grouped.push({
                         y: (transaction.amount * transaction.rate) + amount,
-                        x: transaction.date,
+                        x: this[`${this.groupView}XLabel`](transaction),
                         transactions: [transaction]
                     });
                 }

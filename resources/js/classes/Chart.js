@@ -74,6 +74,11 @@ class Chart {
     xGrids(xGrids) {
         this.chart.xgrids(xGrids);
     }
+
+    setXFormat(format) {
+        this.chart.internal.config.axis_x_tick_format  = format;
+        this.chart.flush();
+    }
 }
 
 export default Chart;

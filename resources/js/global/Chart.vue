@@ -56,6 +56,10 @@ export default {
         onClick: {
             type: Function,
         },
+        xFormat: {
+            type: String,
+            default: '%d/%m/%y'
+        }
     },
 
     data() {
@@ -134,6 +138,9 @@ export default {
                 this.chart.load(value);
             },
             deep: true
+        },
+        xFormat(value) {
+            this.chart.setXFormat(value);
         },
         chartData: {
             handler() {
