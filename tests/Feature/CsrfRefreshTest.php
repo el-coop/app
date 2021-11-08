@@ -13,6 +13,6 @@ class CsrfRefreshTest extends TestCase {
      * @return void
      */
     public function test_can_get_an_issued_csrf_token() {
-        $this->ajaxGet(action('HomeController@csrf'))->assertSuccessful()->assertJsonStructure(['token']);
+        $this->ajaxGet(action('HomeController@csrf'))->assertSuccessful()->assertJsonStructure(['csrfToken']);
     }
 }
