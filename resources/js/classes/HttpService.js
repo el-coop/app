@@ -1,4 +1,3 @@
-import axios from 'axios';
 import store from "../store";
 import HttpResponse from "./HttpResponse";
 import HttpException from "./Exceptions/HttpException";
@@ -96,28 +95,19 @@ class HttpService {
 
     async patch(url, data = {}, headers = {}, config = {}, repeat = true) {
         try {
-            return await axios.patch(url, data, {
-                headers,
-                ...config
-            });
+            const response = await fetch(url, fetchConfig('patch', data, headers, config));
+            return await this.handleResponse(response, 'patch', repeat, url, data, headers, config);
         } catch (error) {
-            if (error.response && error.response.data.message === 'CSRF token mismatch.' && repeat) {
-                return await this.repeatWithCsrf('patch', url, headers, data, config);
-            }
-            return error.response;
+            return error.response || new HttpResponse(500, {}, {error});
         }
     }
 
     async delete(url, headers = {}, repeat = true) {
         try {
-            return await axios.delete(url, {
-                headers,
-            });
+            const response = await fetch(url, fetchConfig('delete', {}, headers));
+            return await this.handleResponse(response, 'delete', repeat, url, {}, headers);
         } catch (error) {
-            if (error.response && error.response.data.message === 'CSRF token mismatch.' && repeat) {
-                return await this.repeatWithCsrf('delete', url, headers);
-            }
-            return error.response;
+            return error.response || new HttpResponse(500, {}, {error});
         }
     }
 
