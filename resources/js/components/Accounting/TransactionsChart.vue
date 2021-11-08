@@ -1,6 +1,12 @@
 <template>
     <Chart :chartData="chartData" title="Financial report" :names="{y: 'Total'}">
         <template #filters>
+            <SelectField v-model="groupView" class="field--marginless" :options="{options:{
+                'daily': 'Daily',
+                'weekly': 'Weekly',
+                'monthly': 'Monthly',
+                'yearly': 'Yearly'
+            }}"/>
             <DateRangeField v-model="range" :start-error="startDateError" :end-error="endDateError"/>
             <button class="button is-primary" @click="filter">
                 <FontAwesomeIcon icon="search"/>
@@ -14,10 +20,12 @@ import Chart from '../../global/Chart';
 import TextField from "../../global/Fields/TextField";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 import DateRangeField from "../../global/Fields/DateRangeField";
+import SelectField from "../../global/Fields/SelectField";
 
 export default {
     name: "TransactionsChart",
     components: {
+        SelectField,
         DateRangeField,
         Chart
     },
@@ -53,6 +61,7 @@ export default {
             },
             startDateError: null,
             endDateError: null,
+            groupView: 'daily'
         }
     },
 
