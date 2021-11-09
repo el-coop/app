@@ -19,116 +19,145 @@
 </template>
 
 <script>
-    import DataTable from "./DataTable";
-    import Modal from "../Modal";
-    import EditForm from "../Forms/EditForm";
-    import InteractsWithObjects from "../../mixins/InteractsWithObjects";
+import DataTable from "./DataTable";
+import Modal from "../Modal";
+import EditForm from "../Forms/EditForm";
+import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
-    export default {
-        name: "EditTable",
-        components: {DataTable, Modal, EditForm},
-        mixins: [InteractsWithObjects],
-        props: {
-            title: {
-                type: String,
-                required: true
-            },
-            tableData: {
-                type: Array,
-                required: true
-            },
-            headers: {
-                type: Array,
-                required: true
-            },
-            entryClass: {
-                type: Function,
-                required: true
-            },
-            extraData: {
-                type: Object,
-                default() {
-                    return {};
+export default {
+    name: "EditTable",
+    components: {DataTable, Modal, EditForm},
+    mixins: [InteractsWithObjects],
+    props: {
+        title: {
+            type: String,
+            required: true
+        },
+        tableData: {
+            type: Array,
+            required: true
+        },
+        headers: {
+            type: Array,
+            required: true
+        },
+        entryClass: {
+            type: Function,
+            required: true
+        },
+        extraData: {
+            type: Object,
+            default() {
+                return {};
+            }
+        },
+        formFields: {
+            type: Array
+        },
+        processEntry: {
+            type: Function,
+        }
+    },
+
+    data() {
+        return {
+            form: false,
+            selectedEntry: null,
+            active: null,
+            pending: this.loadPending(),
+        }
+    },
+
+    computed: {
+        fields() {
+            return this.formFields || this.entryClass.fields();
+        }
+    },
+
+    methods: {
+        toggleActive(index) {
+            if (this.active === index) {
+                return this.active = null;
+            }
+            this.active = index;
+        },
+
+        editEntry(entry) {
+            if (!entry) {
+                entry = new this.entryClass(this.extraData);
+            }
+
+            this.selectedEntry = entry;
+            this.form = true;
+        },
+
+        async updateEntry() {
+            const entry = this.selectedEntry;
+            if (this.processEntry) {
+                this.processEntry(entry);
+            }
+
+            const savedId = entry.id;
+            this.saveUpdateEntry(entry);
+
+            this.updateById(this.pending, entry.id, entry);
+            this.selectedEntry = null;
+            this.form = false;
+            const response = await entry.save();
+            if (entry.status === 'saved') {
+                this.deleteUpdateEntry(savedId);
+                this.removeById(this.pending, entry.id);
+                this.$emit('update', entry);
+                this.$toast.success(' ', 'Entry saved');
+            } else {
+                if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
+                    this.$toast.error('Please try again', 'Entry save error');
                 }
-            },
-            formFields: {
-                type: Array
-            },
-            processEntry:{
-                type: Function,
+                this.saveUpdateEntry(entry);
             }
         },
 
-        data() {
-            return {
-                pending: [],
-                form: false,
-                selectedEntry: null,
-                active: null
+        async deleteEntry(entry) {
+            if (this.pending.indexOf(entry) > -1) {
+                this.removeById(this.pending, entry.id);
+                this.deleteUpdateEntry(entry.id)
+                return;
             }
-        },
+            const response = await entry.delete();
 
-        computed: {
-            fields() {
-                return this.formFields || this.entryClass.fields();
+            if (response) {
+                this.$emit('delete', entry);
+                this.$toast.success(' ', 'Entry deleted');
+                return;
             }
+            this.$toast.error('Please try again', 'Entry delete error');
+
         },
+        saveUpdateEntry(entry) {
+            const savedEntry = Object.assign({}, entry);
+            savedEntry.files = [];
+            localStorage.setItem(`${this.title}_pending_${entry.id}`, JSON.stringify(savedEntry));
+        },
+        deleteUpdateEntry(entryId) {
+            console.log('removing', `${this.title}_pending_${entryId}`);
+            localStorage.removeItem(`${this.title}_pending_${entryId}`);
 
-        methods: {
-            toggleActive(index) {
-                if (this.active === index) {
-                    return this.active = null;
-                }
-                this.active = index;
-            },
-
-            editEntry(entry) {
-                if (!entry) {
-                    entry = new this.entryClass(this.extraData);
-                }
-
-                this.selectedEntry = entry;
-                this.form = true;
-            },
-
-            async updateEntry() {
-                const entry = this.selectedEntry;
-
-                if(this.processEntry){
-                    this.processEntry(entry);
-                }
-
-                this.updateById(this.pending, entry.id, entry);
-                this.selectedEntry = null;
-                this.form = false;
-                const response = await entry.save();
-                if (entry.status === 'saved') {
-                    this.removeById(this.pending, entry.id);
-                    this.$emit('update', entry);
-                    this.$toast.success(' ', 'Entry saved');
-                } else {
-                    if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
-                        this.$toast.error('Please try again', 'Entry save error');
+        },
+        loadPending() {
+            const entries = [];
+            const regexp = new RegExp(`${this.title}_pending_`);
+            for (let i in localStorage) {
+                if (localStorage.hasOwnProperty(i)) {
+                    if (i.match(regexp)) {
+                        const parsedObject = JSON.parse(localStorage.getItem(i));
+                        parsedObject.fromLocalStorage = true;
+                        entries.push(new this.entryClass(parsedObject));
                     }
                 }
-            },
-
-            async deleteEntry(entry) {
-                if (this.pending.indexOf(entry) > -1) {
-                    this.removeById(this.pending, entry.id);
-
-                    return;
-                }
-                const response = await entry.delete();
-
-                if (response) {
-                    this.$emit('delete', entry);
-                    this.$toast.success(' ', 'Entry deleted');
-                    return;
-                }
-                this.$toast.error('Please try again', 'Entry delete error');
-
-            },
+            }
+            return entries;
         }
-    }
+
+    },
+}
 </script>
