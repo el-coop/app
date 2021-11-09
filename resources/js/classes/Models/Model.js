@@ -36,10 +36,15 @@ export default class Model {
     };
 
     constructor(object = {}) {
-        this.status = object.id ? 'saved' : 'new';
+        this.status = object.status || (object.id ? 'saved' : 'new');
         this.id = object.id || Date.now();
-        this.dbId = object.id || null;
-        this.errors = {};
+        if(object.fromLocalStorage){
+            this.dbId = object.dbId;
+        } else {
+            this.dbId = object.id || null;
+        }
+        this.errors = object.errors || {};
+
 
         this.constructor.fields().forEach((field) => {
             const propertyName = field.name;
@@ -53,10 +58,12 @@ export default class Model {
                         this[propertyName] = parseFloat(this[propertyName]);
                         break;
                     case 'array':
-                        this[propertyName] = JSON.parse(this[propertyName]).map((entry) => {
-                            entry.checked = true;
-                            return entry;
-                        });
+                        if (!Array.isArray(this[propertyName])) {
+                            this[propertyName] = JSON.parse(this[propertyName]).map((entry) => {
+                                entry.checked = true;
+                                return entry;
+                            });
+                        }
                         break;
                 }
             } else {
