@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyEntityRequest;
 use App\Http\Requests\StoreEntityRequest;
 use App\Models\Entity;
 use Illuminate\Http\Request;
@@ -22,5 +23,12 @@ class EntityController extends Controller {
 
     public function update(StoreEntityRequest $request, Entity $entity) {
         return $request->commit();
+    }
+
+    public function destroy(DestroyEntityRequest $request, Entity $entity) {
+        return [
+            'success' => $request->commit()
+        ];
+
     }
 }

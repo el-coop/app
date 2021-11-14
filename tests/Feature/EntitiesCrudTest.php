@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Debt;
 use App\Models\Entity;
+use App\Models\Project;
+use App\Models\Transaction;
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 
@@ -74,6 +77,45 @@ class EntitiesCrudTest extends TestCase {
         $this->actingAs($this->developer)->ajaxPatch(action('EntityController@update', $this->entity))
             ->assertRedirect()
             ->assertSessionHasErrors(['name']);
+    }
+
+
+    public function test_guest_cant_delete_entity() {
+        $this->ajaxDelete(action('EntityController@destroy', $this->entity))->assertRedirect('/');
+    }
+
+    public function test_developer_can_delete_entity() {
+        $project = Project::factory()->create([
+            'entity_id' => $this->entity->id
+        ]);
+        $debt = Debt::factory()->create([
+            'entity_id' => $this->entity->id
+        ]);
+
+        $transaction = Transaction::factory()->create([
+            'entity_id' => $this->entity->id
+        ]);
+
+        $this->actingAs($this->developer)
+            ->ajaxDelete(action('EntityController@destroy', $this->entity))
+            ->assertSuccessful();
+
+        $this->assertDatabaseMissing('entities', [
+            'id' => $this->entity->id
+        ]);
+
+        $this->assertDatabaseMissing('projects', [
+            'id' => $project->id
+        ]);
+
+        $this->assertDatabaseMissing('debts', [
+            'id' => $debt->id
+        ]);
+
+
+        $this->assertDatabaseMissing('transactions', [
+            'id' => $transaction->id
+        ]);
     }
 
 }
