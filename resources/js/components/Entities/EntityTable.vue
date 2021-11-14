@@ -3,7 +3,7 @@
         <template #default="{entry, editEntry, deleteEntry}">
             <EntityRow :entity="entry" :key="`entity_${entry.id}`" @edit="editEntry(entry)"
                        @select="showEntityProjects(entry)" @delete="deleteEntry(entry)"
-                       :with-delete="entities.indexOf(entry) < 0"/>
+                       :with-delete="true"/>
         </template>
     </EditTable>
 </template>
@@ -46,7 +46,12 @@
 
             showEntityProjects(entity) {
                 this.$emit('select', entity);
-            }
+            },
+
+            destroy(entity) {
+                this.$emit('delete', entity);
+            },
+
         }
     }
 </script>

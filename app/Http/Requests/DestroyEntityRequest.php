@@ -30,9 +30,9 @@ class DestroyEntityRequest extends FormRequest
 
 	public function commit() {
         $entity = $this->route('entity');
-        $entity->projects()->delete();
         $entity->debts()->delete();
         $entity->transactions()->delete();
+        $entity->projects()->delete();
         $entity->delete();
 
         return true;
