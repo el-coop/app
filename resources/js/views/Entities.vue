@@ -9,7 +9,16 @@
         </div>
         <div class="foreground-content">
             <transition name="fade">
-                <ProjectTable v-if="selectedEntity" :entity="selectedEntity" @close="selectedEntity = null"/>
+                <Tabs v-if="selectedEntity">
+                    <template #default="{selected, register}">
+                        <Tab :selected="selected" :register="register" title="Projects">
+                            <ProjectTable :entity="selectedEntity" @close="selectedEntity = null"/>
+                        </Tab>
+                        <Tab :selected="selected" :register="register" title="Notes">
+                            test
+                        </Tab>
+                    </template>
+                </Tabs>
             </transition>
         </div>
     </div>
@@ -20,10 +29,12 @@ import Entity from "../classes/Models/Entity";
 import EntityTable from "../components/Entities/EntityTable";
 import InteractsWithObjects from "../mixins/InteractsWithObjects";
 import ProjectTable from "../components/Entities/ProjectTable";
+import Tab from "../global/Tabs/Tab";
+import Tabs from "../global/Tabs/Tabs";
 
 export default {
     name: "Entities",
-    components: {ProjectTable, EntityTable},
+    components: {ProjectTable, EntityTable, Tabs, Tab},
     mixins: [InteractsWithObjects],
     metaInfo: {
         title: 'Entities'
