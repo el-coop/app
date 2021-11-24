@@ -10,12 +10,16 @@
         <div class="foreground-content">
             <transition name="fade">
                 <Tabs v-if="selectedEntity">
+                    <template #rightSide>
+                        <button class="close is-large " @click="selectedEntity = null"/>
+                    </template>
                     <template #default="{selected, register}">
+                        <Tab :selected="selected" :register="register" title="Notes">
+                            <Notes :entity="selectedEntity"/>
+                        </Tab>
+
                         <Tab :selected="selected" :register="register" title="Projects">
                             <ProjectTable :entity="selectedEntity" @close="selectedEntity = null"/>
-                        </Tab>
-                        <Tab :selected="selected" :register="register" title="Notes">
-                            test
                         </Tab>
                     </template>
                 </Tabs>
@@ -31,10 +35,11 @@ import InteractsWithObjects from "../mixins/InteractsWithObjects";
 import ProjectTable from "../components/Entities/ProjectTable";
 import Tab from "../global/Tabs/Tab";
 import Tabs from "../global/Tabs/Tabs";
+import Notes from "../components/Entities/Notes";
 
 export default {
     name: "Entities",
-    components: {ProjectTable, EntityTable, Tabs, Tab},
+    components: { ProjectTable, EntityTable, Tabs, Tab, Notes},
     mixins: [InteractsWithObjects],
     metaInfo: {
         title: 'Entities'

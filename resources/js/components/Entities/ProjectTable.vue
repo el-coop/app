@@ -6,7 +6,6 @@
             <div key="projects_table" v-else>
                 <div class="card__header">
                     <h1 class="title is-1" v-text="entity.name"/>
-                    <button class="close is-large" @click="$emit('close')"/>
                 </div>
                 <EditTable :table-data="entity.projects" title="Projects"
                            :headers="headers" :entry-class="entryClass"

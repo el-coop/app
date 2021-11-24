@@ -1,6 +1,7 @@
 const mix = require('laravel-mix');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const fs = require('fs');
+const webpack = require('webpack');
 
 /*
  |--------------------------------------------------------------------------
@@ -16,20 +17,18 @@ const fs = require('fs');
 mix.js('resources/js/app.js', 'public/js').vue()
     .sass('resources/sass/app.scss', 'public/css')
     .version()
-    .webpackConfig((webpack) => {
-        return {
-            plugins: [
-                new webpack.DefinePlugin({
-                    __VUE_PROD_DEVTOOLS__: process.env.NODE_ENV === 'development',
-                }),
-                new WorkboxPlugin.InjectManifest({
-                    swSrc: './resources/js/serviceWorker/serviceWorker.js',
-                    swDest: 'serviceWorker.js'
-                })
-            ],
-            output: {
-                publicPath: ''
-            }
+    .webpackConfig({
+        plugins: [
+            new webpack.DefinePlugin({
+                __VUE_PROD_DEVTOOLS__: process.env.NODE_ENV === 'development',
+            }),
+            new WorkboxPlugin.InjectManifest({
+                swSrc: './resources/js/serviceWorker/serviceWorker.js',
+                swDest: 'serviceWorker.js'
+            })
+        ],
+        output: {
+            publicPath: ''
         }
     }).then(
     ({compilation}) => {

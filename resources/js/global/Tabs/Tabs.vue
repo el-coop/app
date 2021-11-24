@@ -1,9 +1,12 @@
 <template>
     <div>
-        <ul class="tabs">
-            <li v-for="tab in tabs" :key="tab" v-text="tab" @click="selected=tab" class="tabs__button"
-                :class="{'tabs__button--selected': selected===tab}"/>
-        </ul>
+        <div class="tabs-wrapper">
+            <ul class="tabs">
+                <li v-for="tab in tabs" :key="tab" v-text="tab" @click="selected=tab" class="tabs__button"
+                    :class="{'tabs__button--selected': selected===tab}"/>
+            </ul>
+            <slot name="rightSide"/>
+        </div>
         <slot :selected="selected" :register="registerTab"/>
     </div>
 </template>
@@ -37,12 +40,19 @@ export default {
 
 <style scoped lang="scss">
 .tabs {
+    &-wrapper {
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--card-background);
+        align-items: center;
+    }
+
     display: inline-flex;
     align-items: center;
     border-bottom-color: var(--border-color);
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    background-color: var(--card-background);
+    background-color: var(--card-background-accent);
     border-top-left-radius: var(--radius);
     border-top-right-radius: var(--radius);
 
