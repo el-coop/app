@@ -16,9 +16,9 @@
                 }"/>
             </div>
         </div>
-        <div class="notes" @dblclick.prevent="newNote">
-            <Note v-for="(note, index) in filteredNotes" :key="`note_${index}`" class="notes__note" :note="note"
-                  :auto-sort="sort === 'auto'"/>
+        <div class="notes" @dblclick.prevent="newNote" ref="notes">
+            <Note v-for="(note, index) in filteredNotes" :key="`note_${note.id}`" class="notes__note" :note="note"
+                  :auto-sort="sort === 'auto'" @update:note="updateNote" @destroy:note="destroyNote"/>
         </div>
     </div>
 </template>
@@ -28,10 +28,13 @@ import NoteModel from "../../classes/Models/Note";
 import Note from "./Note";
 import SelectField from "../../global/Fields/SelectField";
 import TextField from "../../global/Fields/TextField";
+import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {
     name: "Notes",
     components: {SelectField, Note, TextField},
+    mixins: [InteractsWithObjects],
+
     props: {
         entity: {
             type: Object,
@@ -40,7 +43,7 @@ export default {
     },
     data() {
         return {
-            notes: [],
+            notes: this.entity.notes,
             sort: localStorage.getItem('notes-sort') || 'free',
             filter: ''
         }
@@ -60,15 +63,42 @@ export default {
     },
     methods: {
         newNote(event) {
+            const notes = this.$refs.notes;
+            const boundingRect = notes.getBoundingClientRect();
             this.notes.push(new NoteModel({
-                x: event.layerX,
-                y: event.layerY,
-                updated_at: new Date(),
+                x: Math.round(event.clientX - boundingRect.left + this.$refs.notes.scrollLeft),
+                y: Math.round(event.clientY - boundingRect.top + this.$refs.notes.scrollTop),
                 entity: this.entity.id,
-                title: (Math.random() + 1).toString(36).substring(7),
-                content: (Math.random() + 1).toString(36).substring(7),
             }));
+        },
+
+        async updateNote(note) {
+            const response = await note.save();
+
+            if (note.status === 'saved') {
+                this.$toast.success(' ', 'Note saved');
+            } else {
+                if (response.status !== 401 && response.data.message !== 'Unauthenticated.') {
+                    this.$toast.error('Please try again', 'Note save error');
+                }
+            }
+        },
+
+        async destroyNote(note) {
+            let destroyed = true;
+            if (note.dbId) {
+                destroyed = await note.delete();
+            }
+
+            if (destroyed) {
+                this.removeById(this.notes, note.id);
+                this.$toast.success(' ', 'Note deleted');
+                return;
+            }
+            this.$toast.error('Please try again', 'Note delete error');
+
         }
+
     },
 
     watch: {
@@ -91,7 +121,7 @@ export default {
     justify-content: flex-start;
     align-content: flex-start;
     gap: 10px;
-    flex-direction: column;
+    flex-direction: row;
 
     &__filter {
         display: flex;

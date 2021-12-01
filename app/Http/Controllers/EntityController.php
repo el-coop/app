@@ -13,6 +13,8 @@ class EntityController extends Controller {
         return [
             'entities' => Entity::select('id', 'name')->with(['projects' => function($query) {
                 $query->select('id', 'entity_id', 'name', 'token');
+            },'notes' => function($query){
+                $query->select('id', 'entity_id','title','content','x','y','updated_at');
             }])->get()
         ];
     }

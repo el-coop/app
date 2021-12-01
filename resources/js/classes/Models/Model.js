@@ -38,7 +38,7 @@ export default class Model {
     constructor(object = {}) {
         this.status = object.status || (object.id ? 'saved' : 'new');
         this.id = object.id || Date.now();
-        if(object.fromLocalStorage){
+        if (object.fromLocalStorage) {
             this.dbId = object.dbId;
         } else {
             this.dbId = object.id || null;
@@ -46,6 +46,11 @@ export default class Model {
         this.errors = object.errors || {};
 
 
+        this.constructFields(object);
+        this.constructRelationships(object);
+    }
+
+    constructFields(object) {
         this.constructor.fields().forEach((field) => {
             const propertyName = field.name;
             if (object[propertyName]) {
@@ -84,6 +89,22 @@ export default class Model {
         });
     }
 
+
+    constructRelationships(object) {
+        if (this.constructor.relationships) {
+            for (let relationship in this.constructor.relationships) {
+                this[relationship] = [];
+                if (object[relationship]) {
+                    object[relationship].forEach((item) => {
+                        const relationshipClass = this.constructor.relationships[relationship]
+                        item[this.constructor.name.toLowerCase()] = this.dbId;
+                        this[relationship].push(new relationshipClass(item));
+                    });
+                }
+            }
+        }
+    }
+
     get endpoint() {
         return this.constructor.endpoint;
     }
@@ -93,7 +114,7 @@ export default class Model {
 
         this.constructor.fields().forEach((field) => {
             const propertyName = field.name;
-            const value = this[propertyName] || null;
+            const value = this[propertyName] ?? null;
             serializeData(formData, propertyName, value);
         });
         return formData;

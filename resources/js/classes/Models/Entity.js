@@ -1,11 +1,13 @@
 import Model from "./Model";
 import Project from "./Project";
+import Note from "./Note";
 
 function findById(array, id) {
     return array.findIndex((object) => {
         return object.id === id;
     });
 }
+
 let entityList = null;
 
 export default class Entity extends Model {
@@ -18,6 +20,13 @@ export default class Entity extends Model {
 
     static get endpoint() {
         return 'entities';
+    }
+
+    static get relationships() {
+        return {
+            projects: Project,
+            notes: Note
+        }
     }
 
     static async list() {
@@ -40,12 +49,5 @@ export default class Entity extends Model {
 
     constructor(object = {}) {
         super(object);
-        this.projects = [];
-        if(object.projects){
-            object.projects.forEach((project) => {
-                project.entity = this.dbId;
-                this.projects.push(new Project(project));
-            })
-        }
     }
 }

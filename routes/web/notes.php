@@ -1,6 +1,6 @@
 <?php
 
-Route::prefix('notes/{entity}')->middleware('auth')->group(function() {
+Route::prefix('entities/{entity}/notes')->middleware('auth')->group(function() {
 
     Route::get('/', 'NoteController@index');
     Route::post('/', 'NoteController@store');

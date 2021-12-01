@@ -1,15 +1,25 @@
 <template>
-    <div :style="style" class="card note" :class="{'loading': loading, 'note__sort-auto': autoSort}" @click.right.stop
-         :draggable="!autoSort"
+    <div :style="style" class="card note"
+         :class="{'loading': loading, 'note__sort-auto': autoSort, 'card--is-danger': note.status === 'error'}"
+         @dblclick.stop
+         :draggable="!autoSort && !editing"
          @dragstart="dragStart" @dragend="dragEnd">
-        <div class="note__overview" v-if="note.title">
-            <p v-text="`${note.updated_at.toLocaleString('en-GB', {timeZone: 'UTC',timeStyle: 'short',dateStyle: 'short'})} UTC`"
-               class="note__overview-date"/>
+        <p class="note__header">
+                <span v-text="note.updated_at ? `${note.updated_at.toLocaleString('en-GB',{
+                    timeStyle: 'short',
+                    dateStyle: 'short',
+                })}` : ''"/>
+            <button class="button is-small is-danger" :disabled="loading" @click="destroyNote">
+                <FontAwesomeIcon icon="trash" fixed-width/>
+            </button>
+        </p>
+        <div class="note__overview" v-if="note.title && note.status !== 'error'">
             <p v-text="note.title" class="note__overview-title"/>
             <pre v-text="note.content" class="note__overview-body" :class="{'is-loading': loading}"/>
         </div>
-        <EditForm v-if="!loading" v-model:entry="note" :fields="fields" :class="{'note__body': note.title}"
-                  @update:entry="updateNote"/>
+        <EditForm v-if="!loading" :entry="note" :fields="fields"
+                  :class="{'note__body': note.title  && note.status !== 'error'}"
+                  @update:entry="updateNote" @focus:start="editing = true" @focus:end="editing = false"/>
     </div>
 </template>
 
@@ -29,54 +39,70 @@ export default {
             type: Boolean,
             default: false
 
+        },
+    },
+    mounted() {
+        if (this.note.status === 'new') {
+            this.$el.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'nearest'
+            });
         }
     },
 
     data() {
         return {
-            tempNote: this.note,
             fields: Note.fields(),
-            loading: false,
             startDragX: null,
             startDragY: null,
+            editing: false
         }
     },
 
     methods: {
-        updateNote() {
-            this.loading = true;
-            setTimeout(() => {
-                this.loading = false;
-            }, 500);
-        },
         dragStart(event) {
+
             this.startDragX = event.screenX;
             this.startDragY = event.screenY;
         },
         dragEnd(event) {
             const xDifference = event.screenX - this.startDragX;
             const yDifference = event.screenY - this.startDragY;
-            this.tempNote.x += xDifference;
-            this.tempNote.y += yDifference;
-            if (this.tempNote.x < 0) {
-                this.tempNote.x = 0;
+            this.note.x += xDifference;
+            this.note.y += yDifference;
+            if (this.note.x < 0) {
+                this.note.x = 0;
             }
-            if (this.tempNote.y < 0) {
-                this.tempNote.y = 0;
+            if (this.note.y < 0) {
+                this.note.y = 0;
             }
 
             this.startDragX = null;
             this.startDragY = null;
+        },
+        updateNote(updatedNote) {
+            this.note.title = updatedNote.title;
+            this.note.content = updatedNote.content;
+            this.$emit('update:note', this.note)
+        },
+
+        destroyNote() {
+            this.$emit('destroy:note', this.note);
         }
+
     },
 
     computed: {
         style() {
             return {
-                left: `${this.tempNote.x}px`,
-                top: `${this.tempNote.y}px`,
+                left: `${this.note.x}px`,
+                top: `${this.note.y}px`,
             }
-        }
+        },
+        loading() {
+            return this.note.status === 'uploading' || this.note.status === 'deleting'
+        },
     }
 }
 </script>
@@ -84,7 +110,7 @@ export default {
 <style lang="scss" scoped>
 .note {
     position: absolute;
-    width: 250px;
+    width: 300px;
 
     &__sort-auto {
         position: static;
@@ -94,7 +120,17 @@ export default {
         display: none;
     }
 
+    &__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
     &__overview {
+        position: relative;
+
         &-date {
             margin-bottom: .2rem;
             font-weight: var(--weight-light);
@@ -110,6 +146,8 @@ export default {
         &-body {
             min-height: 2em;
             max-height: 5.25em;
+            white-space: pre-wrap;
+            overflow: auto;
         }
     }
 
