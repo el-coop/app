@@ -2,12 +2,16 @@
     <modal v-model:active="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
         <div class="invoice-form" v-if="invoice">
             <div class="invoice-form__column">
-                <textareaField :small="true" :options="{
+                <TextareaField :small="true" :options="{
                     label: 'From',
                 }" v-model="invoice.from" :error="invoice.errors.from ? invoice.errors.from[0] : ''"/>
-                <textareaField :small="true" :options="{
+                <TextareaField :small="true" :options="{
                     label: 'To'
                 }" v-model="invoice.to" :error="invoice.errors.to ? invoice.errors.to[0] : ''"/>
+                <SelectField v-if="Object.keys(addresses).length" :options="{
+                    options: addresses,
+                    labelHelp: 'Choose known address'
+                }" v-model="invoice.to"/>
 
                 <SelectField :options="{
                     label: 'Currency',
@@ -80,7 +84,10 @@ export default {
     props: {
         debtList: {
             type: Object,
-
+        },
+        addresses: {
+            required: true,
+            type: Object
         }
     },
 

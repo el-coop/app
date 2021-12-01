@@ -31,17 +31,24 @@
             </tr>
             </tbody>
         </table>
-        <InvoiceModal :debt-list="invoicingDebts" @close-invoicing="invoicingDebts = null" @markBilled="markBilled"/>
+        <InvoiceModal :addresses="addresses" :debt-list="invoicingDebts" @close-invoicing="invoicingDebts = null"
+                      @markBilled="markBilled"/>
     </div>
 </template>
 <script>
 import InvoiceModal from "./InvoiceModal";
+import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {
     name: 'DebtsPerClient',
     components: {InvoiceModal},
+    mixins: [InteractsWithObjects],
     props: {
         debts: {
+            required: true,
+            type: Array
+        },
+        entities: {
             required: true,
             type: Array
         }
@@ -55,7 +62,9 @@ export default {
 
     methods: {
         invoice(debts) {
+            const entity = this.getById(this.entities, debts.items[0].entity);
             this.invoicingDebts = debts;
+            this.addresses = entity.addresses;
         },
         markBilled(debts) {
             this.$emit('markBilled', debts);

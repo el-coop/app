@@ -50,4 +50,15 @@ export default class Entity extends Model {
     constructor(object = {}) {
         super(object);
     }
+
+    get addresses() {
+        const result = {};
+        this.notes.filter((note) => {
+            return note.title.toLowerCase().indexOf('address') > -1;
+        }).forEach((note) => {
+            result[note.content] = note.content;
+        });
+
+        return result;
+    }
 }
