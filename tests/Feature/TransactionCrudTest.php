@@ -15,7 +15,7 @@ use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
 
 class TransactionCrudTest extends TestCase {
-
+    use RefreshDatabase;
     use CreatesUsers;
 
     /**
@@ -39,7 +39,6 @@ class TransactionCrudTest extends TestCase {
     }
 
     public function test_developer_can_create_transaction() {
-        $this->withoutExceptionHandling();
         Storage::fake();
         $files = [
             UploadedFile::fake()->image('file.doc'),
