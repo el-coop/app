@@ -88,7 +88,7 @@ class ProjectsCrudTest extends TestCase {
     }
 
     public function test_developer_can_delete_project() {
-        $this->actingAs($this->developer)->ajaxDelete(action('EntityProjectController@update', [
+        $this->actingAs($this->developer)->ajaxDelete(action('EntityProjectController@destroy', [
             'entity' => $this->entity,
             'project' => $this->project,
         ]))->assertSuccessful();

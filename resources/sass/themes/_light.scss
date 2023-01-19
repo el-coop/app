@@ -19,6 +19,7 @@ $light-font-color: #363636;
     --input-text-color: #{$light-font-color};
 
     --card-background: var(--white);
+    --card-background-accent: #{darken($white, 2%)};
 
     // chart
     --chart-background-color: #{$white-bis};

@@ -7,7 +7,6 @@ const Database = () => import('./views/Database' /* webpackChunkName: "Database"
 const Login = () => import('./views/Auth/Login' /* webpackChunkName: "Login" */);
 const Debts = () => import('./views/Debts' /* webpackChunkName: "Debts" */);
 const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "PageNotFound" */);
-const Notes = () => import( "./views/Notes"  /* webpackChunkName: "notes" */);
 
 
 const router = createRouter({
@@ -62,14 +61,6 @@ const router = createRouter({
             beforeEnter: AuthMiddleware.auth,
             meta: {
                 icon: 'database',
-            }
-        }, {
-            path: '/notes/:entity',
-            name: 'Notes',
-            component: Notes,
-            beforeEnter: AuthMiddleware.auth,
-            meta: {
-                hide: true
             }
         },
         {

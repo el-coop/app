@@ -139,7 +139,6 @@ export default {
             localStorage.setItem(`${this.title}_pending_${entry.id}`, JSON.stringify(savedEntry));
         },
         deleteUpdateEntry(entryId) {
-            console.log('removing', `${this.title}_pending_${entryId}`);
             localStorage.removeItem(`${this.title}_pending_${entryId}`);
 
         },

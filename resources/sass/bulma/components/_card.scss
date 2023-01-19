@@ -18,4 +18,8 @@
     &.is-marginless {
         margin: 0;
     }
+
+    &--is-danger {
+        border: solid 1px var(--danger-color);
+    }
 }

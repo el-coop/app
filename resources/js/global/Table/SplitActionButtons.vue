@@ -12,7 +12,7 @@
             </button>
             <div class="dropdown__content">
                 <slot/>
-                <button class="button is-small is-danger dropdown__content-button" @click.stop="$emit('delete')">
+                <button class="button is-small is-danger dropdown__content-button" @click.stop="destroy">
                     <FontAwesomeIcon icon="trash" class="button__icon" fixed-width/>
                     Delete
                 </button>
@@ -22,42 +22,75 @@
 </template>
 
 <script>
-    export default {
-        name: "SplitActionButtons",
-        props: {
-            entry: {
-                required: true,
-                type: Object
-            }
+export default {
+    name: "SplitActionButtons",
+    props: {
+        entry: {
+            required: true,
+            type: Object
         },
-        computed: {
-            icon() {
-                if (this.entry.status === 'error') {
-                    return 'exclamation';
-                }
+        deleteConfirmation: {
+            type: String,
+            default: ''
+        }
+    },
+    computed: {
+        icon() {
+            if (this.entry.status === 'error') {
+                return 'exclamation';
+            }
 
-                return 'edit'
-            },
+            return 'edit'
+        },
+    },
+    methods: {
+        async destroy() {
+            if (!this.deleteConfirmation) {
+                this.$emit('delete');
+            }
+
+            const confirmed = await new Promise((resolve) => {
+                this.$toast.question(this.deleteConfirmation, '', {
+                    class: 'iziToast-buttons-new-line',
+                    position: 'center',
+                    timeout: false,
+                    buttons: [
+                        ['<button><b>Confirm</b></button>', function (instance, toast) {
+                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
+                            resolve(true);
+                        }],
+                        ['<button>Cancel</button>', function (instance, toast) {
+                            instance.hide({transitionOut: 'fadeOut'}, toast, 'button');
+                            resolve(false);
+                        }, true],
+                    ]
+                });
+            })
+
+            if(confirmed){
+                this.$emit('delete');
+            }
         }
     }
+}
 </script>
 
 <style lang="scss">
-    @import "~bulma/sass/utilities/initial-variables";
-    @import "~bulma/sass/utilities/functions";
-    @import "~bulma/sass/utilities/derived-variables";
-    @import "~bulma/sass/utilities/mixins";
-    @import "../../../sass/variables";
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+@import "~bulma/sass/utilities/derived-variables";
+@import "~bulma/sass/utilities/mixins";
+@import "../../../sass/variables";
 
-    .split-buttons {
-        width: 100%;
+.split-buttons {
+    width: 100%;
 
-        @include until($mobile) {
-            &__button {
-                width: 100%;
-                border-radius: var(--radius);
-            }
+    @include until($mobile) {
+        &__button {
+            width: 100%;
+            border-radius: var(--radius);
         }
     }
+}
 
 </style>

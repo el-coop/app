@@ -10,7 +10,7 @@
                 <DebtsDisplay :debts="debts"/>
             </div>
             <div>
-                <DebtsPerClient :debts="debts" @markBilled="markBilled"/>
+                <DebtsPerClient :debts="debts" :entities="entities" @markBilled="markBilled"/>
             </div>
         </div>
     </div>

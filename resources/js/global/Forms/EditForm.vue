@@ -2,7 +2,9 @@
     <div>
         <template v-for="field in computedFields">
             <component :is="field.component || 'TextField'" v-model="value[field.name]" :options="field"
-                       :error="errors[field.name] ? errors[field.name][0] : ''" v-show="show(field)"/>
+                       :error="errors[field.name] ? errors[field.name][0] : ''" v-show="show(field)"
+                       @focus:start="$emit('focus:start')"
+                       @focus:end="$emit('focus:end')"/>
         </template>
         <button class="button is-success is-fullwidth" @click="submit">Save</button>
     </div>
