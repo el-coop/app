@@ -12,8 +12,8 @@ class AppConfigurationFactory extends Factory {
      */
     public function definition() {
         return [
-            'key' => $this->faker->unique()->word(),
-            'value' => $this->faker->sentence()
+            'key' => fake()->unique()->word(),
+            'value' => fake()->sentence()
         ];
     }
 }

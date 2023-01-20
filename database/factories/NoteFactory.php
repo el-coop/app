@@ -14,10 +14,10 @@ class NoteFactory extends Factory
     public function definition()
     {
         return [
-            'title' =>  $this->faker->unique()->word,
-            'content' => $this->faker->paragraph,
-            'x' => $this->faker->numberBetween(0,500),
-            'y' => $this->faker->numberBetween(0,500),
+            'title' =>  fake()->unique()->word,
+            'content' => fake()->paragraph,
+            'x' => fake()->numberBetween(0,500),
+            'y' => fake()->numberBetween(0,500),
         ];
     }
 }

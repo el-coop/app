@@ -20,20 +20,20 @@ class TransactionFactory extends Factory {
      * @return array
      */
     public function definition() {
-        $currency = $this->faker->randomElement(['₪', '$', '€']);
+        $currency = fake()->randomElement(['₪', '$', '€']);
         if ($currency == '₪') {
             $rate = 1;
         } else {
-            $rate = $this->faker->randomFloat(2, 3, 5);
+            $rate = fake()->randomFloat(2, 3, 5);
         }
         return [
             'entity_id' => Entity::factory(),
-            'date' => $this->faker->dateTimeBetween('-2 months'),
-            'reason' => $this->faker->sentence(),
-            'amount' => $this->faker->numberBetween(-1000, 1000),
+            'date' => fake()->dateTimeBetween('-2 months'),
+            'reason' => fake()->sentence(),
+            'amount' => fake()->numberBetween(-1000, 1000),
             'currency' => $currency,
             'rate' => $rate,
-            'comment' => $this->faker->paragraph()
+            'comment' => fake()->paragraph()
         ];
     }
 }

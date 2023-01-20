@@ -59,7 +59,7 @@ export default {
                 const name = field.name;
                 if (field.type === 'date') {
                     this.value[name] = new Date(this.value[name]);
-                } else if (field.type === 'number') {
+                } else if (field.type === 'number' && this.value[name]) {
                     this.value[name] = parseFloat(this.value[name]);
                 }
             });

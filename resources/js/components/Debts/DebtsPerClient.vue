@@ -56,7 +56,8 @@ export default {
 
     data() {
         return {
-            invoicingDebts: null
+            invoicingDebts: null,
+            addresses: {}
         }
     },
 
