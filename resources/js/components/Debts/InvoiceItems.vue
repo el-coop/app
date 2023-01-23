@@ -55,7 +55,7 @@
     </div>
 </template>
 <script>
-import TextField from "../../global/Fields/TextField";
+import TextField from "../../global/Fields/TextField.vue";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {

@@ -8,8 +8,7 @@
 
 	<title>@yield('title') | {{ config('app.name') }}</title>
 
-	<!-- Fonts -->
-	<link href="{{ mix('/css/app.css') }}" rel="stylesheet">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 
     @stack('head')
@@ -20,7 +19,6 @@
 
 </div>
 
-<script src="{{ mix('/js/app.js') }}"></script>
 @stack('scripts')
 </body>
 </html>

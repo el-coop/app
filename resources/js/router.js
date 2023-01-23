@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AuthMiddleware from "./middleware/AuthMiddleware";
 
-const Accounting = () => import('./views/Accounting' /* webpackChunkName: "Accounting" */);
-const Entities = () => import('./views/Entities' /* webpackChunkName: "Entities" */);
-const Database = () => import('./views/Database' /* webpackChunkName: "Database" */);
-const Login = () => import('./views/Auth/Login' /* webpackChunkName: "Login" */);
-const Debts = () => import('./views/Debts' /* webpackChunkName: "Debts" */);
-const PageNotFound = () => import('./views/PageNotFound' /* webpackChunkName: "PageNotFound" */);
+const Accounting = () => import('./views/Accounting.vue' /* webpackChunkName: "Accounting" */);
+const Entities = () => import('./views/Entities.vue' /* webpackChunkName: "Entities" */);
+const Database = () => import('./views/Database.vue' /* webpackChunkName: "Database" */);
+const Login = () => import('./views/Auth/Login.vue' /* webpackChunkName: "Login" */);
+const Debts = () => import('./views/Debts.vue' /* webpackChunkName: "Debts" */);
+const PageNotFound = () => import('./views/PageNotFound.vue' /* webpackChunkName: "PageNotFound" */);
 
 
 const router = createRouter({

@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import Chart from '../../global/Chart';
+import Chart from '../../global/Chart.vue';
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
-import DateRangeField from "../../global/Fields/DateRangeField";
-import SelectField from "../../global/Fields/SelectField";
+import DateRangeField from "../../global/Fields/DateRangeField.vue";
+import SelectField from "../../global/Fields/SelectField.vue";
 
 export default {
     name: "TransactionsChart",

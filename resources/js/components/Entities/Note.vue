@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import EditForm from "../../global/Forms/EditForm";
+import EditForm from "../../global/Forms/EditForm.vue";
 import Note from "../../classes/Models/Note";
 
 export default {

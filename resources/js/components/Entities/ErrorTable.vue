@@ -16,11 +16,11 @@
 </template>
 
 <script>
-    import Modal from "../../global/Modal";
-    import ErrorRow from "./Errors/ErrorRow";
-    import ErrorView from "./Errors/ErrorView";
+    import Modal from "../../global/Modal.vue";
+    import ErrorRow from "./Errors/ErrorRow.vue";
+    import ErrorView from "./Errors/ErrorView.vue";
     import InteractsWithObjects from "../../mixins/InteractsWithObjects";
-    import DataTable from "../../global/Table/DataTable";
+    import DataTable from "../../global/Table/DataTable.vue";
 
     export default {
         name: "ErrorTable",

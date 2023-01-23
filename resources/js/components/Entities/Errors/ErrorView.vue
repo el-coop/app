@@ -23,8 +23,8 @@
 </template>
 
 <script>
-    import TextField from "../../../global/Fields/TextField";
-    import JsonViewer from "../../../global/JsonViewer";
+    import TextField from "../../../global/Fields/TextField.vue";
+    import JsonViewer from "../../../global/JsonViewer.vue";
 
     export default {
         name: "ErrorView",

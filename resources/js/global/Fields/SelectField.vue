@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import FieldMixin from "./FieldMixin";
+import FieldMixin from "./FieldMixin.vue";
 
 export default {
     name: "SelectField",

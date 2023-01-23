@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import DataTable from "./DataTable";
-import Modal from "../Modal";
-import EditForm from "../Forms/EditForm";
+import DataTable from "./DataTable.vue";
+import Modal from "../Modal.vue";
+import EditForm from "../Forms/EditForm.vue";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {

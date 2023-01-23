@@ -69,12 +69,12 @@
 </template>
 
 <script>
-import Modal from "../../global/Modal";
-import TextareaField from "../../global/Fields/TextareaField";
-import TextField from "../../global/Fields/TextField";
-import InvoiceItems from "./InvoiceItems";
-import CheckboxField from "../../global/Fields/CheckboxField";
-import SelectField from "../../global/Fields/SelectField";
+import Modal from "../../global/Modal.vue";
+import TextareaField from "../../global/Fields/TextareaField.vue";
+import TextField from "../../global/Fields/TextField.vue";
+import InvoiceItems from "./InvoiceItems.vue";
+import CheckboxField from "../../global/Fields/CheckboxField.vue";
+import SelectField from "../../global/Fields/SelectField.vue";
 import Invoice from "../../classes/Models/Invoice";
 
 export default {
@@ -177,10 +177,10 @@ export default {
 </script>
 
 <style lang="scss" scoped="true">
-@import "~bulma/sass/utilities/initial-variables";
-@import "~bulma/sass/utilities/functions";
-@import "~bulma/sass/utilities/derived-variables";
-@import "~bulma/sass/utilities/mixins";
+@import "node_modules/bulma/sass/utilities/initial-variables";
+@import "node_modules/bulma/sass/utilities/functions";
+@import "node_modules/bulma/sass/utilities/derived-variables";
+@import "node_modules/bulma/sass/utilities/mixins";
 @import "../../../sass/variables";
 
 .invoice-form {

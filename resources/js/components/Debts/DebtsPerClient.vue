@@ -36,7 +36,7 @@
     </div>
 </template>
 <script>
-import InvoiceModal from "./InvoiceModal";
+import InvoiceModal from "./InvoiceModal.vue";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {

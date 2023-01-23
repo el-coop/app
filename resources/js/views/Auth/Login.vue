@@ -22,7 +22,7 @@
 </template>
 
 <script>
-	import TextField from "../../global/Fields/TextField";
+	import TextField from "../../global/Fields/TextField.vue";
 
 	export default {
 		name: "Login",

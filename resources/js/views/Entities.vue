@@ -30,12 +30,12 @@
 
 <script>
 import Entity from "../classes/Models/Entity";
-import EntityTable from "../components/Entities/EntityTable";
+import EntityTable from "../components/Entities/EntityTable.vue";
 import InteractsWithObjects from "../mixins/InteractsWithObjects";
-import ProjectTable from "../components/Entities/ProjectTable";
-import Tab from "../global/Tabs/Tab";
-import Tabs from "../global/Tabs/Tabs";
-import Notes from "../components/Entities/Notes";
+import ProjectTable from "../components/Entities/ProjectTable.vue";
+import Tab from "../global/Tabs/Tab.vue";
+import Tabs from "../global/Tabs/Tabs.vue";
+import Notes from "../components/Entities/Notes.vue";
 
 export default {
     name: "Entities",
@@ -100,10 +100,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~bulma/sass/utilities/initial-variables";
-@import "~bulma/sass/utilities/functions";
-@import "~bulma/sass/utilities/derived-variables";
-@import "~bulma/sass/utilities/mixins";
+@import "node_modules/bulma/sass/utilities/initial-variables";
+@import "node_modules/bulma/sass/utilities/functions";
+@import "node_modules/bulma/sass/utilities/derived-variables";
+@import "node_modules/bulma/sass/utilities/mixins";
 @import "../../sass/variables";
 
 .container {

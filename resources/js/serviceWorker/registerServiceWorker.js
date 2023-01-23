@@ -1,8 +1,8 @@
 import { register } from 'register-service-worker'
 import toast from 'izitoast';
 
-if (process.env.NODE_ENV === 'production') {
-    register('/serviceWorker.js', {
+if (import.meta.env.PROD) {
+    register('/build/serviceWorker.js', {
         ready(registration) {
             console.log('Service worker is active.');
         },

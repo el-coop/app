@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import SplitActionButtons from "../../global/Table/SplitActionButtons";
+import SplitActionButtons from "../../global/Table/SplitActionButtons.vue";
 
 export default {
     name: "EntityRow",

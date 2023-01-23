@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import ThemePicker from "./Navbar/ThemePicker";
+	import ThemePicker from "./Navbar/ThemePicker.vue";
 
 	export default {
 		name: "Navbar",

@@ -10,9 +10,9 @@
 
 <script>
 
-    import EntityRow from "./EntityRow";
+    import EntityRow from "./EntityRow.vue";
     import Entity from "../../classes/Models/Entity";
-    import EditTable from "../../global/Table/EditTable";
+    import EditTable from "../../global/Table/EditTable.vue";
 
     export default {
         name: "EntityTable",
