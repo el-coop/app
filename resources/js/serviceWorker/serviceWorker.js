@@ -5,6 +5,7 @@ setCacheNameDetails({prefix: "app.elcoop.io"});
 precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener('message', (message) => {
+    console.log('message',message);
     if (message.data.action === 'skipWaiting') {
         self.skipWaiting();
     }
