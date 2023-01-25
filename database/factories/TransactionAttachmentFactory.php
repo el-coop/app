@@ -24,7 +24,7 @@ class TransactionAttachmentFactory extends Factory
     {
         return [
             'transaction_id' => Transaction::factory(),
-            'name' => $this->faker->name,
+            'name' => fake()->name,
         ];
     }
 }

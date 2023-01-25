@@ -24,12 +24,12 @@
 </template>
 
 <script>
-    import EditTable from "../../global/Table/EditTable";
-    import ProjectRow from "./ProjectRow";
+    import EditTable from "../../global/Table/EditTable.vue";
+    import ProjectRow from "./ProjectRow.vue";
     import Project from "../../classes/Models/Project";
     import InteractsWithObjects from "../../mixins/InteractsWithObjects";
-    import Modal from "../../global/Modal";
-    import ErrorTable from "./ErrorTable";
+    import Modal from "../../global/Modal.vue";
+    import ErrorTable from "./ErrorTable.vue";
 
     export default {
         name: "ProjectTable",

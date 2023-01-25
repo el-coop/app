@@ -23,7 +23,7 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->word,
+            'name' => fake()->unique()->word,
             'token' => Str::random(80)
         ];
     }

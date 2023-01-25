@@ -8,14 +8,14 @@ import {createApp} from 'vue'
 import {createMetaManager, plugin as vueMetaPlugin } from 'vue-meta'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
 import VueIzitoast from './classes/VueIzitoast';
-import Navbar from './global/Navbar';
+import Navbar from './global/Navbar.vue';
 
 
-require('./bootstrap');
+import './bootstrap';
 
 // Load vue components and libraries
 
-require('./global/global');
+import './global/global';
 
 
 /**
@@ -26,7 +26,7 @@ require('./global/global');
 
 import router from './router';
 import store from "./store";
-import Root from "./components/Root";
+import Root from "./components/Root.vue";
 
 const app = createApp(Root)
     .use(router)

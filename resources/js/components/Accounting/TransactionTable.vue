@@ -26,8 +26,8 @@
 <script>
 
     import Transaction from "../../classes/Models/Transaction";
-    import TransactionRow from "./TransactionRow";
-    import EditTable from "../../global/Table/EditTable";
+    import TransactionRow from "./TransactionRow.vue";
+    import EditTable from "../../global/Table/EditTable.vue";
 
     export default {
         name: "TransactionTable",

@@ -22,10 +22,10 @@ class DebtFactory extends Factory {
     public function definition() {
         return [
             'entity_id' => Entity::factory(),
-            'date' => $this->faker->date(),
-            'currency' => $this->faker->randomElement(['₪', '$', '€']),
+            'date' => fake()->date(),
+            'currency' => fake()->randomElement(['₪', '$', '€']),
             'type' => 'fixed',
-            'amount' => $this->faker->numberBetween(-100000, 100000),
+            'amount' => fake()->numberBetween(-100000, 100000),
         ];
     }
 }

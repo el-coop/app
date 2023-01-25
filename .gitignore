@@ -17,3 +17,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 /public/vendors~js/
+/public/build

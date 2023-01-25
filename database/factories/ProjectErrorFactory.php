@@ -20,7 +20,7 @@ class ProjectErrorFactory extends Factory {
      */
     public function definition() {
         return [
-            'type' => $this->faker->randomElement(['serverSide', 'clientSide']),
+            'type' => fake()->randomElement(['serverSide', 'clientSide']),
             'url' => 'http://demo.test',
             'message' => 'test message',
             'exception' => 'Exception',

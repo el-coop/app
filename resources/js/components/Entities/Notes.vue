@@ -25,9 +25,9 @@
 
 <script>
 import NoteModel from "../../classes/Models/Note";
-import Note from "./Note";
-import SelectField from "../../global/Fields/SelectField";
-import TextField from "../../global/Fields/TextField";
+import Note from "./Note.vue";
+import SelectField from "../../global/Fields/SelectField.vue";
+import TextField from "../../global/Fields/TextField.vue";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
 
 export default {

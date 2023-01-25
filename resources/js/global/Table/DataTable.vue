@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import SelectField from "../Fields/SelectField";
-import TextField from "../Fields/TextField";
+import SelectField from "../Fields/SelectField.vue";
+import TextField from "../Fields/TextField.vue";
 
 export default {
     name: "DataTable",

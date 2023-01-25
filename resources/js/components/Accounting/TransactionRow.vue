@@ -23,7 +23,7 @@
 
 <script>
     import InteractsWithObjects from "../../mixins/InteractsWithObjects";
-    import SplitActionButtons from "../../global/Table/SplitActionButtons";
+    import SplitActionButtons from "../../global/Table/SplitActionButtons.vue";
 
     export default {
         name: "TransactionRow",

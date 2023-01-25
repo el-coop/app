@@ -24,13 +24,13 @@
 
 <script>
 
-import DebtRow from "./DebtRow";
+import DebtRow from "./DebtRow.vue";
 import Debt from "../../classes/Models/Debt";
-import EditTable from "../../global/Table/EditTable";
+import EditTable from "../../global/Table/EditTable.vue";
 import InteractsWithObjects from "../../mixins/InteractsWithObjects";
-import SelectField from "../../global/Fields/SelectField";
-import CheckboxField from "../../global/Fields/CheckboxField";
-import DateRangeField from "../../global/Fields/DateRangeField";
+import SelectField from "../../global/Fields/SelectField.vue";
+import CheckboxField from "../../global/Fields/CheckboxField.vue";
+import DateRangeField from "../../global/Fields/DateRangeField.vue";
 
 export default {
     name: "DebtTable",

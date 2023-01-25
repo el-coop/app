@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import TextField from "../../global/Fields/TextField";
-import SelectField from "../../global/Fields/SelectField";
-import TextareaField from "../../global/Fields/TextareaField";
-import MultiFileField from "../Fields/MultiFileField";
-import FileArrayField from "../Fields/FileArrayField";
+import TextField from "../../global/Fields/TextField.vue";
+import SelectField from "../../global/Fields/SelectField.vue";
+import TextareaField from "../../global/Fields/TextareaField.vue";
+import MultiFileField from "../Fields/MultiFileField.vue";
+import FileArrayField from "../Fields/FileArrayField.vue";
 
 export default {
     name: "EditForm",
@@ -59,7 +59,7 @@ export default {
                 const name = field.name;
                 if (field.type === 'date') {
                     this.value[name] = new Date(this.value[name]);
-                } else if (field.type === 'number') {
+                } else if (field.type === 'number' && this.value[name]) {
                     this.value[name] = parseFloat(this.value[name]);
                 }
             });

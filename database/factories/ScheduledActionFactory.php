@@ -24,7 +24,7 @@ class ScheduledActionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'action' => $this->faker->randomElement(['backupDatabase']),
+            'action' => fake()->randomElement(['backupDatabase']),
             'frequency' => '* * * * *'
         ];
     }
