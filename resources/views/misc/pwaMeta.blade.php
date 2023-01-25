@@ -1,4 +1,4 @@
-<link rel="manifest" href="/build/pwa-manifest.json">
+<link rel="manifest" href="/manifest.json">
 
 <link rel="apple-touch-icon" sizes="152x152" href="/images/icons/icon-152x152.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-180x180.png">

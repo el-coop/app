@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 // import react from '@vitejs/plugin-react';
 import vue from '@vitejs/plugin-vue';
-import { VitePWA } from 'vite-plugin-pwa';
+import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig({
     resolve: {
@@ -12,10 +12,11 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input:[
+            input: [
                 'resources/sass/app.scss',
                 'resources/js/app.js',
             ],
+            buildDirectory: "public",
             refresh: true
         }),
         vue({
@@ -31,6 +32,7 @@ export default defineConfig({
             injectRegister: null,
             srcDir: "resources/js/serviceWorker",
             filename: "serviceWorker.js",
+            manifestFilename: "manifest.json",
             manifest: {
                 "name": "El-Coop App",
                 "short_name": "El-Coop App",
@@ -81,9 +83,14 @@ export default defineConfig({
                 "display": "standalone",
                 "orientation": "portrait",
                 "background_color": "#363636",
-                "theme_color": "#209CEE"
+                "theme_color": "#209CEE",
+
             },
-            manifestFilename: "pwa-manifest.json",
         }),
     ],
+    build: {
+        outDir: 'public',
+        manifest: 'assets.json', // Customize the manifest filename...
+        emptyOutDir: false
+    },
 });
