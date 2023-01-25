@@ -77,7 +77,6 @@ export default defineConfig({
                     }
                 ],
                 "start_url": "/",
-                "scope": "/",
                 "display": "standalone",
                 "orientation": "portrait",
                 "background_color": "#363636",

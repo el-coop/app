@@ -38,5 +38,5 @@ const app = createApp(Root)
     .component('Navbar', Navbar);
 
 router.app = app;
-console.log('updat');
+console.log('upd');
 router.isReady().then(() => app.mount('#app'));
