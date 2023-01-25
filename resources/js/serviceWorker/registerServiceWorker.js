@@ -39,9 +39,9 @@ if (import.meta.env.PROD) {
     });
 
     let refreshing;
-    navigator.serviceWorker.addEventListener("controllerchange", () => {
-        if (refreshing) return;
-        window.location.reload();
-        refreshing = true;
-    });
+    // navigator.serviceWorker.addEventListener("controllerchange", () => {
+    //     if (refreshing) return;
+    //     window.location.reload();
+    //     refreshing = true;
+    // });
 }
