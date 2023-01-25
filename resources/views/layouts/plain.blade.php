@@ -9,8 +9,7 @@
 	<title>@yield('title') | {{ config('app.name') }}</title>
 
     {{
-        Vite::useBuildDirectory('')
-            ->useManifestFilename('assets.json')
+        Vite::useManifestFilename('assets.json')
             ->withEntryPoints(['resources/js/app.js','resources/sass/app.scss'])
     }}
 

@@ -16,7 +16,6 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/js/app.js',
             ],
-            buildDirectory: "public",
             refresh: true
         }),
         vue({
@@ -89,8 +88,7 @@ export default defineConfig({
         }),
     ],
     build: {
-        outDir: 'public',
         manifest: 'assets.json', // Customize the manifest filename...
-        emptyOutDir: false
+
     },
 });
