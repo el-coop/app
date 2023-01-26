@@ -35,6 +35,7 @@ export default {
 
     created() {
         this.load();
+        console.log('accounting');
     },
 
     data() {
