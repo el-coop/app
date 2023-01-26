@@ -5,7 +5,9 @@ import {setCacheNameDetails} from 'workbox-core';
 setCacheNameDetails({prefix: "app.elcoop.io"});
 cleanupOutdatedCaches()
 
-precacheAndRoute(self.__WB_MANIFEST);
+
+self.__precacheManifest = [{"revision":null,"url":"/"}].concat(self.__WB_MANIFEST || []);
+precacheAndRoute(self.__precacheManifest, {});
 
 self.addEventListener('message', (message) => {
     console.log('message', message);
