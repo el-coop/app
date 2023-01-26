@@ -1,6 +1,6 @@
 import {precacheAndRoute, cleanupOutdatedCaches} from 'workbox-precaching';
 import {setCacheNameDetails} from 'workbox-core';
-import { CacheFirst  } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst  } from 'workbox-strategies';
 import { registerRoute } from 'workbox-routing';
 
 
@@ -16,11 +16,10 @@ registerRoute(
     })
 );
 
-
 registerRoute(
-    new RegExp('/assets/.*\.otf'),
-    new CacheFirst({
-        cacheName: 'font-cache',
+    new RegExp('/assets/.*'),
+    new NetworkFirst({
+        cacheName: 'assets-cache',
     })
 );
 
