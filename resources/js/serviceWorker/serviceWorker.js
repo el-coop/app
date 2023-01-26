@@ -8,10 +8,6 @@ cleanupOutdatedCaches()
 
 self.__precacheManifest = [
     {"revision":null,"url":"/"},
-    {"revision":null,"url":"accounting"},
-    {"revision":null,"url":"entities"},
-    {"revision":null,"url":"debts"},
-    {"revision":null,"url":"database"},
 ].concat(self.__WB_MANIFEST || []);
 precacheAndRoute(self.__precacheManifest, {});
 
