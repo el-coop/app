@@ -1,28 +1,11 @@
 import {precacheAndRoute, cleanupOutdatedCaches} from 'workbox-precaching';
 import {setCacheNameDetails} from 'workbox-core';
-import { CacheFirst, NetworkFirst  } from 'workbox-strategies';
-import { registerRoute } from 'workbox-routing';
 
 
 setCacheNameDetails({prefix: "app.elcoop.io"});
 cleanupOutdatedCaches()
 
 precacheAndRoute(self.__WB_MANIFEST);
-
-registerRoute(
-    new RegExp('/images/.*'),
-    new CacheFirst({
-        cacheName: 'image-cache',
-    })
-);
-
-registerRoute(
-    new RegExp('/assets/.*'),
-    new NetworkFirst({
-        cacheName: 'assets-cache',
-    })
-);
-
 
 self.addEventListener('message', (message) => {
     console.log('message', message);
