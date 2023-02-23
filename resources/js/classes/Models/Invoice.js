@@ -57,10 +57,11 @@ export default class Invoice {
             }
 
             if (response.status === 422) {
-                this.errors = JSON.parse(Buffer.from(response.data).toString('utf8')).errors;
+                this.errors = response.data.errors;
             }
 
         } catch (error) {
+            console.log('errpr',error);
             response = error.response;
         }
 

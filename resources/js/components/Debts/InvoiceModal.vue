@@ -1,5 +1,5 @@
 <template>
-    <modal v-model:active="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
+    <Modal v-model:active="open" @update:active="$emit('close-invoicing')" :widest="true" body-class="is-marginless">
         <div class="invoice-form" v-if="invoice">
             <div class="invoice-form__column">
                 <TextareaField :small="true" :options="{
@@ -65,7 +65,7 @@
                 </button>
             </div>
         </div>
-    </modal>
+    </Modal>
 </template>
 
 <script>
@@ -96,12 +96,13 @@ export default {
             open: false,
             generatingInvoice: false,
             invoice: null,
-            generatingSmartechEmail: false
+            generatingSmartechEmail: false,
         };
     },
 
     methods: {
         async generateInvoice() {
+            this.errors = {};
             this.generatingInvoice = true;
 
             const response = await this.invoice.generate();
@@ -125,6 +126,7 @@ export default {
                     this.markBilled();
                     this.open = false;
                 }
+                this.$store.commit('User/invoiceNumberChange',this.invoice.invoiceNumber)
             } else {
                 this.$toast.error('Please try again', 'Invoice generation failed')
             }
@@ -155,6 +157,7 @@ export default {
                     this.markBilled();
                     this.open = false;
                 }
+                this.$store.commit('User/invoiceNumberChange',this.invoice.invoiceNumber)
             } else {
                 this.$toast.error('Please try again', 'Email failed')
             }
@@ -164,10 +167,15 @@ export default {
 
     watch: {
         debtList: {
-            handler() {
+            async handler() {
                 if (this.debtList) {
                     this.open = true;
                     this.invoice = new Invoice(this.debtList.items);
+                    if(! this.invoice.from || ! this.invoice.invoiceNumber){
+                       const invoiceSettings = await this.$store.dispatch('User/getInvoiceSettings') || {};
+                        this.invoice.from = invoiceSettings.from;
+                        this.invoice.invoiceNumber = invoiceSettings.nextInvoice;
+                    }
                 }
             },
             deep: true

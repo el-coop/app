@@ -47,4 +47,8 @@ class User extends Authenticatable {
     public function scheduledActions() {
         return $this->hasMany(ScheduledAction::class);
     }
+
+    public function invoiceSettings() {
+        return $this->hasMany(InvoiceSetting::class);
+    }
 }
