@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Debt;
+use App\Models\InvoiceSetting;
 use App\Rules\Currency;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,7 +31,7 @@ class GenerateInvoiceRequest extends FormRequest {
             'markBilled' => 'required|boolean',
             'from' => 'required|string|min:1',
             'to' => 'required|string|min:1',
-            'invoiceNumber' => 'required|numeric|min:1',
+            'invoiceNumber' => 'required|min:1',
             'date' => 'required|date',
             'dueDate' => 'nullable|date|gte:date',
             'notes' => 'nullable|string',
@@ -82,6 +83,10 @@ class GenerateInvoiceRequest extends FormRequest {
         if ($this->get('markBilled')) {
             $this->markBilled($this->get('items'));
         }
+
+        InvoiceSetting::upsert([
+            ['user_id' => $this->user()->id, 'key' => 'nextInvoice', 'value' => $this->get('invoiceNumber')],
+        ],['user_id','key'],['value']);
 
 
         return $invoice->body();

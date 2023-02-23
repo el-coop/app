@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Mail\SmartechInvoiceEmail;
 use App\Models\Debt;
+use App\Models\InvoiceSetting;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Mail;
@@ -38,6 +39,11 @@ class GenerateSmartechInvoiceEmailRequest extends GenerateInvoiceRequest {
                 Debt::whereIn('id', $debts)->update(['invoiced' => Carbon::now()]);
             }
         }
+
+        InvoiceSetting::upsert([
+            ['user_id' => $this->user()->id, 'key' => 'nextInvoice', 'value' => $this->get('invoiceNumber')],
+        ], ['user_id', 'key'], ['value']);
+
 
         Mail::to($user)
             ->queue(new SmartechInvoiceEmail($invoice, $user->name));

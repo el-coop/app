@@ -4,6 +4,9 @@
                @delete="destroy"
                :process-entry="setEntityName"
                :form-fields="fields">
+        <template #topRightButtons>
+            <button class="button is-success" @click="$emit('invoice-settings')">Invoice Settings</button>
+        </template>
         <template #filters>
             <div class="chart__filters">
                 <DateRangeField v-model="range"/>

@@ -5,7 +5,8 @@
                 <div>
                     <h5 class="title is-size-6" v-text="title"></h5>
                 </div>
-                <div>
+                <div class="buttons">
+                    <slot name="topRightButtons"/>
                     <button class="button is-success" @click="$emit('add')">
                         + Add
                     </button>

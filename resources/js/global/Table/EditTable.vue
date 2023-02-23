@@ -3,6 +3,9 @@
         <template v-for="(currentData,tableIndex) in [tableData, pending]">
             <DataTable :title="tableIndex ? `${title}_pending` : title" :table-data="currentData" :headers="headers"
                        :only-table="!! tableIndex" @add="editEntry()">
+                <template #topRightButtons>
+                    <slot name="topRightButtons"/>
+                </template>
                 <template #default="{entry, index}">
                     <slot :entry="entry" :index="index" :editEntry="editEntry" :deleteEntry="deleteEntry"
                           :active="active === index" :toggleActive="toggleActive"/>

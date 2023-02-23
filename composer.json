@@ -23,7 +23,7 @@
         "barryvdh/laravel-debugbar": "^v3.7.0",
         "beyondcode/laravel-dump-server": "^1.8.0",
         "spatie/laravel-ignition": "^1.6.4",
-        "fzaninotto/faker": "^v1.9.2",
+        "fakerphp/faker": "^1.21",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.28"

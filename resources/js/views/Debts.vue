@@ -3,6 +3,7 @@
         <div class="background-content" ref="backgroundContent" :class="{'background-content--small': selectedEntity}"
              :style="{height: backgroundContentHeight}">
             <DebtTable :debts="debts" :entities="entities" @update="update" @delete="destroy"
+                       @invoiceSettings="invoiceSettingsModal = true"
                        :grouped-projects="groupedProjects"/>
         </div>
         <div class="foreground-content">
@@ -13,6 +14,9 @@
                 <DebtsPerClient :debts="debts" :entities="entities" @markBilled="markBilled"/>
             </div>
         </div>
+        <Modal v-model:active="invoiceSettingsModal">
+            <InvoiceSettingsModal/>
+        </Modal>
     </div>
 </template>
 
@@ -24,10 +28,12 @@ import Entity from "../classes/Models/Entity";
 import InteractsWithObjects from "../mixins/InteractsWithObjects";
 import DebtsDisplay from "../components/Debts/DebtsDisplay.vue";
 import DebtsPerClient from "../components/Debts/DebtsPerClient.vue";
+import InvoiceSettingsModal from "../components/Debts/InvoiceSettingsModal.vue";
+import Modal from "../global/Modal.vue";
 
 export default {
     name: "Debts",
-    components: {DebtsDisplay, DebtTable, DebtsPerClient},
+    components: {Modal, InvoiceSettingsModal, DebtsDisplay, DebtTable, DebtsPerClient},
     mixins: [InteractsWithObjects],
 
     metaInfo: {
@@ -41,7 +47,8 @@ export default {
             debts: [],
             selectedEntity: false,
             entities: [],
-            groupedProjects: {}
+            groupedProjects: {},
+            invoiceSettingsModal: false
         };
     },
 
@@ -85,7 +92,8 @@ export default {
 
         destroy(debt) {
             this.removeById(this.debts, debt.id);
-        }
+        },
+
     }
 }
 </script>

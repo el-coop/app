@@ -36,10 +36,22 @@ function processData(method, data) {
     return (data instanceof FormData) ? data : JSON.stringify(data);
 }
 
-async function processResponse(response) {
+async function processResponse(response, config) {
     let data = '';
     if (response.statusText !== 'No Content') {
-        data = await response.json();
+        if (response.ok) {
+            switch (config.responseType) {
+                case 'arraybuffer':
+                    data = await response.arrayBuffer();
+                    break;
+            }
+        }
+
+        if(! data){
+            data = await response.json();
+        }
+
+
         if (data.csrfToken) {
             csrf = data.csrfToken;
         }
@@ -58,7 +70,7 @@ class HttpService {
     }
 
     async handleResponse(response, method, repeat, url, data, headers, config = {}) {
-        const processedResponse = await processResponse(response);
+        const processedResponse = await processResponse(response, config);
 
         if (!response.ok) {
             this.issueLogout(processedResponse);
