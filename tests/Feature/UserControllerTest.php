@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\InvoiceSetting;
 use App\Models\ScheduledAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -32,9 +33,16 @@ class UserControllerTest extends TestCase {
         $action = ScheduledAction::factory()->create([
             'user_id' => $this->developer->id
         ]);
+        $invoiceSetting = InvoiceSetting::factory()->create([
+            'user_id' => $this->developer->id
+        ]);
+
         $this->actingAs($this->developer)->ajaxGet(action('UserController@show'))->assertJson([
             'scheduledActions' => [
                 $action->action => $action->frequency
+            ],
+            'invoiceSettings' => [
+                $invoiceSetting->key => $invoiceSetting->value
             ]
         ]);
     }
@@ -95,5 +103,54 @@ class UserControllerTest extends TestCase {
             'frequency' => 'asd'
         ])->assertSessionHasErrors(['action','frequency']);
 
+    }
+
+    public function test_developer_can_create_invoice_setting() {
+        $this->actingAs($this->developer)->ajaxPatch(action('UserController@updateInvoiceSettings'),[
+            'from' => 'test',
+            'nextInvoice' => '2023-01'
+        ])->assertSuccessful();
+
+        $this->assertDatabaseHas('invoice_settings',[
+            'user_id' => $this->developer->id,
+            'key' => 'from',
+            'value' => 'test'
+        ]);
+
+        $this->assertDatabaseHas('invoice_settings',[
+            'user_id' => $this->developer->id,
+            'key' => 'nextInvoice',
+            'value' => '2023-01'
+        ]);
+    }
+
+    public function test_developer_can_update_invoice_setting() {
+        InvoiceSetting::factory()->create([
+            'user_id' => $this->developer->id,
+            'key' => 'from',
+        ]);
+
+
+        InvoiceSetting::factory()->create([
+            'user_id' => $this->developer->id,
+            'key' => 'nextInvoice',
+        ]);
+
+        $this->actingAs($this->developer)->ajaxPatch(action('UserController@updateInvoiceSettings'),[
+            'from' => 'test',
+            'nextInvoice' => '2023-01'
+        ])->assertSuccessful();
+
+        $this->assertDatabaseHas('invoice_settings',[
+            'user_id' => $this->developer->id,
+            'key' => 'from',
+            'value' => 'test'
+        ]);
+
+        $this->assertDatabaseHas('invoice_settings',[
+            'user_id' => $this->developer->id,
+            'key' => 'nextInvoice',
+            'value' => '2023-01'
+        ]);
     }
 }
