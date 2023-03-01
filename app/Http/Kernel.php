@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            'throttle:api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -55,7 +55,7 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
