@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule) {
+        $schedule->command('cache:prune-stale-tags')->hourly();
         ScheduledAction::all()->each(function ($action) use ($schedule) {
             if ($action->asCommand) {
                 $schedule->command($action->asCommand)->cron($action->frequency);

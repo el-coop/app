@@ -100,6 +100,7 @@ return [
 		'syslog' => [
 			'driver' => 'syslog',
 			'level' => 'debug',
+            'facility' => LOG_USER,
 		],
 
 		'errorlog' => [
