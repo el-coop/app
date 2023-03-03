@@ -126,7 +126,7 @@ export default {
                     this.markBilled();
                     this.open = false;
                 }
-                this.$store.commit('User/invoiceNumberChange',this.invoice.invoiceNumber)
+                this.$store.commit('User/invoiceNumberChange', this.invoice.invoiceNumber)
             } else {
                 this.$toast.error('Please try again', 'Invoice generation failed')
             }
@@ -157,7 +157,7 @@ export default {
                     this.markBilled();
                     this.open = false;
                 }
-                this.$store.commit('User/invoiceNumberChange',this.invoice.invoiceNumber)
+                this.$store.commit('User/invoiceNumberChange', this.invoice.invoiceNumber)
             } else {
                 this.$toast.error('Please try again', 'Email failed')
             }
@@ -170,9 +170,9 @@ export default {
             async handler() {
                 if (this.debtList) {
                     this.open = true;
-                    this.invoice = new Invoice(this.debtList.items);
-                    if(! this.invoice.from || ! this.invoice.invoiceNumber){
-                       const invoiceSettings = await this.$store.dispatch('User/getInvoiceSettings') || {};
+                    this.invoice = new Invoice(this.debtList.items || []);
+                    if (!this.invoice.from || !this.invoice.invoiceNumber) {
+                        const invoiceSettings = await this.$store.dispatch('User/getInvoiceSettings') || {};
                         this.invoice.from = invoiceSettings.from;
                         this.invoice.invoiceNumber = invoiceSettings.nextInvoice;
                     }

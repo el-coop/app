@@ -2,6 +2,7 @@
     <div class="card">
         <div class="card__header">
             <h5 class="title is-size-6">Debts per client</h5>
+            <button class="button is-success" @click="invoice()">New Invoice</button>
         </div>
         <table class="table">
             <tbody>
@@ -63,9 +64,17 @@ export default {
 
     methods: {
         invoice(debts) {
-            const entity = this.getById(this.entities, debts.items[0].entity);
-            this.invoicingDebts = debts;
-            this.addresses = entity.addresses;
+            if (debts) {
+                const entity = this.getById(this.entities, debts.items[0].entity);
+                this.invoicingDebts = debts;
+                this.addresses = entity.addresses;
+
+                return;
+            }
+
+            this.invoicingDebts = {};
+            this.addresses = [];
+
         },
         markBilled(debts) {
             this.$emit('markBilled', debts);
