@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use Http;
+
 class CurrencyConverter {
     private $url;
     private $rates;
@@ -33,11 +35,13 @@ class CurrencyConverter {
 
     private function getRates() {
         $this->rates = \Cache::remember('currency_rates', 60 * 60, function () {
-            $response = file_get_contents($this->url);
-            if (!$response) {
+            $response = Http::get($this->url);
+
+            if ($response->failed()) {
                 throw new \Exception('Conversion error');
             }
-            return json_decode($response)->rates;
+
+            return $response->object()->rates;
         });
     }
 }
